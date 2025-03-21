@@ -11,10 +11,9 @@ public class VoluntariadoView {
      * Muestra un menu al usuario para que eliga una opcion
      * @return devuelve un entero con la opcion seleccionada
      */
-    public int mostrarMenuVoluntario() {
+    public static int mostrarMenuVoluntario() {
         int opcion;
         do {
-            opcion = Utilidades.pideEntero("Seleccione una de las siguientes opciones");
             mostrarMensaje("1. Ver perfil");
             mostrarMensaje("2. Ver puntos");
             mostrarMensaje("3. Mostrar iniciativas en las que participas");
@@ -23,7 +22,9 @@ public class VoluntariadoView {
             mostrarMensaje("6. Cambiar estado de actividad");
             mostrarMensaje("7. Hacer comentario de una actividad");
             mostrarMensaje("8. Salir");
-        }while (opcion>=1 && opcion<=8);
+
+            opcion = Utilidades.pideEntero("Seleccione una de las siguientes opciones");
+        }while (opcion<1 || opcion>8);
         return opcion;
     }
 
@@ -36,7 +37,7 @@ public class VoluntariadoView {
     public static Usuario crearUsuario(int tipoUsuario) {
         String nombre = Utilidades.pideString("Introduce el nombre de usuario");
         String password = crearPassword();
-        String correo = crearCorreo();
+        String correo = Utilidades.pideString("Introduce el correo"); //aqui habría que llamar al metodo crearCorreo para tener el correo validado, pero aun no se ha hecho
         Usuario nuevoUsuario = null;
 
         switch (tipoUsuario){
@@ -79,12 +80,12 @@ public class VoluntariadoView {
     public static int elegirTipoUsuario() {
         int opcion;
         do {
-            System.out.println("\n👤 ¿Qué tipo de usuario deseas registrar?");
+            System.out.println("\n¿Qué tipo de usuario deseas registrar?");
             System.out.println("1. Creador");
             System.out.println("2. Voluntario");
             opcion = Utilidades.pideEntero("Elige una opción");
 
-        }while (opcion > 0 && opcion < 3);
+        }while (opcion < 0 || opcion > 3);
 
         return opcion;
 
