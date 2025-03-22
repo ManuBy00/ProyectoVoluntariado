@@ -4,7 +4,7 @@ import Utils.Utilidades;
 
 import java.util.Objects;
 
-public class Usuario {
+public abstract class Usuario {
 
     //Declaramos los atributos de usuario
     private String nombre;
@@ -45,21 +45,6 @@ public class Usuario {
         this.correo = correo;
     }
 
-
-    // Implementamos el metodo crearPassword
-    public String crearPassword(String password) {
-
-        if (password.length() < 8) {
-            System.out.println("La contraseña debe tener al menos 8 caracteres");
-        }else {
-
-            System.out.println("Contraseña creada");
-        }
-
-        return password;
-    }
-
-
     // toString para poder ver los atributos del usuario
     @Override
     public String toString() {
@@ -69,11 +54,7 @@ public class Usuario {
                 "\n correo: " + correo;
     }
 
-
-
     // Implementamos Equals y HashCode
-
-
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;

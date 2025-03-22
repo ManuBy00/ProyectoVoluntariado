@@ -28,6 +28,23 @@ public class VoluntariadoView {
         return opcion;
     }
 
+    public static int mostrarMenuInicial() {
+        int opcion;
+        do {
+            mostrarMensaje("*** VOLUNTAPP ***");
+            mostrarMensaje("1. Iniciar sesión");
+            mostrarMensaje("2. Registrar usuario");
+            mostrarMensaje("3. Salir");
+
+            opcion = Utilidades.pideEntero("");
+            if (opcion<1 || opcion>3){
+                mostrarMensaje("Opción no válida. Inténtelo de nuevo.");
+            }
+        } while (opcion < 1 || opcion > 3);
+        return opcion;
+    }
+
+
     // Creamos metodo para mostrar mensaje del menu
     public static void mostrarMensaje(String msg){
         System.out.println(msg);
