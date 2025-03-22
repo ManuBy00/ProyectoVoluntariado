@@ -7,8 +7,16 @@ import java.sql.SQLOutput;
 
 public class Sesion {
     private Usuario usuarioLogeado;
+    private static Sesion sesion;
 
-    public Sesion(Usuario usuarioLogeado) {
+    public static Sesion getSesion(Usuario usuario) {
+        if (sesion == null){
+            sesion = new Sesion(usuario);
+        }
+        return sesion;
+    }
+
+    private Sesion(Usuario usuarioLogeado) {
         this.usuarioLogeado = usuarioLogeado;
     }
 

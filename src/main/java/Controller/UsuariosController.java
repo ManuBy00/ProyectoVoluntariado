@@ -8,8 +8,6 @@ import Utils.Utilidades;
 import View.VoluntariadoView;
 
 
-
-
 public class UsuariosController {
     private ListaUsuarios misUsuarios;
 
@@ -18,6 +16,7 @@ public class UsuariosController {
     }
 
     public void registrarUsuario() {
+        VoluntariadoView.mostrarMensaje("*** REGISTRO ***");
         //pedimos tipo de usuario
         int tipoUsuario = View.VoluntariadoView.elegirTipoUsuario();
         //creamos el usuario
@@ -31,21 +30,27 @@ public class UsuariosController {
         }
     }
 
+    public void updateUsuario(){
+
+    }
+
+    public void eliminarUsuario(){
+
+    }
+
 
     public boolean iniciarSesion() throws UsuarioNoExiste{
         boolean autorizado = false;
-        String correo = Utilidades.pideString("Introduce tu correo");
-        String password = Utilidades.pideString("Intoduce tu contraseña");
+        View.VoluntariadoView.mostrarMensaje("*** INICIO DE SESIÓN ***");
+        String correo = Utilidades.pideString("Correo:");
+        String password = Utilidades.pideString("Contraseña:");
         Usuario usuarioLogeado = misUsuarios.validarUsuario(correo, password);
         if (usuarioLogeado == null){
             throw new UsuarioNoExiste("No existe ningún usuario con estas credenciales.");
         }else{
-            Sesion nuevaSesion = new Sesion(usuarioLogeado);
+            Sesion nuevaSesion = Sesion.getSesion(usuarioLogeado);
             nuevaSesion.sesionIniciada();
         }
-
-
-
         return autorizado;
     }
 }
