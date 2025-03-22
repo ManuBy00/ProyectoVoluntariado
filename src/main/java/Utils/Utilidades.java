@@ -49,4 +49,16 @@ public class Utilidades {
         } while (!esValido);
         return num;
     }
+
+    public static boolean validarPassword(String password) {
+        return password.length() >= 8 && password.matches(".*[A-Z].*");
+    }
+
+    public static boolean validarCorreo(String correo){
+        String regex = "[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}";
+        return correo.matches(regex);
+    }
+
+
 }
+
