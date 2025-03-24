@@ -15,7 +15,7 @@ public abstract class Usuario {
     // Controller full equip
     public Usuario(String nombre, String password, String correo) {
         this.nombre = nombre;
-        this.password = password;
+        this.password = Seguridad.hashPassword(password);
         this.correo = correo;
     }
 
