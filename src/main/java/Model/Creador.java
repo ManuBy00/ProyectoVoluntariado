@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Creador extends Usuario{
 
     private String ong;
-    private ArrayList<Iniciativa> iniciativa;
+    private ArrayList<Iniciativa> iniciativas;
 
     public Creador(String nombre, String contraseña, String correo, String ong) {
         super(nombre, contraseña, correo);

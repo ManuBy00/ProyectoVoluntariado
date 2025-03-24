@@ -6,7 +6,7 @@ import View.VoluntariadoView;
 public class Test {
     public static void main(String[] args) {
 
-        ListaUsuarios l = new ListaUsuarios();
+        ListaUsuarios l = ListaUsuarios.getInstance();
 
         UsuariosController lController = new UsuariosController(l);
         int opcion;

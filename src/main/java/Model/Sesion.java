@@ -1,9 +1,6 @@
-package Controller;
+package Model;
 
-import Model.Usuario;
 import View.VoluntariadoView;
-
-import java.sql.SQLOutput;
 
 public class Sesion {
     private Usuario usuarioLogeado;
@@ -20,19 +17,46 @@ public class Sesion {
         this.usuarioLogeado = usuarioLogeado;
     }
 
-    public void sesionIniciada() {
+    public void sesionCreador() {
+        int opcion;
+        do {
+            opcion = VoluntariadoView.mostrarMenuCreador();
+            switch (opcion) {
+                case 1:
+                    System.out.println("Ver perfil");
+                    break;
+                case 2:
+                    System.out.println("Crear iniciativa");
+                    break;
+                case 3:
+                    System.out.println("Asignar voluntarios a actividades");
+                    break;
+                case 4:
+                    System.out.println("Iniciativas disponibles");
+                    break;
+
+                case 5:
+                    System.out.println("Cerrando sesión...");
+                    this.usuarioLogeado = null;
+                    break;
+            }
+
+        } while (opcion != 5);
+    }
+
+    public void sesionVoluntario() {
         int opcion;
         do {
             opcion = VoluntariadoView.mostrarMenuVoluntario();
             switch (opcion) {
                 case 1:
-                    System.out.println("Opción Ver perfil");
+                    System.out.println("Ver perfil");
                     break;
                 case 2:
-                    System.out.println("Opción: Mostrar iniciativas en las que participas");
+                    System.out.println("Ver mis actividades");
                     break;
                 case 3:
-                    System.out.println("Opción: Mostrar actividades en que realice");
+                    System.out.println("Cambiar estado de actividad");
                     break;
                 case 4:
                     System.out.println("Iniciativas disponibles");
@@ -49,10 +73,8 @@ public class Sesion {
                 case 8:
                     System.out.println("Cerrando sesión...");
                     this.usuarioLogeado = null;
-
                     break;
             }
-
         } while (opcion != 8);
     }
 }

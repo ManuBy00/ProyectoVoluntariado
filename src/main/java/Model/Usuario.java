@@ -1,6 +1,7 @@
 package Model;
 
 import Utils.Utilidades;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.Objects;
 
@@ -8,20 +9,19 @@ public abstract class Usuario {
 
     //Declaramos los atributos de usuario
     private String nombre;
-    private String password;
+    private String passwordHash;
     private String correo;
-
 
     // Controller full equip
     public Usuario(String nombre, String password, String correo) {
         this.nombre = nombre;
-        this.password = Seguridad.hashPassword(password);
+        this.passwordHash = Seguridad.hashPassword(password);
         this.correo = correo;
     }
 
     // Creamos getters y setters de los atributos
 
-        public String getNombre() {
+    public String getNombre() {
         return nombre;
     }
 
@@ -30,19 +30,31 @@ public abstract class Usuario {
     }
 
     public String getPassword() {
-        return password;
+        return passwordHash;
     }
 
-    public void setPassword(String contraseña) {
-        this.password = contraseña;
+    public void setPassword(String passwordPlana) {
+        if (passwordPlana == null || passwordPlana.trim().isEmpty()) {
+            throw new IllegalArgumentException("La contraseña no puede estar vacía");
+        }
+        if (passwordPlana.length() < 8) {
+            throw new IllegalArgumentException("La contraseña debe tener al menos 8 caracteres");
+        }
+        this.passwordHash = BCrypt.hashpw(passwordPlana, BCrypt.gensalt());
     }
+
 
     public String getCorreo() {
         return correo;
     }
 
-    public void setCorreo(String correo) {
-        this.correo = correo;
+    /**
+     * Verifica el la contraseña con su respectivo hash
+     * @param password
+     * @return true si coincide, false si no.
+     */
+    public boolean verificarPassword(String password){
+        return Seguridad.checkPassword(password, this.passwordHash);
     }
 
     // toString para poder ver los atributos del usuario
@@ -50,20 +62,21 @@ public abstract class Usuario {
     public String toString() {
         return " Usuario: " +
                 "\n nombre: " + nombre +
-                "\n contraseña: " + password +
+                "\n contraseña: " + passwordHash +
                 "\n correo: " + correo;
     }
 
     // Implementamos Equals y HashCode
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Usuario usuario = (Usuario) o;
-        return Objects.equals(correo, usuario.correo);
+        return Objects.equals(passwordHash, usuario.passwordHash) && Objects.equals(correo, usuario.correo);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(correo);
+        return Objects.hash(passwordHash, correo);
     }
 }
