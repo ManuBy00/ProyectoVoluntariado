@@ -8,19 +8,29 @@ import java.util.HashSet;
 
 public class ListaUsuarios implements CRUD<Usuario, String>{
     private HashSet<Usuario> usuarios;
+    private static ListaUsuarios instance;
+
 
     public ListaUsuarios() {
         this.usuarios = new HashSet<>();
     }
 
-    public HashSet<Usuario> getUsuarios() {
-        return usuarios;
+    public static ListaUsuarios getInstance() {
+        if (instance == null) {
+            instance = new ListaUsuarios();
+        }
+        return instance;
     }
 
     public void setUsuarios(HashSet<Usuario> usuarios) {
         this.usuarios = usuarios;
     }
 
+    /** Añade un usuario a la lista de usuarios.
+     * @param nuevoUsuario usuario que se va a añadir
+     * @return true si se añade, false si no se añade
+     * @throws UsuarioYaExiste lanz
+     */
     @Override
     public boolean add(Usuario nuevoUsuario) throws UsuarioYaExiste {
         if (!usuarios.add(nuevoUsuario)) {
@@ -29,11 +39,18 @@ public class ListaUsuarios implements CRUD<Usuario, String>{
         return true;
     }
 
+    //PENDIENTE
     @Override
     public boolean update(Usuario usuarioModificado) {
     return true;
     }
 
+    /**
+     * Elimina un usuario de la lista de usuarios
+     * @param usuario
+     * @return
+     * @throws UsuarioNoExiste
+     */
     @Override
     public boolean remove(Usuario usuario) throws UsuarioNoExiste {
         if (!usuarios.remove(usuario)){
@@ -42,11 +59,19 @@ public class ListaUsuarios implements CRUD<Usuario, String>{
         return true;
     }
 
+    /**
+     * muestra un usuario de la lista (llamando al toString del usuario)
+     * @param usuario usuario del que se va a mostrar la información
+     * @return string de la info
+     */
     @Override
     public String mostrar(Usuario usuario) {
         return usuario.toString();
     }
 
+    /**
+     * muestra la lista completa de usuarios.
+     */
     @Override
     public void mostrarConjunto() {
         for (Usuario u : usuarios){
@@ -54,9 +79,12 @@ public class ListaUsuarios implements CRUD<Usuario, String>{
         }
     }
 
-    //metodo para obetner lista de creadores
-    public ArrayList<Creador> ListaCreadores(ArrayList<Usuario> usuarios) {
-        ArrayList<Creador> creadores = new ArrayList<>();
+    /**
+     *  crea una lista de usuarios creadores
+     * @return lista de creadores
+     */
+    public HashSet<Creador> ListaCreadores() {
+        HashSet<Creador> creadores = new HashSet<>();
 
         for (Usuario usuario : usuarios) {
             if (usuario instanceof Creador) {
@@ -66,9 +94,12 @@ public class ListaUsuarios implements CRUD<Usuario, String>{
         return creadores;
     }
 
-    //metodo para obetner lista de voluntarios
-    public ArrayList<Voluntario> ListaVoluntarios(ArrayList<Usuario> usuarios) {
-        ArrayList<Voluntario> voluntarios = new ArrayList<>();
+    /**
+     * crea una lista de usuarios voluntarios
+     * @return arrayList de voluntarios
+     */
+    public HashSet<Voluntario> ListaVoluntarios() {
+        HashSet<Voluntario> voluntarios = new HashSet<>();
 
         for (Usuario usuario : usuarios) {
             if (usuario instanceof Voluntario) {
@@ -78,8 +109,14 @@ public class ListaUsuarios implements CRUD<Usuario, String>{
         return voluntarios;
     }
 
+    /**
+     * Busca un usuario a través de su correo
+     * @param correo correo del usuario que se desea buscar
+     * @return usuario al que le pertenece el correo
+     * @throws UsuarioNoExiste si no hay ningún usuario con el correo introducido
+     */
     @Override
-    public Usuario encontrarElemento(String correo) {
+    public Usuario encontrarElemento(String correo) throws UsuarioNoExiste{
         Usuario usuarioEncontrado = null;
         for (Usuario u : usuarios){
             if (correo.equals(u.getCorreo())){
@@ -89,13 +126,20 @@ public class ListaUsuarios implements CRUD<Usuario, String>{
         return usuarioEncontrado;
     }
 
-    public Usuario validarUsuario(String correo, String password){
-        Usuario usuarioValidado = null;
-        for (Usuario u : usuarios){
-            if (correo.equals(u.getCorreo()) && password.equals(u.getPassword())){
-                usuarioValidado = u;
-            }
+    /**
+     * valida el login de un usuario. Primero busca si el usuario está registrado, y después verifica su contraseña.
+     * @param correo
+     * @param password
+     * @return usuario validado
+     */
+    public Usuario validarLogin(String correo, String password){ //comprobar si el usuario esta en el arraylist de usuarios y validar contraseña
+
+        Usuario usuarioValidado = encontrarElemento(correo);
+
+        if (usuarioValidado != null && usuarioValidado.verificarPassword(password)) {
+            return usuarioValidado; // Solo devuelve el usuario si la contraseña es correcta
         }
-        return usuarioValidado;
+
+        return null; // devuelve null si la contraseña es incorrecta
     }
 }

@@ -7,26 +7,6 @@ import Utils.Utilidades;
 
 public class VoluntariadoView {
 
-    /**
-     * Muestra un menu al usuario para que eliga una opcion
-     * @return devuelve un entero con la opcion seleccionada
-     */
-    public static int mostrarMenuVoluntario() {
-        int opcion;
-        do {
-            mostrarMensaje("1. Ver perfil");
-            mostrarMensaje("2. Ver puntos");
-            mostrarMensaje("3. Mostrar iniciativas en las que participas");
-            mostrarMensaje("4. Mostrar actividades en que realice");
-            mostrarMensaje("5. Iniciativas disponibles");
-            mostrarMensaje("6. Cambiar estado de actividad");
-            mostrarMensaje("7. Hacer comentario de una actividad");
-            mostrarMensaje("8. Salir");
-
-            opcion = Utilidades.pideEntero("Seleccione una de las siguientes opciones");
-        }while (opcion<1 || opcion>8);
-        return opcion;
-    }
 
     public static int mostrarMenuInicial() {
         int opcion;
@@ -44,6 +24,41 @@ public class VoluntariadoView {
         return opcion;
     }
 
+    /**
+     * Muestra un menu al usuario para que eliga una opcion
+     * @return devuelve un entero con la opcion seleccionada
+     */
+    public static int mostrarMenuVoluntario() {
+        int opcion;
+        do {
+            mostrarMensaje("1. Ver perfil");
+            mostrarMensaje("2. Ver puntos");
+            mostrarMensaje("3. Mostrar mis iniciativas y actividades");
+            mostrarMensaje("4. Mostrar actividades en que realice");
+            mostrarMensaje("5. Iniciativas disponibles");
+            mostrarMensaje("6. Cambiar estado de actividad");
+            mostrarMensaje("7. Hacer comentario de una actividad");
+            mostrarMensaje("8. Salir");
+
+            opcion = Utilidades.pideEntero("Seleccione una de las siguientes opciones");
+        }while (opcion<1 || opcion>8);
+        return opcion;
+    }
+
+    public static int mostrarMenuCreador() {
+        int opcion;
+        do {
+            mostrarMensaje("1. Ver perfil");
+            mostrarMensaje("2. Crear iniciativa");
+            mostrarMensaje("3. Asignar actividades a voluntarios");
+            mostrarMensaje("4. Añadir actividades");
+            mostrarMensaje("5. Salir");
+
+            opcion = Utilidades.pideEntero("Seleccione una de las siguientes opciones");
+        } while (opcion < 1 || opcion > 5);
+        return opcion;
+    }
+
 
     // Creamos metodo para mostrar mensaje del menu
     public static void mostrarMensaje(String msg){
@@ -54,7 +69,8 @@ public class VoluntariadoView {
     public static Usuario crearUsuario(int tipoUsuario) {
         String nombre = Utilidades.pideString("Introduce el nombre de usuario");
         String password = crearPassword();
-        String correo = Utilidades.pideString("Introduce el correo"); //aqui habría que llamar al metodo crearCorreo para tener el correo validado, pero aun no se ha hecho
+        String correo = pideCorreo();
+
         Usuario nuevoUsuario = null;
 
         switch (tipoUsuario){
@@ -79,7 +95,6 @@ public class VoluntariadoView {
             if (password.length() < 8) {
                 System.out.println("La contraseña debe tener al menos 8 caracteres");
             }else {
-                System.out.println("Contraseña creada");
                 esValido = true;
             }
         }while (!esValido);
@@ -87,12 +102,21 @@ public class VoluntariadoView {
         return password;
     }
 
-    public static String crearCorreo() { //metodo para pedir y validar correo
-        String correo = "";
+    public static String pideCorreo(){
+        boolean esValido = false;
+        String correo;
+        do {
+            correo = Utilidades.pideString("Introduce el correo");
+            if (!Utilidades.validarCorreo(correo)){
+                mostrarMensaje("Formato de correo no válido.");
+            } else{
+                esValido = true;
+            }
 
+        }while (!esValido);
         return correo;
-
     }
+
 
     public static int elegirTipoUsuario() {
         int opcion;

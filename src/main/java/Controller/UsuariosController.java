@@ -2,7 +2,9 @@ package Controller;
 
 import Exceptions.UsuarioNoExiste;
 import Exceptions.UsuarioYaExiste;
+import Model.Creador;
 import Model.ListaUsuarios;
+import Model.Sesion;
 import Model.Usuario;
 import Utils.Utilidades;
 import View.VoluntariadoView;
@@ -41,15 +43,23 @@ public class UsuariosController {
 
     public boolean iniciarSesion() throws UsuarioNoExiste{
         boolean autorizado = false;
+
         View.VoluntariadoView.mostrarMensaje("*** INICIO DE SESIÓN ***");
         String correo = Utilidades.pideString("Correo:");
         String password = Utilidades.pideString("Contraseña:");
-        Usuario usuarioLogeado = misUsuarios.validarUsuario(correo, password);
+
+        Usuario usuarioLogeado = misUsuarios.validarLogin(correo, password);
+
         if (usuarioLogeado == null){
             throw new UsuarioNoExiste("No existe ningún usuario con estas credenciales.");
         }else{
             Sesion nuevaSesion = Sesion.getSesion(usuarioLogeado);
-            nuevaSesion.sesionIniciada();
+            if (usuarioLogeado.getClass()== Creador.class){
+                nuevaSesion.sesionCreador();
+            }else{
+                nuevaSesion.sesionVoluntario();
+            }
+
         }
         return autorizado;
     }
