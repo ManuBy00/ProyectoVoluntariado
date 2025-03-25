@@ -60,10 +60,10 @@ public abstract class Usuario {
     // toString para poder ver los atributos del usuario
     @Override
     public String toString() {
-        return " Usuario: " +
-                "\n nombre: " + nombre +
-                "\n contraseña: " + passwordHash +
-                "\n correo: " + correo;
+        return
+                "\n Nombre de usuario: " + nombre +
+                "\n Contraseña: " + passwordHash +
+                "\n Correo: " + correo;
     }
 
     // Implementamos Equals y HashCode

@@ -13,6 +13,5 @@ public interface CRUD <T, ID> {
         public void  mostrarConjunto();
 
         public T encontrarElemento(ID id);
-
 }
 

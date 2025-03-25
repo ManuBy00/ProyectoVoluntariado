@@ -24,8 +24,8 @@ public class Creador extends Usuario{
 
     @Override
     public String toString() {
-        return super.toString() + "Creador : " +
-                "\n pertenece a la ong : " + ong;
+        return super.toString() +
+                "\n ONG: " + ong;
     }
 
 
