@@ -68,7 +68,7 @@ public class VoluntariadoView {
     // Aplicamos un metodo para crear un usuario
     public static Usuario crearUsuario(int tipoUsuario) {
         String nombre = Utilidades.pideString("Introduce el nombre de usuario");
-        String password = crearPassword();
+        String password = pidePassword();
         String correo = pideCorreo();
 
         Usuario nuevoUsuario = null;
@@ -86,7 +86,7 @@ public class VoluntariadoView {
         return nuevoUsuario;
     }
 
-    public static String crearPassword() { //aquí podemos añadir más validaciones a la password.
+    public static String pidePassword() { //aquí podemos añadir más validaciones a la password.
         String password;
         boolean esValido = false;
 
