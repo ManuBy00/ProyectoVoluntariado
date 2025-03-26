@@ -10,11 +10,17 @@ public class ListaUsuarios implements CRUD<Usuario, String>{
     private HashSet<Usuario> usuarios;
     private static ListaUsuarios instance;
 
-
-    public ListaUsuarios() {
+    /**
+     * Constructor que inicializa la lista vacía.
+     */
+    private ListaUsuarios() {
         this.usuarios = new HashSet<>();
     }
 
+    /**
+     * get singletone para no crear varias listas de usuarios.
+     * @return lista única de usuarios
+     */
     public static ListaUsuarios getInstance() {
         if (instance == null) {
             instance = new ListaUsuarios();
@@ -22,14 +28,16 @@ public class ListaUsuarios implements CRUD<Usuario, String>{
         return instance;
     }
 
+
     public void setUsuarios(HashSet<Usuario> usuarios) {
         this.usuarios = usuarios;
     }
 
-    /** Añade un usuario a la lista de usuarios.
-     * @param nuevoUsuario usuario que se va a añadir
-     * @return true si se añade, false si no se añade
-     * @throws UsuarioYaExiste lanz
+    /**
+     * Añade un nuevo usuario al conjunto.
+     * @param nuevoUsuario Usuario a añadir.
+     * @return true si se añade correctamente.
+     * @throws UsuarioYaExiste Si el correo ya está registrado.
      */
     @Override
     public boolean add(Usuario nuevoUsuario) throws UsuarioYaExiste {
@@ -39,7 +47,11 @@ public class ListaUsuarios implements CRUD<Usuario, String>{
         return true;
     }
 
-    //PENDIENTE
+    /** *PENDIENTE*
+     * Actualiza un usuario existente (PENDIENTE DE IMPLEMENTAR).
+     * @param usuarioModificado Usuario con datos actualizados.
+     * @return true siempre (debería validar cambios).
+     */
     @Override
     public boolean update(Usuario usuarioModificado) {
     return true;
@@ -61,8 +73,8 @@ public class ListaUsuarios implements CRUD<Usuario, String>{
 
     /**
      * muestra un usuario de la lista (llamando al toString del usuario)
-     * @param usuario usuario del que se va a mostrar la información
-     * @return string de la info
+     * @param usuario usuario del que se va a mostrar la información.
+     * @return string detalles del usuario.
      */
     @Override
     public String mostrar(Usuario usuario) {
@@ -80,7 +92,7 @@ public class ListaUsuarios implements CRUD<Usuario, String>{
     }
 
     /**
-     *  crea una lista de usuarios creadores
+     * Crea una lista de usuarios creadores
      * @return lista de creadores
      */
     public HashSet<Creador> ListaCreadores() {
@@ -133,11 +145,10 @@ public class ListaUsuarios implements CRUD<Usuario, String>{
      * @return usuario validado
      */
     public Usuario validarLogin(String correo, String password){ //comprobar si el usuario esta en el arraylist de usuarios y validar contraseña
-
         Usuario usuarioValidado = encontrarElemento(correo);
 
         if (usuarioValidado != null && usuarioValidado.verificarPassword(password)) {
-            return usuarioValidado; // Solo devuelve el usuario si la contraseña es correcta
+            return usuarioValidado; // Solo devuelve el usuario si la contraseña y el correo coinciden
         }
 
         return null; // devuelve null si la contraseña es incorrecta

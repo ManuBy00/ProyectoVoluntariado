@@ -129,6 +129,5 @@ public class VoluntariadoView {
         }while (opcion < 0 || opcion > 3);
 
         return opcion;
-
     }
 }
