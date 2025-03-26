@@ -5,6 +5,7 @@ import Exceptions.UsuarioYaExiste;
 import Model.Creador;
 import Model.ListaUsuarios;
 import Model.Usuario;
+import Utils.Sesion;
 import Utils.Utilidades;
 import View.VoluntariadoView;
 
@@ -40,8 +41,7 @@ public class UsuariosController {
     }
 
 
-    public boolean iniciarSesion() throws UsuarioNoExiste{
-        boolean autorizado = false;
+    public void iniciarSesion() throws UsuarioNoExiste{
 
         View.VoluntariadoView.mostrarMensaje("*** INICIO DE SESIÓN ***");
         String correo = Utilidades.pideString("Correo:");
@@ -52,75 +52,16 @@ public class UsuariosController {
         if (usuarioLogeado == null){
             throw new UsuarioNoExiste("No existe ningún usuario con estas credenciales.");
         }else{
+            Sesion.getInstancia().logIn(usuarioLogeado);  // Guarda el usuario en la sesión
+
             if (usuarioLogeado.getClass()== Creador.class){
-                ejecutarSesionCreador(usuarioLogeado);
+                CreadorController creadorController = new CreadorController();
+                creadorController.ejecutarSesion();
             }else{
-               ejecutarSesionVoluntario(usuarioLogeado);
+               VoluntarioController voluntarioController = new VoluntarioController();
+               voluntarioController.ejecutarSesion();
             }
         }
-        return autorizado;
-    }
-
-    public void ejecutarSesionCreador(Usuario usuarioLogeado){
-        int opcion;
-        do {
-            opcion = VoluntariadoView.mostrarMenuCreador();
-            switch (opcion) {
-                case 1:
-                    System.out.println("Ver perfil");
-                    System.out.println(usuarioLogeado.toString());
-
-                    break;
-                case 2:
-                    System.out.println("Crear iniciativa");
-                    break;
-                case 3:
-                    System.out.println("Asignar voluntarios a actividades");
-                    break;
-                case 4:
-                    System.out.println("Iniciativas disponibles");
-                    break;
-
-                case 5:
-                    System.out.println("Cerrando sesión...");
-                    break;
-            }
-
-        } while (opcion != 5);
-    }
-
-    public void ejecutarSesionVoluntario(Usuario usuarioLogeado) {
-        int opcion;
-        do {
-            opcion = VoluntariadoView.mostrarMenuVoluntario();
-            switch (opcion) {
-                case 1:
-                    System.out.println("Ver perfil");
-                    System.out.println(usuarioLogeado.toString());
-                    break;
-                case 2:
-                    System.out.println("Ver mis actividades");
-                    break;
-                case 3:
-                    System.out.println("Cambiar estado de actividad");
-                    break;
-                case 4:
-                    System.out.println("Iniciativas disponibles");
-                    break;
-                case 5:
-                    System.out.println("Cambiar estado de actividad");
-                    break;
-                case 6:
-                    System.out.println("Hacer comentario de una actividad");
-                    break;
-                case 7:
-                    System.out.println("me saltao alguna");
-                    break;
-                case 8:
-                    System.out.println("Cerrando sesión...");
-                    break;
-            }
-        } while (opcion != 8);
     }
 }
 
