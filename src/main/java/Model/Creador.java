@@ -1,11 +1,11 @@
 package Model;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 
 public class Creador extends Usuario{
 
     private String ong;
-    private ArrayList<Iniciativa> iniciativas;
+    private ListaIniciativas iniciativas;
 
     /**
      * Constructor de creador
@@ -17,6 +17,23 @@ public class Creador extends Usuario{
     public Creador(String nombre, String contraseña, String correo, String ong) {
         super(nombre, contraseña, correo);
         this.ong = ong;
+        this.iniciativas = ListaIniciativas.getInstance();
+    }
+
+    public ListaIniciativas getIniciativas() {
+        return iniciativas;
+    }
+
+    public HashSet<Iniciativa> getMisIniciativas() {
+        return iniciativas.obtenerIniciativasPorCreador(this.getCorreo());
+    }
+
+    public String mostrarMisIniciativas(){
+        String result = "";
+        for (Iniciativa i : getMisIniciativas()){
+            result += i.getNombre() + " | ";
+        }
+        return result;
     }
 
     //get y set ONG
@@ -28,13 +45,22 @@ public class Creador extends Usuario{
         this.ong = ong;
     }
 
+    public Iniciativa encontrarIniciativaPropia(String nombre) {
+        Iniciativa iniciativaEncontrada = null;
+        for (Iniciativa i : getMisIniciativas()){
+            if (nombre.equals(i.getNombre())){
+                iniciativaEncontrada = i;
+            }
+        }
+        return iniciativaEncontrada;
+    }
+
+
     // toString para ver los atributos del creador
     @Override
     public String toString() {
         return super.toString() +
-                "\n ONG: " + ong;
+                "\n ONG: " + ong +
+                "\n Iniciativas: " + mostrarMisIniciativas();
     }
-
-
-
 }

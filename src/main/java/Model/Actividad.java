@@ -1,6 +1,7 @@
 package Model;
 
-import java.io.Serializable;
+
+import java.util.HashSet;
 import java.util.Objects;
 
 public class Actividad {
@@ -9,18 +10,20 @@ public class Actividad {
     private String descripcion;
     private String fechaInicio;
     private String fechaFin;
-    private String voluntarioEncargado;
+    private Voluntario voluntarioEncargado;
     private EstadoActividad estado;
     private String comentario;
+    private HashSet<Voluntario> voluntariosAsignados;
 
-    public Actividad(String nombre, String descripcion, String fechaInicio, String fechaFin, String voluntarioEncargado, EstadoActividad estado, String comentario) {
+    public Actividad(String nombre, String descripcion, String fechaInicio, String fechaFin, Voluntario voluntarioEncargado, String comentario) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.voluntarioEncargado = voluntarioEncargado;
-        this.estado = estado;
+        this.estado = estado.PENDIENTE;
         this.comentario = comentario;
+        this.voluntariosAsignados = new HashSet<>();
     }
 
     public Actividad(String nombreActividad, String descripcion) {
@@ -44,7 +47,7 @@ public class Actividad {
         return fechaFin;
     }
 
-    public String getVoluntarioEncargado() {
+    public Voluntario getVoluntarioEncargado() {
         return voluntarioEncargado;
     }
 
@@ -54,6 +57,18 @@ public class Actividad {
 
     public String getComentario() {
         return comentario;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public void setEstado(EstadoActividad estado) {
+        this.estado = estado;
+    }
+
+    public HashSet<Voluntario> getVoluntariosAsignados() {
+        return voluntariosAsignados;
     }
 
     @Override
@@ -76,7 +91,7 @@ public class Actividad {
                 "descripcion: " + descripcion + " | " +
                 "fechaInicio: " + fechaInicio + " | " +
                 "fechaFin: " + fechaFin + " | " +
-                "voluntarioEncargado: " + voluntarioEncargado + " | " +
+                "voluntarioEncargado: " + voluntarioEncargado.getNombre() + " | " +
                 "estado: " + estado + " | " +
                 "comentario: " + comentario;
     }

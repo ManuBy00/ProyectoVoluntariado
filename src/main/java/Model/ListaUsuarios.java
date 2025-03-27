@@ -110,10 +110,10 @@ public class ListaUsuarios implements CRUD<Usuario, String>{
      * crea una lista de usuarios voluntarios
      * @return arrayList de voluntarios
      */
-    public HashSet<Voluntario> ListaVoluntarios() {
+    public static HashSet<Voluntario> ListaVoluntarios() {
         HashSet<Voluntario> voluntarios = new HashSet<>();
 
-        for (Usuario usuario : usuarios) {
+        for (Usuario usuario : getInstance().usuarios) {
             if (usuario instanceof Voluntario) {
                 voluntarios.add((Voluntario) usuario); // Casting para añadirlo al array de voluntarios
             }
@@ -128,7 +128,7 @@ public class ListaUsuarios implements CRUD<Usuario, String>{
      * @throws UsuarioNoExiste si no hay ningún usuario con el correo introducido
      */
     @Override
-    public Usuario encontrarElemento(String correo) throws UsuarioNoExiste{
+    public Usuario encontrarElemento(String correo){
         Usuario usuarioEncontrado = null;
         for (Usuario u : usuarios){
             if (correo.equals(u.getCorreo())){

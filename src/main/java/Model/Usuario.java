@@ -48,6 +48,11 @@ public abstract class Usuario {
         return correo;
     }
 
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+
     /**
      * Verifica el la contraseña con su respectivo hash
      * @param password
