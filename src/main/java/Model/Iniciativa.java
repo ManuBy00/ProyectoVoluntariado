@@ -1,30 +1,27 @@
 package Model;
 
 import Exceptions.UsuarioNoExiste;
+import Utils.Sesion;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Iniciativa implements CRUD< Actividad, String> {
     private String nombre;
     private String descripcion;
     private Creador creador; // ¡Debe ser un usuario de tipo Creador!
     private ArrayList<Actividad> actividades;
-    private ArrayList<Usuario> ranking;
 
-    // Constructor
-    public Iniciativa(String nombre, String descripcion, Creador creador) {
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.creador = creador;
-        this.actividades = new ArrayList<>();
-    }
 
+    // Constructor full equip
     public Iniciativa(String nombre, String descripcion) {
         this.nombre = nombre;
         this.descripcion = descripcion;
+        this.creador = (Creador) Sesion.getInstancia().getUsuarioIniciado();
         this.actividades = new ArrayList<>();
     }
+
 
     public String getNombre() { return nombre; }
 
@@ -35,7 +32,11 @@ public class Iniciativa implements CRUD< Actividad, String> {
     }
 
 
-
+    /**
+     *  Metodo que añade una actividad al ArrayList actividades
+     * @param actividad : la actividad que queremos añadir
+     * @return : Devuelve si se a podido agregar o no
+     */
     @Override
     public boolean add(Actividad actividad) {
         boolean agregado = false;
@@ -52,6 +53,11 @@ public class Iniciativa implements CRUD< Actividad, String> {
         return actualizado;
     }
 
+    /**
+     * Metodo que elimina una actividad del arrayList actividades
+     * @param actividad : la actividad que vamos a eliminar
+     * @return : si se a eliminado o no correctamente
+     */
     @Override
     public boolean remove(Actividad actividad) {
         boolean eliminado = false;
@@ -61,9 +67,17 @@ public class Iniciativa implements CRUD< Actividad, String> {
         return eliminado;
     }
 
+    /**
+     * Metodo que muestra todos los atributos de una activdad
+     * @param actividad : la actividad que queremos ver
+     * @return : toString de la actividad que queremos mostrar
+     */
     @Override
-    public String mostrar(Actividad actividad) { return toString(); }
+    public String mostrar(Actividad actividad) { return actividad.toString(); }
 
+    /**
+     * Metodo que muestra todas las actividades que hay en el ArrayList actividades
+     */
     @Override
     public void mostrarConjunto() {
         for (Actividad actividad : actividades) {
@@ -71,6 +85,11 @@ public class Iniciativa implements CRUD< Actividad, String> {
         }
     }
 
+    /**
+     * Metodo que encuentra una actividad en el ArrayList actividades
+     * @param nombre : nombre de la actividad que queremos encontrar
+     * @return : Devuelve la actividad si la a encontrado o null si no la a encontrado
+     */
     @Override
     public Actividad encontrarElemento(String nombre) {
             Actividad acitividadEncontrado = null;
@@ -82,6 +101,15 @@ public class Iniciativa implements CRUD< Actividad, String> {
             return acitividadEncontrado;
     }
 
+    // Metodo para agregar una actividad a la iniciativa
+    public void agregarActividad(Actividad actividad) {
+        actividades.add(actividad);
+    }
+
+    // Metodo para eliminar una actividad de la iniciativa
+    public void eliminarActividad(Actividad actividad) {
+        actividades.remove(actividad);
+    }
 
     @Override
     public String toString() {
@@ -90,5 +118,16 @@ public class Iniciativa implements CRUD< Actividad, String> {
                 "\n descripcion: " + descripcion +
                 "\n creador: " + creador +
                 "\n actividades: " + actividades;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Iniciativa that)) return false;
+        return Objects.equals(nombre, that.nombre);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(nombre);
     }
 }

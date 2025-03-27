@@ -7,7 +7,7 @@ import Utils.Utilidades;
 
 public class IniciativaView {
 
-    // Devuelve array?
+    // Devuelve array de iniciativas
     public static Iniciativa pedirDatosIniciativa() {
         String nombre = Utilidades.pideString("Nombre de la iniciativa:");
         String descripcion = Utilidades.pideString("Descripción:");

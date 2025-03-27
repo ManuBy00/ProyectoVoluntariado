@@ -19,6 +19,11 @@ public class Creador extends Usuario{
         this.ong = ong;
     }
 
+    public void addIniciativa(Iniciativa nuevaIniciativa){
+        iniciativas.add(nuevaIniciativa);
+    }
+
+
     //get y set ONG
     public String getOng() {
         return ong;
@@ -32,9 +37,7 @@ public class Creador extends Usuario{
     @Override
     public String toString() {
         return super.toString() +
-                "\n ONG: " + ong;
+                "\n ONG: " + ong +
+                "\n Iniciativas: " + iniciativas;
     }
-
-
-
 }

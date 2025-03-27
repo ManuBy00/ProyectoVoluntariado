@@ -128,7 +128,7 @@ public class ListaUsuarios implements CRUD<Usuario, String>{
      * @throws UsuarioNoExiste si no hay ningún usuario con el correo introducido
      */
     @Override
-    public Usuario encontrarElemento(String correo) throws UsuarioNoExiste{
+    public Usuario encontrarElemento(String correo){
         Usuario usuarioEncontrado = null;
         for (Usuario u : usuarios){
             if (correo.equals(u.getCorreo())){
