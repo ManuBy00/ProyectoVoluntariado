@@ -6,20 +6,35 @@ import View.IniciativaView;
 import View.UsuariosView;
 import View.ViewActividades;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 import static View.IniciativaView.mostrarMenuIniciativa;
 
 public class ListaIniciativas {
-    // Lista que almacena todas las iniciativas existentes.
-    private HashSet<Iniciativa> iniciativasList;
+    private HashSet<Iniciativa> iniciativasList; // Lista que almacena todas las iniciativas existentes.
+    private static ListaIniciativas instance;
 
-    public ListaIniciativas() {
+    private ListaIniciativas() { //Contrustor que inicializa la lista
         this.iniciativasList = new HashSet<>();
     }
 
+    // Método estático para obtener la única instancia de la clase
+    public static ListaIniciativas getInstance() {
+        if (instance == null) {
+            instance = new ListaIniciativas();
+        }
+        return instance;
+    }
+
+    public HashSet<Iniciativa> getIniciativasList() {
+
+        return iniciativasList;
+    }
+
     /**
-     * Metodo para eliminar una actividad de una iniciativa.
+     * Metodo para añadir una iniciativa a la lista.
      */
     public boolean addIniciativa(Iniciativa iniciativa){
         boolean added = false;
@@ -137,4 +152,33 @@ public class ListaIniciativas {
         }
         return iniciativaEncontrada;
     }
+
+
+    public String mostrarIniciativas() {
+        String result = "";
+        // Si la lista de iniciativas no está vacía, la recorremos
+        if (iniciativasList != null) {
+            for (Iniciativa i : iniciativasList) {
+                result += "Iniciativa " + ": " + i.getNombre();
+            }
+        } else {
+            result = "No hay iniciativas disponibles.";
+        }
+
+        return result;
+    }
+
+    public HashSet<Iniciativa> obtenerIniciativasPorCreador(String correoCreador) {
+        HashSet<Iniciativa> iniciativasDelCreador = new HashSet<>();
+
+        for (Iniciativa iniciativa : iniciativasList) {
+            if (iniciativa.getCreador().getCorreo().equals(correoCreador)) {
+                iniciativasDelCreador.add(iniciativa);
+            }
+        }
+        return iniciativasDelCreador;
+    }
+
+
+
 }

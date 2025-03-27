@@ -91,7 +91,7 @@ public class Actividad {
                 "descripcion: " + descripcion + " | " +
                 "fechaInicio: " + fechaInicio + " | " +
                 "fechaFin: " + fechaFin + " | " +
-                "voluntarioEncargado: " + voluntarioEncargado + " | " +
+                "voluntarioEncargado: " + voluntarioEncargado.getNombre() + " | " +
                 "estado: " + estado + " | " +
                 "comentario: " + comentario;
     }

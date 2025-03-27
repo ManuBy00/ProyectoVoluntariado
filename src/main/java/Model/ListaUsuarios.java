@@ -110,10 +110,10 @@ public class ListaUsuarios implements CRUD<Usuario, String>{
      * crea una lista de usuarios voluntarios
      * @return arrayList de voluntarios
      */
-    public HashSet<Voluntario> ListaVoluntarios() {
+    public static HashSet<Voluntario> ListaVoluntarios() {
         HashSet<Voluntario> voluntarios = new HashSet<>();
 
-        for (Usuario usuario : usuarios) {
+        for (Usuario usuario : getInstance().usuarios) {
             if (usuario instanceof Voluntario) {
                 voluntarios.add((Voluntario) usuario); // Casting para añadirlo al array de voluntarios
             }

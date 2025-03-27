@@ -101,10 +101,6 @@ public class Iniciativa implements CRUD< Actividad, String> {
             return acitividadEncontrado;
     }
 
-    // Metodo para agregar una actividad a la iniciativa
-    public void agregarActividad(Actividad actividad) {
-        actividades.add(actividad);
-    }
 
     // Metodo para eliminar una actividad de la iniciativa
     public void eliminarActividad(Actividad actividad) {
@@ -116,7 +112,7 @@ public class Iniciativa implements CRUD< Actividad, String> {
         return "Iniciativa: " +
                 "\n nombre: " + nombre +
                 "\n descripcion: " + descripcion +
-                "\n creador: " + creador +
+                "\n creador: " + creador.getNombre() +
                 "\n actividades: " + actividades;
     }
 

@@ -1,12 +1,11 @@
 package Model;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 
 public class Creador extends Usuario{
 
     private String ong;
-    private HashSet<Iniciativa> iniciativas;
+    private ListaIniciativas iniciativas;
 
     /**
      * Constructor de creador
@@ -18,35 +17,24 @@ public class Creador extends Usuario{
     public Creador(String nombre, String contraseña, String correo, String ong) {
         super(nombre, contraseña, correo);
         this.ong = ong;
-        this.iniciativas = new HashSet<>();
+        this.iniciativas = ListaIniciativas.getInstance();
     }
 
-    public HashSet<Iniciativa> getIniciativas() {
+    public ListaIniciativas getIniciativas() {
         return iniciativas;
     }
 
-    public boolean addIniciativa(Iniciativa nuevaIniciativa){
-        boolean added = false;
-        if (iniciativas.add(nuevaIniciativa)) {
-            added = true;
-        }
-        return added;
+    public HashSet<Iniciativa> getMisIniciativas() {
+        return iniciativas.obtenerIniciativasPorCreador(this.getCorreo());
     }
 
-    public String mostrarIniciativas() {
+    public String mostrarMisIniciativas(){
         String result = "";
-        // Si la lista de iniciativas no está vacía, la recorremos
-        if (iniciativas != null) {
-            for (Iniciativa i : iniciativas) {
-                result += "Iniciativa " + ": " + i.getNombre();
-            }
-        } else {
-            result = "No hay iniciativas disponibles.";
+        for (Iniciativa i : getMisIniciativas()){
+            result += i.getNombre() + " | ";
         }
-
         return result;
     }
-
 
     //get y set ONG
     public String getOng() {
@@ -57,11 +45,22 @@ public class Creador extends Usuario{
         this.ong = ong;
     }
 
+    public Iniciativa encontrarIniciativaPropia(String nombre) {
+        Iniciativa iniciativaEncontrada = null;
+        for (Iniciativa i : getMisIniciativas()){
+            if (nombre.equals(i.getNombre())){
+                iniciativaEncontrada = i;
+            }
+        }
+        return iniciativaEncontrada;
+    }
+
+
     // toString para ver los atributos del creador
     @Override
     public String toString() {
         return super.toString() +
                 "\n ONG: " + ong +
-                "\n Iniciativas: " + mostrarIniciativas();
+                "\n Iniciativas: " + mostrarMisIniciativas();
     }
 }

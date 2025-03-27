@@ -62,10 +62,11 @@ public class UsuariosView {
             mostrarMensaje("2. Crear iniciativa");
             mostrarMensaje("3. Añadir actividades");
             mostrarMensaje("4. Asignar actividades a voluntarios");
-            mostrarMensaje("5. Salir");
+            mostrarMensaje("5. Ver detalles de una iniciativa");
+            mostrarMensaje("6. Salir");
 
             opcion = Utilidades.pideEntero("Seleccione una de las siguientes opciones");
-        } while (opcion < 1 || opcion > 5);
+        } while (opcion < 1 || opcion > 6);
         return opcion;
     }
 
