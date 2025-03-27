@@ -1,7 +1,5 @@
-package Controller;
-import Model.Creador;
-import Model.Iniciativa;
-import Model.Actividad;
+package Model;
+
 import Utils.Sesion;
 import Utils.Utilidades;
 import View.IniciativaView;
@@ -11,29 +9,24 @@ import View.ViewActividades;
 import java.util.HashSet;
 
 import static View.IniciativaView.mostrarMenuIniciativa;
-import static View.IniciativaView.pedirDatosIniciativa;
 
-public class IniciativaController {
-
+public class ListaIniciativas {
     // Lista que almacena todas las iniciativas existentes.
     private HashSet<Iniciativa> iniciativasList;
 
-    public IniciativaController() {
+    public ListaIniciativas() {
         this.iniciativasList = new HashSet<>();
     }
 
     /**
      * Metodo para eliminar una actividad de una iniciativa.
      */
-    public void addIniciativa(){
-        Iniciativa nuevaIniciativa = IniciativaView.pedirDatosIniciativa();
-        if (!iniciativasList.add(nuevaIniciativa)){
-            Creador creador = (Creador) Sesion.getInstancia().getUsuarioIniciado();
-            creador.addIniciativa(nuevaIniciativa);
-            UsuariosView.mostrarMensaje("Error. La iniciativa ya existe.");
-        } else {
-            UsuariosView.mostrarMensaje("La iniciativa se ha añadido correctamente");
+    public boolean addIniciativa(Iniciativa iniciativa){
+        boolean added = false;
+        if (iniciativasList.add(iniciativa)){
+            added = true;
         }
+        return added;
     }
 
     /**
@@ -69,7 +62,7 @@ public class IniciativaController {
             UsuariosView.mostrarMensaje("La iniciativa no exite");
         }else {
             if (iniciativa.add(actividad)) {
-            UsuariosView.mostrarMensaje("Actividad agregada exitosamente.");
+                UsuariosView.mostrarMensaje("Actividad agregada exitosamente.");
             } else {
                 System.out.println("No se pudo agregar la actividad.");
             }
@@ -144,5 +137,4 @@ public class IniciativaController {
         }
         return iniciativaEncontrada;
     }
-
 }

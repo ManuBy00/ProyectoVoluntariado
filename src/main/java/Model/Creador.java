@@ -1,11 +1,12 @@
 package Model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class Creador extends Usuario{
 
     private String ong;
-    private ArrayList<Iniciativa> iniciativas;
+    private HashSet<Iniciativa> iniciativas;
 
     /**
      * Constructor de creador
@@ -17,10 +18,33 @@ public class Creador extends Usuario{
     public Creador(String nombre, String contraseña, String correo, String ong) {
         super(nombre, contraseña, correo);
         this.ong = ong;
+        this.iniciativas = new HashSet<>();
     }
 
-    public void addIniciativa(Iniciativa nuevaIniciativa){
-        iniciativas.add(nuevaIniciativa);
+    public HashSet<Iniciativa> getIniciativas() {
+        return iniciativas;
+    }
+
+    public boolean addIniciativa(Iniciativa nuevaIniciativa){
+        boolean added = false;
+        if (iniciativas.add(nuevaIniciativa)) {
+            added = true;
+        }
+        return added;
+    }
+
+    public String mostrarIniciativas() {
+        String result = "";
+        // Si la lista de iniciativas no está vacía, la recorremos
+        if (iniciativas != null) {
+            for (Iniciativa i : iniciativas) {
+                result += "Iniciativa " + ": " + i.getNombre();
+            }
+        } else {
+            result = "No hay iniciativas disponibles.";
+        }
+
+        return result;
     }
 
 
@@ -38,6 +62,6 @@ public class Creador extends Usuario{
     public String toString() {
         return super.toString() +
                 "\n ONG: " + ong +
-                "\n Iniciativas: " + iniciativas;
+                "\n Iniciativas: " + mostrarIniciativas();
     }
 }

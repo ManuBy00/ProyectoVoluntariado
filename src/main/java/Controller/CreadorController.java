@@ -2,22 +2,25 @@ package Controller;
 
 import Model.Creador;
 import Model.Iniciativa;
+import Model.ListaIniciativas;
 import Utils.Sesion;
+import View.IniciativaView;
 import View.UsuariosView;
+import View.ViewActividades;
 
 /**
  * Controlador para manejar las acciones del creador.
  */
 public class CreadorController {
     private Creador creador;
-    private IniciativaController iniciativaController;
+    private ListaIniciativas listaIniciativas;
 
     /**
      * Constructor que inicializa el creador con la sesión actual.
      */
     public CreadorController() {
         this.creador = (Creador) Sesion.getInstancia().getUsuarioIniciado();
-        this.iniciativaController = new IniciativaController();
+        this.listaIniciativas = new ListaIniciativas();
     }
 
     /**
@@ -31,25 +34,19 @@ public class CreadorController {
             switch (opcion) {
                 case 1:
                     // Ver perfil del creador
-                    System.out.println("Ver perfil");
                     System.out.println(creador.toString());
                     break;
                 case 2:
                     // Crear una nueva iniciativa
-
-                    iniciativaController.addIniciativa();
-
-
-
-                    //creador.addIniciativa();
+                    addIniciativa();
                     break;
                 case 3:
-                    // Asignar voluntarios a actividades
+                    // Añadir actividades a una iniciativa
 
                     System.out.println("Asignar voluntarios a actividades");
                     break;
                 case 4:
-                    // Añadir actividades
+
 
                     break;
                 case 5: // Mostrar iniciativas
@@ -67,4 +64,15 @@ public class CreadorController {
             }
         } while (opcion != 6);
     }
+
+    public void addIniciativa(){
+        Iniciativa nuevaIniciativa = IniciativaView.pedirDatosIniciativa();
+        if (listaIniciativas.addIniciativa(nuevaIniciativa)){
+            creador.addIniciativa(nuevaIniciativa);
+            UsuariosView.mostrarMensaje("La iniciativa se ha creado correctamente");
+        }else{
+            UsuariosView.mostrarMensaje("La iniciativa ya existe");
+        }
+    }
+
 }

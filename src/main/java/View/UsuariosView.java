@@ -60,8 +60,8 @@ public class UsuariosView {
         do {
             mostrarMensaje("1. Ver perfil");
             mostrarMensaje("2. Crear iniciativa");
-            mostrarMensaje("3. Asignar actividades a voluntarios");
-            mostrarMensaje("4. Añadir actividades");
+            mostrarMensaje("3. Añadir actividades");
+            mostrarMensaje("4. Asignar actividades a voluntarios");
             mostrarMensaje("5. Salir");
 
             opcion = Utilidades.pideEntero("Seleccione una de las siguientes opciones");
