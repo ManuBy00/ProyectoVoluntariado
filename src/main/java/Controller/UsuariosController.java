@@ -7,7 +7,7 @@ import Model.ListaUsuarios;
 import Model.Usuario;
 import Utils.Sesion;
 import Utils.Utilidades;
-import View.VoluntariadoView;
+import View.UsuariosView;
 
 
 public class UsuariosController {
@@ -18,15 +18,15 @@ public class UsuariosController {
     }
 
     public void registrarUsuario() {
-        VoluntariadoView.mostrarMensaje("*** REGISTRO ***");
+        UsuariosView.mostrarMensaje("*** REGISTRO ***");
         //pedimos tipo de usuario
-        int tipoUsuario = View.VoluntariadoView.elegirTipoUsuario();
+        int tipoUsuario = UsuariosView.elegirTipoUsuario();
         //creamos el usuario
-        Usuario nuevo = View.VoluntariadoView.crearUsuario(tipoUsuario);
+        Usuario nuevo = UsuariosView.crearUsuario(tipoUsuario);
 
         try {
             misUsuarios.add(nuevo);
-            VoluntariadoView.mostrarMensaje("Usuario registrado.");
+            UsuariosView.mostrarMensaje("Usuario registrado.");
         } catch (UsuarioYaExiste e) {
             System.out.println(e.getMessage());
         }
@@ -43,7 +43,7 @@ public class UsuariosController {
 
     public void iniciarSesion() throws UsuarioNoExiste{
 
-        View.VoluntariadoView.mostrarMensaje("*** INICIO DE SESIÓN ***");
+        UsuariosView.mostrarMensaje("*** INICIO DE SESIÓN ***");
         String correo = Utilidades.pideString("Correo:");
         String password = Utilidades.pideString("Contraseña:");
 

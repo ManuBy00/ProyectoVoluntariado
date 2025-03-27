@@ -5,7 +5,7 @@ import Model.Usuario;
 import Model.Voluntario;
 import Utils.Utilidades;
 
-public class VoluntariadoView {
+public class UsuariosView {
 
 
     public static int mostrarMenuInicial() {

@@ -2,7 +2,7 @@ package Controller;
 
 import Model.Creador;
 import Utils.Sesion;
-import View.VoluntariadoView;
+import View.UsuariosView;
 
 public class CreadorController {
     private Creador creador;
@@ -14,7 +14,7 @@ public class CreadorController {
     public void ejecutarSesion() {
         int opcion;
         do {
-            opcion = VoluntariadoView.mostrarMenuCreador();
+            opcion = UsuariosView.mostrarMenuCreador();
             switch (opcion) {
                 case 1:
                     System.out.println("Ver perfil");

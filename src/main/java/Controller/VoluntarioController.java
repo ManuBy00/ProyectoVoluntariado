@@ -2,7 +2,7 @@ package Controller;
 
 import Model.Voluntario;
 import Utils.Sesion;
-import View.VoluntariadoView;
+import View.UsuariosView;
 
 public class VoluntarioController {
     private Voluntario voluntario;
@@ -14,7 +14,7 @@ public class VoluntarioController {
     public void ejecutarSesion() {
         int opcion;
         do {
-            opcion = VoluntariadoView.mostrarMenuVoluntario();
+            opcion = UsuariosView.mostrarMenuVoluntario();
             switch (opcion) {
                 case 1:
                     System.out.println("Ver perfil");

@@ -1,7 +1,7 @@
 import Controller.UsuariosController;
 import Exceptions.UsuarioNoExiste;
 import Model.ListaUsuarios;
-import View.VoluntariadoView;
+import View.UsuariosView;
 
 public class Test {
     public static void main(String[] args) {
@@ -11,24 +11,24 @@ public class Test {
         UsuariosController lController = new UsuariosController(l);
         int opcion;
         do{
-            opcion = View.VoluntariadoView.mostrarMenuInicial();
+            opcion = UsuariosView.mostrarMenuInicial();
 
             switch (opcion) {
                 case 1:
                     try {
                         lController.iniciarSesion();
                     } catch (UsuarioNoExiste e) {
-                        VoluntariadoView.mostrarMensaje(e.getMessage());
+                        UsuariosView.mostrarMensaje(e.getMessage());
                     }
                     break;
                 case 2:
                     lController.registrarUsuario();
                     break;
                 case 3:
-                    VoluntariadoView.mostrarMensaje("Saliendo...");
+                    UsuariosView.mostrarMensaje("Saliendo...");
                     break;
                 default:
-                    VoluntariadoView.mostrarMensaje("Opción no válida");
+                    UsuariosView.mostrarMensaje("Opción no válida");
             }
         }while (opcion != 3);
     }

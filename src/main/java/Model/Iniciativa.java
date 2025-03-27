@@ -5,7 +5,7 @@ import Exceptions.UsuarioNoExiste;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Iniciativa implements CRUD {
+public class Iniciativa implements CRUD< Actividad, String> {
     private String nombre;
     private String descripcion;
     private Creador creador; // ¡Debe ser un usuario de tipo Creador!
@@ -26,7 +26,6 @@ public class Iniciativa implements CRUD {
         this.actividades = new ArrayList<>();
     }
 
-    // Getters (no setters para evitar modificaciones incontroladas) IMPORTANTE
     public String getNombre() { return nombre; }
 
     public ArrayList<Actividad> getActividades() { return actividades; }
@@ -35,38 +34,35 @@ public class Iniciativa implements CRUD {
         return creador;
     }
 
-    // --- Métodos para añadir una actividad | falta completar actividad ---
-    public void addActividad(Actividad actividad) {
-        actividades.add(actividad);
-    }
+
 
     @Override
-    public boolean add(Object elemento) {
+    public boolean add(Actividad actividad) {
         boolean agregado = false;
-        if (actividades.add((Actividad) elemento)){
+        if (actividades.add(actividad)) {
             agregado = true;
         }
         return agregado;
     }
 
     @Override
-    public boolean update(Object elemento) {
+    public boolean update(Actividad actividad) {
         boolean actualizado = false;
 
         return actualizado;
     }
 
     @Override
-    public boolean remove(Object elemento) {
+    public boolean remove(Actividad actividad) {
         boolean eliminado = false;
-        if (actividades.remove((Actividad) elemento)){
+        if (actividades.remove(actividad)) {
             eliminado = true;
         }
         return eliminado;
     }
 
     @Override
-    public String mostrar(Object elemento) { return toString(); }
+    public String mostrar(Actividad actividad) { return toString(); }
 
     @Override
     public void mostrarConjunto() {
@@ -76,7 +72,7 @@ public class Iniciativa implements CRUD {
     }
 
     @Override
-    public Object encontrarElemento(Object o) {
+    public Actividad encontrarElemento(String nombre) {
             Actividad acitividadEncontrado = null;
             for (Actividad a : actividades){
                 if (nombre.equals(a.getNombre())){
@@ -85,7 +81,6 @@ public class Iniciativa implements CRUD {
             }
             return acitividadEncontrado;
     }
-
 
 
     @Override
