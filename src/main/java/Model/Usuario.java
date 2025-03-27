@@ -21,7 +21,7 @@ public abstract class Usuario {
 
     // Creamos getters y setters de los atributos
 
-        public String getNombre() {
+    public String getNombre() {
         return nombre;
     }
 

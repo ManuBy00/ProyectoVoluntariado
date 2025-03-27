@@ -28,7 +28,7 @@ public class VoluntariadoView {
         return opcion;
     }
 
-    public static int mostrarMenuInicial() {
+    public static int mostrarMenuInicial() { // metodo para mostrar el menu inicial
         int opcion;
         do {
             mostrarMensaje("*** VOLUNTAPP ***");
@@ -57,7 +57,7 @@ public class VoluntariadoView {
         String correo = Utilidades.pideString("Introduce el correo"); //aqui habría que llamar al metodo crearCorreo para tener el correo validado, pero aun no se ha hecho
         Usuario nuevoUsuario = null;
 
-        switch (tipoUsuario){
+        switch (tipoUsuario){ // dependiendo del tipo de usuario que se haya elegido, se crea un objeto u otro
             case 1:
                 String ong = Utilidades.pideString("Introduce la ONG a la que perteneces.");
                 nuevoUsuario = new Creador(nombre, password, correo, ong);
@@ -75,11 +75,11 @@ public class VoluntariadoView {
         boolean esValido = false;
 
         do {
-            password = Utilidades.pideString("Introduce la contraseña");
+            password = Utilidades.pideString("Introduce la contraseña"); //pedimos la contraseña
             if (password.length() < 8) {
-                System.out.println("La contraseña debe tener al menos 8 caracteres");
+                System.out.println("La contraseña debe tener al menos 8 caracteres"); //validamos que tenga al menos 8 caracteres
             }else {
-                System.out.println("Contraseña creada");
+                System.out.println("Contraseña creada"); //si tiene al menos 8 caracteres, la contraseña es valida
                 esValido = true;
             }
         }while (!esValido);
@@ -94,7 +94,7 @@ public class VoluntariadoView {
 
     }
 
-    public static int elegirTipoUsuario() {
+    public static int elegirTipoUsuario() { // metodo para elegir el tipo de usuario
         int opcion;
         do {
             System.out.println("\n¿Qué tipo de usuario deseas registrar?");
