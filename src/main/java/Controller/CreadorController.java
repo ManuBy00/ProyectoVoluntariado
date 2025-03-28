@@ -70,7 +70,7 @@ public class CreadorController {
      */
     public void addIniciativa(){
         Iniciativa nuevaIniciativa = IniciativaView.pedirDatosIniciativa();
-        if (creador.getIniciativas().addIniciativa(nuevaIniciativa)){
+        if (ListaIniciativas.getInstance().addIniciativa(nuevaIniciativa)){
             UsuariosView.mostrarMensaje("La iniciativa se ha creado correctamente");
         }else{
             UsuariosView.mostrarMensaje("La iniciativa ya existe");
