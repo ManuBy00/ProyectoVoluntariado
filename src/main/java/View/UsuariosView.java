@@ -1,9 +1,12 @@
 package View;
 
 import Model.Creador;
+import Model.ListaUsuarios;
 import Model.Usuario;
 import Model.Voluntario;
 import Utils.Utilidades;
+
+import java.util.HashSet;
 
 public class UsuariosView {
 
@@ -37,16 +40,13 @@ public class UsuariosView {
         int opcion;
         do {
             mostrarMensaje("1. Ver perfil");
-            mostrarMensaje("2. Ver puntos");
-            mostrarMensaje("3. Mostrar mis iniciativas y actividades");
-            mostrarMensaje("4. Mostrar actividades en que realice");
-            mostrarMensaje("5. Iniciativas disponibles");
-            mostrarMensaje("6. Cambiar estado de actividad");
-            mostrarMensaje("7. Hacer comentario de una actividad");
-            mostrarMensaje("8. Salir");
-
+            mostrarMensaje("2. Ver mis actividades");
+            mostrarMensaje("3. Cambiar estado actividad");
+            mostrarMensaje("4. Actualizar POR IMPLEMENTAR");
+            mostrarMensaje("5. Comentar actividad");
+            mostrarMensaje("6. Salir");
             opcion = Utilidades.pideEntero("Seleccione una de las siguientes opciones");
-        } while (opcion < 1 || opcion > 8);
+        } while (opcion < 1 || opcion > 6);
         return opcion;
     }
 
@@ -161,6 +161,14 @@ public class UsuariosView {
         } while (opcion < 1 || opcion > 2);
 
         return opcion;
+    }
+
+    public static void mostrarVoluntariosDisponibles(){
+        HashSet<Voluntario> listaVoluntarios = ListaUsuarios.ListaVoluntarios();
+        UsuariosView.mostrarMensaje("Voluntarios disponibles:\n");
+        for (Voluntario v : listaVoluntarios){
+            UsuariosView.mostrarMensaje(v.getNombre() + " , " + v.getCorreo()+ " | ");
+        }
     }
 
     /**

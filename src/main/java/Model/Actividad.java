@@ -63,25 +63,30 @@ public class Actividad {
         this.descripcion = descripcion;
     }
 
-    public void setEstado(EstadoActividad estado) {
-        this.estado = estado;
+
+    /**
+     * Cambia el estado de la actividad.
+     * @param nuevoEstado El nuevo estado que se asignará a la actividad.
+     */
+
+    public void setEstado(EstadoActividad nuevoEstado) {
+        this.estado = nuevoEstado;
     }
 
     public HashSet<Voluntario> getVoluntariosAsignados() {
         return voluntariosAsignados;
     }
 
+
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Actividad actividad = (Actividad) o;
-        return Objects.equals(nombre, actividad.nombre) && Objects.equals(descripcion, actividad.descripcion) && Objects.equals(fechaInicio, actividad.fechaInicio) && Objects.equals(fechaFin, actividad.fechaFin) && Objects.equals(voluntarioEncargado, actividad.voluntarioEncargado) && estado == actividad.estado && Objects.equals(comentario, actividad.comentario);
+        if (!(o instanceof Actividad actividad)) return false;
+        return Objects.equals(nombre, actividad.nombre);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(nombre, descripcion, fechaInicio, fechaFin, voluntarioEncargado, estado, comentario);
+        return Objects.hashCode(nombre);
     }
 
     @Override
@@ -95,4 +100,10 @@ public class Actividad {
                 "estado: " + estado + " | " +
                 "comentario: " + comentario;
     }
+
+
+
+
+
+
 }

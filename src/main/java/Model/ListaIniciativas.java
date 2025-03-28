@@ -20,7 +20,7 @@ public class ListaIniciativas {
         this.iniciativasList = new HashSet<>();
     }
 
-    // Método estático para obtener la única instancia de la clase
+    // Metodo estático para obtener la única instancia de la clase
     public static ListaIniciativas getInstance() {
         if (instance == null) {
             instance = new ListaIniciativas();
@@ -29,7 +29,6 @@ public class ListaIniciativas {
     }
 
     public HashSet<Iniciativa> getIniciativasList() {
-
         return iniciativasList;
     }
 
@@ -66,23 +65,6 @@ public class ListaIniciativas {
         }
     }
 
-
-    /**
-     * Metodo para agregar una actividad a una iniciativa
-     */
-    public void agregarActividad() {
-        Iniciativa iniciativa = encontrarIniciativa(Utilidades.pideString("Introduce el nombre de la inciativa en la que quiere añadir"));
-        Actividad actividad = ViewActividades.pedirDatosActividad();
-        if (iniciativa == null){
-            UsuariosView.mostrarMensaje("La iniciativa no exite");
-        }else {
-            if (iniciativa.add(actividad)) {
-                UsuariosView.mostrarMensaje("Actividad agregada exitosamente.");
-            } else {
-                System.out.println("No se pudo agregar la actividad.");
-            }
-        }
-    }
 
     /**
      * Metodo privado para actualizar una actividad en una iniciativa dada.
