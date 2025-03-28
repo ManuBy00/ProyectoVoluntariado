@@ -24,6 +24,9 @@ public class ViewActividades {
         boolean encontrado = false;
         Usuario encargado;
         do {
+            UsuariosView.mostrarMensaje("Voluntarios disponibles:\n:");
+            UsuariosView.mostrarVoluntariosDisponibles();
+
             String correoVoluntario = Utilidades.pideString("Introduce el correo del voluntario.");
             encargado = ListaUsuarios.getInstance().encontrarElemento(correoVoluntario);
             encontrado = false;

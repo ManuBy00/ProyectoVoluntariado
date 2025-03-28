@@ -150,7 +150,6 @@ public class ListaUsuarios implements CRUD<Usuario, String>{
         if (usuarioValidado != null && usuarioValidado.verificarPassword(password)) {
             return usuarioValidado; // Solo devuelve el usuario si la contraseña y el correo coinciden
         }
-
         return null; // devuelve null si la contraseña es incorrecta
     }
 }
