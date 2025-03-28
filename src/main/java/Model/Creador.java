@@ -5,7 +5,7 @@ import java.util.HashSet;
 public class Creador extends Usuario{
 
     private String ong;
-    private ListaIniciativas iniciativas;
+
 
     /**
      * Constructor de creador
@@ -17,15 +17,15 @@ public class Creador extends Usuario{
     public Creador(String nombre, String contraseña, String correo, String ong) {
         super(nombre, contraseña, correo);
         this.ong = ong;
-        this.iniciativas = ListaIniciativas.getInstance();
     }
 
-    public ListaIniciativas getIniciativas() {
-        return iniciativas;
-    }
-
+    /**
+     * Llama al la lista de iniciativas haciendo uso del metodo "ObtenerIniciativasPorCreador",
+     * que devuelve una lista de iniciativas con un correo pasado como parámetro
+     * @return lista de iniciativas creadas por el usuario
+     */
     public HashSet<Iniciativa> getMisIniciativas() {
-        return iniciativas.obtenerIniciativasPorCreador(this.getCorreo());
+        return ListaIniciativas.getInstance().obtenerIniciativasPorCreador(this.getCorreo());
     }
 
     public String mostrarMisIniciativas(){
@@ -36,14 +36,6 @@ public class Creador extends Usuario{
         return result;
     }
 
-    //get y set ONG
-    public String getOng() {
-        return ong;
-    }
-
-    public void setOng(String ong) {
-        this.ong = ong;
-    }
 
     public Iniciativa encontrarIniciativaPropia(String nombre) {
         Iniciativa iniciativaEncontrada = null;
