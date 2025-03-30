@@ -91,14 +91,13 @@ public class Actividad {
 
     @Override
     public String toString() {
-        return "Actividad: \n" +
-                "nombre: " + nombre + " | " +
-                "descripcion: " + descripcion + " | " +
-                "fechaInicio: " + fechaInicio + " | " +
-                "fechaFin: " + fechaFin + " | " +
-                "voluntarioEncargado: " + voluntarioEncargado.getNombre() + " | " +
-                "estado: " + estado + " | " +
-                "comentario: " + comentario;
+        return   nombre +
+                "\n - descripcion: " + descripcion +
+                "\n - fechaInicio: " + fechaInicio +
+                "\n - fechaFin: " + fechaFin+
+                "\n - voluntarioEncargado: " + voluntarioEncargado.getNombre()+
+                "\n - estado: " + estado +
+                "\n - comentario: " + comentario;
     }
 
 

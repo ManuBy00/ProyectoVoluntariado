@@ -1,9 +1,10 @@
 package View;
 
-import Model.Creador;
-import Model.Iniciativa;
-import Model.Usuario;
+import Model.*;
+import Utils.Sesion;
 import Utils.Utilidades;
+
+import java.util.HashSet;
 
 public class IniciativaView {
 
@@ -22,6 +23,16 @@ public class IniciativaView {
         System.out.println("3. Ver mis iniciativas");
         System.out.println("4. Volver");
         return Utilidades.pideEntero("Elige una opción:");
+    }
+
+    public static void imprimirMisIniciativas(){
+        HashSet<Iniciativa> misIniciativas = ListaIniciativas.getInstance().obtenerIniciativasPorCreador(Sesion.getInstancia().getUsuarioIniciado().getCorreo());
+
+        UsuariosView.mostrarMensaje("Iniciativas disponibles:\n");
+        for (Iniciativa i : misIniciativas){
+            View.UsuariosView.mostrarMensaje(i.toString());
+            UsuariosView.mostrarMensaje("---------------------");
+        }
     }
 
 

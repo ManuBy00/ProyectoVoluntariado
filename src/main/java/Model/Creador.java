@@ -52,7 +52,7 @@ public class Creador extends Usuario{
     @Override
     public String toString() {
         return super.toString() +
-                "\n ONG: " + ong +
-                "\n Iniciativas: " + mostrarMisIniciativas();
+                "\n - ONG: " + ong +
+                "\n - Iniciativas: " + mostrarMisIniciativas() + "\n";
     }
 }

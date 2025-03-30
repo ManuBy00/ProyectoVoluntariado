@@ -1,15 +1,6 @@
 package Model;
-
-import Utils.Sesion;
-import Utils.Utilidades;
 import View.IniciativaView;
-import View.UsuariosView;
-import View.ViewActividades;
-
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
-
 import static View.IniciativaView.mostrarMenuIniciativa;
 
 public class ListaIniciativas {
@@ -35,12 +26,15 @@ public class ListaIniciativas {
     /**
      * Metodo para añadir una iniciativa a la lista.
      */
-    public boolean addIniciativa(Iniciativa iniciativa){
-        boolean added = false;
-        if (iniciativasList.add(iniciativa)){
-            added = true;
-        }
-        return added;
+    public boolean addIniciativa(Iniciativa iniciativa) {
+        return iniciativasList.add(iniciativa);
+    }
+
+    /**
+     * Método para eliminar una iniciativa de la lista.
+     */
+    public boolean removeIniciativa(Iniciativa iniciativa) {
+        return iniciativasList.remove(iniciativa);
     }
 
     /**
@@ -48,11 +42,6 @@ public class ListaIniciativas {
      */
     public void actualizarActividad() {
         Iniciativa iniciativa = IniciativaView.pedirDatosIniciativa();
-
-        if (iniciativa == null) {
-            System.out.println("No se encontró la iniciativa. Intente de nuevo.");
-            return;
-        }
 
         int opcion = mostrarMenuIniciativa();
 

@@ -66,9 +66,9 @@ public abstract class Usuario {
     @Override
     public String toString() {
         return
-                "\n Nombre de usuario: " + nombre +
-                "\n Contraseña: " + passwordHash +
-                "\n Correo: " + correo;
+                "\n - Nombre de usuario: " + nombre +
+                "\n - Contraseña: " + passwordHash +
+                "\n - Correo: " + correo;
     }
 
     // Implementamos Equals y HashCode

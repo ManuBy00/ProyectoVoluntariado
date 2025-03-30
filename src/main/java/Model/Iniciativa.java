@@ -1,11 +1,7 @@
 package Model;
 
-import Exceptions.UsuarioNoExiste;
 import Utils.Sesion;
-
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Objects;
 
 public class Iniciativa implements CRUD< Actividad, String> {
@@ -77,13 +73,15 @@ public class Iniciativa implements CRUD< Actividad, String> {
     public String mostrar(Actividad actividad) { return actividad.toString(); }
 
     /**
-     * Metodo que muestra todas las actividades que hay en el ArrayList actividades
+     * Metodo que muestra el nombre de todas las actividades que hay en el ArrayList actividades
      */
     @Override
-    public void mostrarConjunto() {
+    public String mostrarConjunto() {
+        String result = "";
         for (Actividad actividad : actividades) {
-            System.out.println(actividad);
+            result += actividad.getNombre() + " | ";
         }
+        return result;
     }
 
     /**
@@ -110,11 +108,10 @@ public class Iniciativa implements CRUD< Actividad, String> {
 
     @Override
     public String toString() {
-        return "Iniciativa: " +
-                "\n nombre: " + nombre +
-                "\n descripcion: " + descripcion +
-                "\n creador: " + creador.getNombre() +
-                "\n actividades: " + actividades;
+        return nombre +
+                "\n - descripcion: " + descripcion +
+                "\n - creador: " + creador.getNombre() +
+                "\n - actividades: " + mostrarConjunto();
     }
 
     @Override
