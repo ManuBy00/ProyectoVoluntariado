@@ -1,6 +1,8 @@
 import Controller.UsuariosController;
 import Exceptions.UsuarioNoExiste;
+import Model.Creador;
 import Model.ListaUsuarios;
+import Model.Voluntario;
 import View.UsuariosView;
 
 public class Test {
@@ -10,6 +12,15 @@ public class Test {
 
         UsuariosController lController = new UsuariosController(l);
         int opcion;
+
+        Creador pepe = new Creador("pepe", "12345678", "pepe@gmail.com", "ong");
+        Voluntario juan = new Voluntario("juan", "12345678","juan@gmail.com");
+        Voluntario jose = new Voluntario("jose", "12345678","jose@gmail.com");
+
+
+        l.add(pepe);
+        l.add(jose);
+        l.add(juan);
 
         do{
             opcion = UsuariosView.mostrarMenuInicial();

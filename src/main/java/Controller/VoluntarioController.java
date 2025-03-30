@@ -1,14 +1,10 @@
 package Controller;
-
 import Model.Actividad;
-import Model.EstadoActividad;
 import Model.Voluntario;
 import Utils.Sesion;
 import Utils.Utilidades;
 import View.UsuariosView;
 
-import java.util.HashSet;
-import java.util.Objects;
 
 public class VoluntarioController {
     private Voluntario voluntario;
@@ -54,46 +50,47 @@ public class VoluntarioController {
         private void verMisActividades() {
         System.out.println("\n--- Mis Actividades ---");
         for (Actividad actividad : voluntario.getActividadesAsignadas()) {
-            System.out.println(actividad.getNombre());
+            int i = 1;
+            System.out.println(i + "." + actividad.toString());
+
         }
     }
 
 
-            /**
-            * Permite cambiar el estado de una actividad asignada al voluntario.
-            */
+    /**
+     * Permite cambiar el estado de una actividad asignada al voluntario.
+     */
 
+    public void cambiarEstadoActividad() {
+        // Mostrar todas las actividades del voluntario
+        System.out.println("\n--- Actividades Asignadas ---");
+        int index = 1;
+        for (Actividad actividad : voluntario.getActividadesAsignadas()) {
+            System.out.println(index + ". " + actividad); // Muestra actividad con estado actual
+            index++;
+        }
 
-            public void cambiarEstadoActividad() {
-                // Mostrar todas las actividades del voluntario
-                System.out.println("\n--- Actividades Asignadas ---");
-                int index = 1;
-                for (Actividad actividad : voluntario.getActividadesAsignadas()) {
-                    System.out.println(index + ". " + actividad); // Muestra actividad con estado actual
-                    index++;
-                }
+        // Pedir al usuario que elija una actividad
+        int actividadElegida = Utilidades.pideEntero("Elige el número de la actividad para cambiar el estado:");
 
-                // Pedir al usuario que elija una actividad
-                int actividadElegida = Utilidades.pideEntero("Elige el número de la actividad para cambiar el estado:");
+        // Verificar si la elección es válida
+        if (actividadElegida < 1 || actividadElegida > voluntario.getActividadesAsignadas().size()) {
+            System.out.println("Opción inválida.");
+            return;
+        }
 
-                // Verificar si la elección es válida
-                if (actividadElegida < 1 || actividadElegida > voluntario.getActividadesAsignadas().size()) {
-                    System.out.println("Opción inválida.");
-                    return;
-                }
+        // Obtener la actividad seleccionada
+        Actividad actividad = voluntario.getActividadesAsignadas().get(actividadElegida - 1);
 
-                // Obtener la actividad seleccionada
-                Actividad actividad = voluntario.getActividadesAsignadas().get(actividadElegida - 1);
+        // Mostrar las opciones de estado disponibles
+        System.out.println("\n--- Cambiar Estado de la Actividad ---");
+        System.out.println("1. Pendiente");
+        System.out.println("2. En Progreso");
+        System.out.println("3. Finalizada");
+        System.out.println("4. Cancelada");
 
-                // Mostrar las opciones de estado disponibles
-                System.out.println("\n--- Cambiar Estado de la Actividad ---");
-                System.out.println("1. Pendiente");
-                System.out.println("2. En Progreso");
-                System.out.println("3. Finalizada");
-                System.out.println("4. Cancelada");
-
-                // Pedir al usuario que elija el nuevo estado
-                int nuevoEstado = Utilidades.pideEntero("Elige el número del nuevo estado:");
+        // Pedir al usuario que elija el nuevo estado
+        int nuevoEstado = Utilidades.pideEntero("Elige el número del nuevo estado:");
 
         }
 

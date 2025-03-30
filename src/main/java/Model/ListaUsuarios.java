@@ -85,10 +85,12 @@ public class ListaUsuarios implements CRUD<Usuario, String>{
      * muestra la lista completa de usuarios.
      */
     @Override
-    public void mostrarConjunto() {
+    public String mostrarConjunto() {
+        String result = "";
         for (Usuario u : usuarios){
-            System.out.println(u.toString());
+            result += u.toString();
         }
+        return result;
     }
 
     /**

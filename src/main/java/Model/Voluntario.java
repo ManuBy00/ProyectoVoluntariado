@@ -27,6 +27,6 @@ public class Voluntario extends Usuario{
 
 
     public String toString() {
-        return super.toString() + "\n Puntos : " + puntos;
+        return super.toString() + "\n - Puntos : " + puntos+ "\n";
     }
 }

@@ -10,7 +10,7 @@ public interface CRUD <T, ID> {
 
         public String mostrar(T elemento); //devuelve la cadena con los datos de una actividad. Puede simplemente devolver el toString
 
-        public void  mostrarConjunto(); // imprime la lista completa de actividades
+        public String  mostrarConjunto(); // imprime la lista completa de actividades
 
         public T encontrarElemento(ID id); //devolver una actividad concreta buscada por nombre o algo así
 }
