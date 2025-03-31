@@ -19,15 +19,16 @@ public class UsuariosView {
         int opcion;
         do {
             mostrarMensaje("*** VOLUNTAPP ***");
-            mostrarMensaje("1. Iniciar sesión");
-            mostrarMensaje("2. Registrar usuario");
-            mostrarMensaje("3. Salir");
+            mostrarMensaje("1. Iniciar sesión como creador");
+            mostrarMensaje("2. Iniciar sesión como voluntario");
+            mostrarMensaje("3. Registrar usuario");
+            mostrarMensaje("4. Salir");
 
             opcion = Utilidades.pideEntero("");
-            if (opcion < 1 || opcion > 3) {
+            if (opcion < 1 || opcion > 4) {
                 mostrarMensaje("Opción no válida. Inténtelo de nuevo.");
             }
-        } while (opcion < 1 || opcion > 3);
+        } while (opcion < 1 || opcion > 4);
         return opcion;
     }
 
@@ -162,7 +163,7 @@ public class UsuariosView {
     }
 
     public static void mostrarVoluntariosDisponibles(){
-        HashSet<Voluntario> listaVoluntarios = ListaUsuarios.ListaVoluntarios();
+        HashSet<Voluntario> listaVoluntarios = ListaUsuarios.getInstance().getVoluntarios();
         UsuariosView.mostrarMensaje("Voluntarios disponibles:\n");
         for (Voluntario v : listaVoluntarios){
             UsuariosView.mostrarMensaje(v.getNombre() + " , " + v.getCorreo()+ " | ");

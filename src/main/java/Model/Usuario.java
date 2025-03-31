@@ -73,15 +73,15 @@ public abstract class Usuario {
 
     // Implementamos Equals y HashCode
 
+
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Usuario usuario = (Usuario) o;
-        return Objects.equals(passwordHash, usuario.passwordHash) && Objects.equals(correo, usuario.correo);
+        if (!(o instanceof Usuario usuario)) return false;
+        return Objects.equals(correo, usuario.correo);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(passwordHash, correo);
+        return Objects.hashCode(correo);
     }
 }

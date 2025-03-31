@@ -218,10 +218,10 @@ public class CreadorController {
             throw new IniciativaNoExiste("La iniciativa introducida no existe \n");
         }
 
-        iniciativa.mostrarConjunto();
+        iniciativa.mostrarActividades();
         String nombreActividad = Utilidades.pideString("Introduce el nombre de la actividad que deseas eliminar");
 
-        Actividad actividadAEliminar = iniciativa.encontrarElemento(nombreActividad);
+        Actividad actividadAEliminar = iniciativa.encontrarActividad(nombreActividad);
 
         if (actividadAEliminar == null) {
             UsuariosView.mostrarMensaje("No se encontró la actividad especificada.");
@@ -260,9 +260,9 @@ public class CreadorController {
         }
 
         //pedimos qué actividad quiere asignar
-        UsuariosView.mostrarMensaje("Actividades disponibles: " + iniciativa.mostrarConjunto());
+        UsuariosView.mostrarMensaje("Actividades disponibles: " + iniciativa.mostrarActividades());
         String nombreActividad = Utilidades.pideString("Introduce el nombre de la actividad que quieres asignar");
-        Actividad actividad = iniciativa.encontrarElemento(nombreActividad);
+        Actividad actividad = iniciativa.encontrarActividad(nombreActividad);
         if (actividad == null){
             throw new ActividadNoExiste("La actividad introducida no existe");
         }
@@ -271,7 +271,8 @@ public class CreadorController {
         UsuariosView.mostrarVoluntariosDisponibles();
         //pedimos qué usuario quiere asignar
         String correo = Utilidades.pideString("Introduce el correo del voluntario que quieres asignar.");
-        Voluntario voluntarioAsignar = (Voluntario) ListaUsuarios.getInstance().encontrarElemento(correo);
+        Voluntario voluntarioAsignar = ListaUsuarios.getInstance().encontrarVoluntario(correo);
+
         if (voluntarioAsignar == null){
             throw new UsuarioNoExiste("El voluntario introducido no existe");
         }

@@ -28,7 +28,7 @@ public class ViewActividades {
             UsuariosView.mostrarVoluntariosDisponibles();
 
             String correoVoluntario = Utilidades.pideString("Introduce el correo de un voluntario para asignarlo como encargado.");
-            encargado = ListaUsuarios.getInstance().encontrarElemento(correoVoluntario);
+            encargado = ListaUsuarios.getInstance().encontrarVoluntario(correoVoluntario);
             if (encargado!=null && encargado.getClass().equals(Voluntario.class)){
                 encontrado = true;
             }else {

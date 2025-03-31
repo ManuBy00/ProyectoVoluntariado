@@ -20,7 +20,7 @@ public class UsuariosController {
      * @param misUsuarios la lista de usuarios.
      */
     public UsuariosController(ListaUsuarios misUsuarios) {
-        this.misUsuarios = misUsuarios;
+        this.misUsuarios = ListaUsuarios.getInstance();
     }
 
     /**
@@ -33,8 +33,13 @@ public class UsuariosController {
         // Creamos el usuario
         Usuario nuevo = UsuariosView.crearUsuario(tipoUsuario);
 
+
         try {
-            misUsuarios.add(nuevo);
+            if (nuevo instanceof Creador) {
+                misUsuarios.add(nuevo);
+            }else{
+                misUsuarios.add(nuevo);
+            }
             UsuariosView.mostrarMensaje("Usuario registrado.");
         } catch (UsuarioYaExiste e) {
             System.out.println(e.getMessage());
@@ -43,7 +48,7 @@ public class UsuariosController {
 
     /**
      * Método para actualizar un usuario existente.
-     */
+
     public void updateUsuario() {
         UsuariosView.mostrarMensaje("*** ACTUALIZAR USUARIO ***");
         String correo = Utilidades.pideString("Correo:");
@@ -58,10 +63,11 @@ public class UsuariosController {
             UsuariosView.mostrarMensaje("Usuario actualizado.");
         }
     }
+     */
 
     /**
      * Método para eliminar un usuario existente.
-     */
+     *
     public void eliminarUsuario() {
         UsuariosView.mostrarMensaje("*** ELIMINAR USUARIO ***");
         String correo = Utilidades.pideString("Correo:");
@@ -76,17 +82,34 @@ public class UsuariosController {
             UsuariosView.mostrarMensaje("Usuario eliminado.");
         }
     }
-
+        */
     /**
      * Método para iniciar sesión de un usuario.
      * @throws UsuarioNoExiste si no existe un usuario con las credenciales proporcionadas.
      */
-    public void iniciarSesion() throws UsuarioNoExiste {
+    public void iniciarSesionCreador() throws UsuarioNoExiste {
         UsuariosView.mostrarMensaje("*** INICIO DE SESIÓN ***");
         String correo = Utilidades.pideString("Correo:");
         String password = Utilidades.pideString("Contraseña:");
 
-        Usuario usuarioLogeado = misUsuarios.validarLogin(correo, password);
+        Usuario usuarioLogeado = misUsuarios.validarLoginCreador(correo, password);
+
+        if (usuarioLogeado == null) {
+            throw new UsuarioNoExiste("No existe ningún creador con estas credenciales.");
+        } else {
+            Sesion.getInstancia().logIn(usuarioLogeado);  // Guarda el usuario en la sesión
+
+            CreadorController creadorController = new CreadorController();
+            creadorController.ejecutarSesion();
+        }
+    }
+
+    public void iniciarSesionVoluntario() throws UsuarioNoExiste {
+        UsuariosView.mostrarMensaje("*** INICIO DE SESIÓN ***");
+        String correo = Utilidades.pideString("Correo:");
+        String password = Utilidades.pideString("Contraseña:");
+
+        Usuario usuarioLogeado = misUsuarios.validarLoginVoluntario(correo, password);
 
         if (usuarioLogeado == null) {
             throw new UsuarioNoExiste("No existe ningún usuario con estas credenciales.");

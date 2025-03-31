@@ -7,14 +7,16 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 public class ListaUsuarios implements CRUD<Usuario, String>{
-    private HashSet<Usuario> usuarios;
+    private HashSet<Creador> creadores;
+    private HashSet<Voluntario> voluntarios;
     private static ListaUsuarios instance;
 
     /**
      * Constructor que inicializa la lista vacía.
      */
     private ListaUsuarios() {
-        this.usuarios = new HashSet<>();
+        this.creadores = new HashSet<>();
+        this.voluntarios = new HashSet<>();
     }
 
     /**
@@ -28,22 +30,32 @@ public class ListaUsuarios implements CRUD<Usuario, String>{
         return instance;
     }
 
+    public HashSet<Creador> getCreadores() {
+        return creadores;
+    }
 
-    public void setUsuarios(HashSet<Usuario> usuarios) {
-        this.usuarios = usuarios;
+    public HashSet<Voluntario> getVoluntarios() {
+        return voluntarios;
     }
 
     /**
-     * Añade un nuevo usuario al conjunto.
+     * Identifica la clase del usuario y lo añade a la lista correspondiente.
      * @param nuevoUsuario Usuario a añadir.
      * @return true si se añade correctamente.
      * @throws UsuarioYaExiste Si el correo ya está registrado.
      */
     @Override
     public boolean add(Usuario nuevoUsuario) throws UsuarioYaExiste {
-        if (!usuarios.add(nuevoUsuario)) {
-            throw new UsuarioYaExiste("El correo introducido ya está registrado.");
+        if (nuevoUsuario instanceof Creador) {
+            if (!creadores.add((Creador) nuevoUsuario)) {
+                throw new UsuarioYaExiste("El correo introducido ya está registrado como creador.");
+            }
+        }else{
+            if (!voluntarios.add((Voluntario) nuevoUsuario)) {
+                throw new UsuarioYaExiste("El correo introducido ya está registrado como voluntario.");
+            }
         }
+
         return true;
     }
 
@@ -65,9 +77,16 @@ public class ListaUsuarios implements CRUD<Usuario, String>{
      */
     @Override
     public boolean remove(Usuario usuario) throws UsuarioNoExiste {
-        if (!usuarios.remove(usuario)){
-            throw new UsuarioNoExiste("Error, el usuario introducido no existe.");
+        if (usuario instanceof Creador) {
+            if (!creadores.remove((Creador) usuario)) {
+                throw new UsuarioNoExiste("Error, el usuario introducido no existe como creador.");
+            }
+        } else {
+            if (!voluntarios.remove((Voluntario) usuario)) {
+                throw new UsuarioNoExiste("Error, el usuario introducido no existe como voluntario.");
+            }
         }
+
         return true;
     }
 
@@ -82,46 +101,28 @@ public class ListaUsuarios implements CRUD<Usuario, String>{
     }
 
     /**
-     * muestra la lista completa de usuarios.
+     * Devuelve una string de la lista completa de voluntarios.
      */
-    @Override
-    public String mostrarConjunto() {
+
+    public String mostrarVoluntarios() {
         String result = "";
-        for (Usuario u : usuarios){
-            result += u.toString();
+        for (Voluntario v : voluntarios) {
+            result += v.toString();
         }
         return result;
     }
 
     /**
-     * Crea una lista de usuarios creadores
-     * @return lista de creadores
+     * Devuelve una string de la lista completa de creadores.
      */
-    public HashSet<Creador> ListaCreadores() {
-        HashSet<Creador> creadores = new HashSet<>();
-
-        for (Usuario usuario : usuarios) {
-            if (usuario instanceof Creador) {
-                creadores.add((Creador) usuario); // Casting para añadirlo al array de creadores
-            }
+    public String mostrarCreadores() {
+        String result = "";
+        for (Creador c : creadores) {
+            result += c.toString();
         }
-        return creadores;
+        return result;
     }
 
-    /**
-     * crea una lista de usuarios voluntarios
-     * @return arrayList de voluntarios
-     */
-    public static HashSet<Voluntario> ListaVoluntarios() {
-        HashSet<Voluntario> voluntarios = new HashSet<>();
-
-        for (Usuario usuario : getInstance().usuarios) {
-            if (usuario instanceof Voluntario) {
-                voluntarios.add((Voluntario) usuario); // Casting para añadirlo al array de voluntarios
-            }
-        }
-        return voluntarios;
-    }
 
     /**
      * Busca un usuario a través de su correo
@@ -129,25 +130,51 @@ public class ListaUsuarios implements CRUD<Usuario, String>{
      * @return usuario al que le pertenece el correo
      * @throws UsuarioNoExiste si no hay ningún usuario con el correo introducido
      */
-    @Override
-    public Usuario encontrarElemento(String correo){
-        Usuario usuarioEncontrado = null;
-        for (Usuario u : usuarios){
-            if (correo.equals(u.getCorreo())){
-                usuarioEncontrado = u;
+
+    public Creador encontrarCreador(String correo){
+        Creador usuarioEncontrado = null;
+        for (Creador c : creadores){
+            if (correo.equals(c.getCorreo())){
+                usuarioEncontrado = c;
             }
         }
         return usuarioEncontrado;
     }
 
+    public Voluntario encontrarVoluntario(String correo){
+        Voluntario usuarioEncontrado = null;
+        for (Voluntario v : voluntarios){
+            if (correo.equals(v.getCorreo())){
+                usuarioEncontrado = v;
+            }
+        }
+        return usuarioEncontrado;
+    }
+
+
     /**
-     * valida el login de un usuario. Primero busca si el usuario está registrado, y después verifica su contraseña.
+     * valida el login de un creador. Primero busca si el usuario está registrado, y después verifica su contraseña.
      * @param correo
      * @param password
      * @return usuario validado
      */
-    public Usuario validarLogin(String correo, String password){ //comprobar si el usuario esta en el arraylist de usuarios y validar contraseña
-        Usuario usuarioValidado = encontrarElemento(correo);
+    public Usuario validarLoginCreador(String correo, String password){ //comprobar si el usuario esta en el arraylist de usuarios y validar contraseña
+        Creador usuarioValidado = encontrarCreador(correo);
+
+        if (usuarioValidado != null && usuarioValidado.verificarPassword(password)) {
+            return usuarioValidado; // Solo devuelve el usuario si la contraseña y el correo coinciden
+        }
+        return null; // devuelve null si la contraseña es incorrecta
+    }
+
+    /**
+     * valida el login de un voluntario. Primero busca si el usuario está registrado, y después verifica su contraseña.
+     * @param correo
+     * @param password
+     * @return usuario validado
+     */
+    public Usuario validarLoginVoluntario(String correo, String password){ //comprobar si el usuario esta en el arraylist de usuarios y validar contraseña
+        Voluntario usuarioValidado = encontrarVoluntario(correo);
 
         if (usuarioValidado != null && usuarioValidado.verificarPassword(password)) {
             return usuarioValidado; // Solo devuelve el usuario si la contraseña y el correo coinciden
@@ -155,3 +182,5 @@ public class ListaUsuarios implements CRUD<Usuario, String>{
         return null; // devuelve null si la contraseña es incorrecta
     }
 }
+
+
