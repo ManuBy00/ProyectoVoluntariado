@@ -75,8 +75,7 @@ public class Iniciativa implements CRUD< Actividad, String> {
     /**
      * Metodo que muestra el nombre de todas las actividades que hay en el ArrayList actividades
      */
-    @Override
-    public String mostrarConjunto() {
+    public String mostrarActividades() {
         String result = "";
         for (Actividad actividad : actividades) {
             result += actividad.getNombre() + " | ";
@@ -89,8 +88,8 @@ public class Iniciativa implements CRUD< Actividad, String> {
      * @param nombre : nombre de la actividad que queremos encontrar
      * @return : Devuelve la actividad si la a encontrado o null si no la a encontrado
      */
-    @Override
-    public Actividad encontrarElemento(String nombre) {
+
+    public Actividad encontrarActividad(String nombre) {
             Actividad acitividadEncontrado = null;
             for (Actividad a : actividades){
                 if (nombre.equals(a.getNombre())){
@@ -111,7 +110,7 @@ public class Iniciativa implements CRUD< Actividad, String> {
         return nombre +
                 "\n - descripcion: " + descripcion +
                 "\n - creador: " + creador.getNombre() +
-                "\n - actividades: " + mostrarConjunto();
+                "\n - actividades: " + mostrarActividades();
     }
 
     @Override

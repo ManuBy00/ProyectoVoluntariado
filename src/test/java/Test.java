@@ -17,7 +17,6 @@ public class Test {
         Voluntario juan = new Voluntario("juan", "12345678","juan@gmail.com");
         Voluntario jose = new Voluntario("jose", "12345678","jose@gmail.com");
 
-
         l.add(pepe);
         l.add(jose);
         l.add(juan);
@@ -28,20 +27,29 @@ public class Test {
             switch (opcion) {
                 case 1:
                     try {
-                        lController.iniciarSesion();
+                        lController.iniciarSesionCreador();
                     } catch (UsuarioNoExiste e) {
                         UsuariosView.mostrarMensaje(e.getMessage());
                     }
                     break;
-                case 2:
+
+                    case 2:
+                    try {
+                        lController.iniciarSesionVoluntario();
+                    }catch (UsuarioNoExiste e) {
+                        UsuariosView.mostrarMensaje(e.getMessage());
+                    }
+                        break;
+
+                case 3:
                     lController.registrarUsuario();
                     break;
-                case 3:
+                case 4:
                     UsuariosView.mostrarMensaje("Saliendo...");
                     break;
                 default:
                     UsuariosView.mostrarMensaje("Opción no válida");
             }
-        }while (opcion != 3);
+        }while (opcion != 4);
     }
 }

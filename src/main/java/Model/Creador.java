@@ -55,4 +55,6 @@ public class Creador extends Usuario{
                 "\n - ONG: " + ong +
                 "\n - Iniciativas: " + mostrarMisIniciativas() + "\n";
     }
+
+
 }

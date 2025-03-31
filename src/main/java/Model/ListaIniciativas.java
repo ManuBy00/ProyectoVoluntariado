@@ -62,7 +62,7 @@ public class ListaIniciativas {
      * @param descripcion Nueva descripción de la actividad.
      */
     private void actualizarActividad(Iniciativa iniciativa, String nombre, String descripcion) {
-        Actividad actividad = iniciativa.encontrarElemento(nombre);
+        Actividad actividad = iniciativa.encontrarActividad(nombre);
         if (actividad != null) {
             actividad.setDescripcion(descripcion);
             if (iniciativa.update(actividad)) {
@@ -83,7 +83,7 @@ public class ListaIniciativas {
      * @param nombre Nombre de la actividad a eliminar.
      */
     private void eliminarActividad(Iniciativa iniciativa, String nombre) {
-        Actividad actividad = iniciativa.encontrarElemento(nombre);
+        Actividad actividad = iniciativa.encontrarActividad(nombre);
         if (actividad != null) {
             if (iniciativa.remove(actividad)) {
                 System.out.println("Actividad eliminada exitosamente.");
