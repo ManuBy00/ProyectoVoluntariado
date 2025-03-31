@@ -11,6 +11,8 @@ import View.IniciativaView;
 import View.UsuariosView;
 import View.ViewActividades;
 
+import java.util.HashSet;
+
 /**
  * Controlador para manejar las acciones del creador.
  */
@@ -38,60 +40,98 @@ public class CreadorController {
                     System.out.print("*** MI PERFIL ***");
                     UsuariosView.mostrarMensaje(creador.toString());
                     break;
-                case 2:
-                    // Crear una nueva iniciativa
-                    try {
-                        addIniciativa();
-                    }catch (IniciativaYaExiste e) {
-                        UsuariosView.mostrarMensaje(e.getMessage());
-                    }
 
-                    break;
+                    case 2:
+                        int opcionIniciativa;
+                        do {
+                            opcionIniciativa = IniciativaView.MenuIniciativas();
+                            System.out.println("Opción seleccionada: " + opcionIniciativa);
+                            switch (opcionIniciativa) {
+                                case 1:
+                                    //crear y añadir iniciativa
+                                    try {
+                                        addIniciativa();
+                                    } catch (IniciativaYaExiste e) {
+                                        UsuariosView.mostrarMensaje(e.getMessage());
+                                    }
+                                    break;
+                                case 2:
+                                    //Eliminar iniciativa
+                                    try {
+                                        removeIniciativa();
+                                    } catch (IniciativaNoExiste e) {
+                                        View.UsuariosView.mostrarMensaje(e.getMessage());
+                                    }
+                                    break;
 
+                                case 3:
+                                    //Modificar por implementar
+                                    break;
+
+                                case 4:
+                                    //Ver detalles de una iniciativa buscada por nombre
+                                    try {
+                                        mostrarIniciativa();
+                                    } catch (IniciativaNoExiste e) {
+                                        UsuariosView.mostrarMensaje(e.getMessage());
+                                    }
+                                    break;
+                                case 5:
+                                    //Ver todas las iniciativas del usuario con detalle.
+                                    mostrarIniciativasPropias();
+                                    break;
+                                case 6:
+                                    UsuariosView.mostrarMensaje("Volver al menú principal");
+                                    break;
+                            }
+                        }while (opcionIniciativa != 6);
+                        break;
                 case 3:
-                    //Eliminar iniciativa
-                    try {
-                        removeIniciativa();
-                    }catch (IniciativaNoExiste e){
-                        View.UsuariosView.mostrarMensaje(e.getMessage());
-                    }
+                    int opcionActividad;
+                    do {
+                        opcionActividad = IniciativaView.mostrarMenuActividades();
+                        System.out.println("Opción seleccionada: " + opcionActividad);
+                        switch (opcionActividad) {
+                            case 1:
+                                // Añadir actividades a una iniciativa
+                                try {
+                                    addActividad();
+                                } catch (IniciativaNoExiste e) {
+                                    UsuariosView.mostrarMensaje(e.getMessage());
+                                }
+                                break;
+                            case 2:
+                                //eliminar una actividad
+                                try {
+                                    removeActividad();
+                                } catch (IniciativaNoExiste | ActividadNoExiste e) {
+                                    UsuariosView.mostrarMensaje(e.getMessage());
+                                }
+                                break;
+
+                            case 3:
+                                //Modificar por implementar
+                                break;
+
+                            case 4:
+                                //Asignar voluntarios a una actividad
+                                try {
+                                    asignarVoluntario();
+                                } catch (IniciativaNoExiste | UsuarioNoExiste | ActividadNoExiste e) {
+                                    UsuariosView.mostrarMensaje(e.getMessage());
+                                }
+                                break;
+                            case 5:
+                                //Ver todas las iniciativas del usuario con detalle.
+                                mostrarIniciativasPropias();
+                                break;
+                            case 6:
+                                UsuariosView.mostrarMensaje("Volver al menú principal");
+                                break;
+                        }
+                    }while (opcionActividad != 6);
                     break;
                 case 4:
-                    // Añadir actividades a una iniciativa
-                    try {
-                        addActividad();
-                    }catch (IniciativaNoExiste e) {
-                        UsuariosView.mostrarMensaje(e.getMessage());
-                    }
-                    break;
-
-                case 5:
-                    //eliminar una actividad
-                    try {
-                        removeActividad();
-                    }catch (IniciativaNoExiste | ActividadNoExiste e){
-                        UsuariosView.mostrarMensaje(e.getMessage());
-                    }
-                    break;
-                case 6:
-                        //Asignar voluntarios a una actividad
-                        try {
-                            asignarVoluntario();
-                        } catch (IniciativaNoExiste | UsuarioNoExiste | ActividadNoExiste e) {
-                            UsuariosView.mostrarMensaje(e.getMessage());
-                        }
-
-
-                    break;
-                case 7: // Mostrar detalles de una iniciativa
-                    try {
-                        mostrarIniciativa();
-                    }catch (IniciativaNoExiste e) {
-                        UsuariosView.mostrarMensaje(e.getMessage());
-                    }
-
-                    break;
-                case 8:
                     // Cerrar sesión
                     System.out.println("Cerrando sesión...");
                     Sesion.getInstancia().logOut();
@@ -101,7 +141,7 @@ public class CreadorController {
                     System.out.println("Opción no válida. Intente de nuevo.");
                     break;
             }
-        } while (opcion != 8);
+        } while (opcion != 4);
     }
 
     /**
@@ -130,6 +170,16 @@ public class CreadorController {
             UsuariosView.mostrarMensaje("Iniciativa eliminada.");
         }else {
             throw new IniciativaNoExiste("La iniciativa introducida no existe");
+        }
+    }
+
+    public void mostrarIniciativasPropias(){
+        ListaIniciativas lista = ListaIniciativas.getInstance();
+        HashSet<Iniciativa> misIniciativas = lista.obtenerIniciativasPorCreador(Sesion.getInstancia().getUsuarioIniciado().getCorreo());
+        UsuariosView.mostrarMensaje("*** INICIATIVAS DE " + creador.getNombre().toUpperCase() + " ***");
+        for (Iniciativa i : misIniciativas){
+            UsuariosView.mostrarMensaje(i.toString());
+            UsuariosView.mostrarMensaje("-------------------------------");
         }
     }
 
