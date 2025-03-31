@@ -16,12 +16,27 @@ public class IniciativaView {
         return iniciativa;
     }
 
+    public static int MenuIniciativas() {
+        int opcion;
+
+        UsuariosView.mostrarMensaje("\n1. Crear iniciativa");
+        UsuariosView.mostrarMensaje("2. Eliminar iniciativa");
+        UsuariosView.mostrarMensaje("3. Modificar iniciativa");
+        UsuariosView.mostrarMensaje("4. Buscar iniciativa");
+        UsuariosView.mostrarMensaje("5. Ver mis iniciativas");
+        UsuariosView.mostrarMensaje("6. Volver");
+        opcion = Utilidades.pideEntero("Elige una opcion: ");
+        return opcion;
+    }
+
     // Menú de gestión de iniciativas
-    public static int mostrarMenuIniciativa() {
-        System.out.println("\n1. Crear actividad");
-        System.out.println("2. Añadir actividad");
-        System.out.println("3. Ver mis iniciativas");
-        System.out.println("4. Volver");
+    public static int mostrarMenuActividades() {
+        UsuariosView.mostrarMensaje("\n1. Crear actividad");
+        UsuariosView.mostrarMensaje("2. Eliminar actividad");
+        UsuariosView.mostrarMensaje("3. Modificar actividad");
+        UsuariosView.mostrarMensaje("4. Asignar voluntarios a una actividad");
+        UsuariosView.mostrarMensaje("5. Mostrar iniciativas y actividades");
+        UsuariosView.mostrarMensaje("6. Volver");
         return Utilidades.pideEntero("Elige una opción:");
     }
 

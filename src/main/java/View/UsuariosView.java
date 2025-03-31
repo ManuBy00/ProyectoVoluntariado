@@ -59,16 +59,12 @@ public class UsuariosView {
         int opcion;
         do {
             mostrarMensaje("1. Ver perfil");
-            mostrarMensaje("2. Crear iniciativa");
-            mostrarMensaje("3. Eliminar iniciativa");
-            mostrarMensaje("4. Añadir actividad");
-            mostrarMensaje("5. Eliminar actividad");
-            mostrarMensaje("6. Asignar actividades a voluntarios");
-            mostrarMensaje("7. Ver detalles de una iniciativa");
-            mostrarMensaje("8. Salir");
+            mostrarMensaje("2. Gestión de iniciativas");
+            mostrarMensaje("3. Gestión de actividades");
+            mostrarMensaje("4. Salir");
 
             opcion = Utilidades.pideEntero("Seleccione una de las siguientes opciones");
-        } while (opcion < 1 || opcion > 8);
+        } while (opcion < 1 || opcion > 4);
         return opcion;
     }
 

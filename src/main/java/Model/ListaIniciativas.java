@@ -1,7 +1,7 @@
 package Model;
 import View.IniciativaView;
 import java.util.HashSet;
-import static View.IniciativaView.mostrarMenuIniciativa;
+import static View.IniciativaView.mostrarMenuActividades;
 
 public class ListaIniciativas {
     private HashSet<Iniciativa> iniciativasList; // Lista que almacena todas las iniciativas existentes.
@@ -43,7 +43,7 @@ public class ListaIniciativas {
     public void actualizarActividad() {
         Iniciativa iniciativa = IniciativaView.pedirDatosIniciativa();
 
-        int opcion = mostrarMenuIniciativa();
+        int opcion = mostrarMenuActividades();
 
         switch (opcion) {
             case 1:
@@ -130,7 +130,7 @@ public class ListaIniciativas {
         // Si la lista de iniciativas no está vacía, la recorremos
         if (iniciativasList != null) {
             for (Iniciativa i : iniciativasList) {
-                result += "Iniciativa " + ": " + i.getNombre();
+                result += i.toString() + "\n----------------------";
             }
         } else {
             result = "No hay iniciativas disponibles.";
