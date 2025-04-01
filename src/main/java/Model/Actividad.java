@@ -1,6 +1,7 @@
 package Model;
 
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Objects;
 
@@ -8,14 +9,14 @@ public class Actividad {
 
     private String nombre;
     private String descripcion;
-    private String fechaInicio;
-    private String fechaFin;
+    private LocalDate fechaInicio;
+    private LocalDate fechaFin;
     private Voluntario voluntarioEncargado;
     private EstadoActividad estado;
     private String comentario;
     private HashSet<Voluntario> voluntariosAsignados;
 
-    public Actividad(String nombre, String descripcion, String fechaInicio, String fechaFin, Voluntario voluntarioEncargado, String comentario) {
+    public Actividad(String nombre, String descripcion, LocalDate fechaInicio, LocalDate fechaFin, Voluntario voluntarioEncargado, String comentario) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.fechaInicio = fechaInicio;
@@ -39,11 +40,11 @@ public class Actividad {
         return descripcion;
     }
 
-    public String getFechaInicio() {
+    public LocalDate getFechaInicio() {
         return fechaInicio;
     }
 
-    public String getFechaFin() {
+    public LocalDate getFechaFin() {
         return fechaFin;
     }
 
@@ -63,6 +64,29 @@ public class Actividad {
         this.descripcion = descripcion;
     }
 
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setVoluntariosAsignados(HashSet<Voluntario> voluntariosAsignados) {
+        this.voluntariosAsignados = voluntariosAsignados;
+    }
+
+    public void setComentario(String comentario) {
+        this.comentario = comentario;
+    }
+
+    public void setVoluntarioEncargado(Voluntario voluntarioEncargado) {
+        this.voluntarioEncargado = voluntarioEncargado;
+    }
+
+    public void setFechaFin(LocalDate fechaFin) {
+        this.fechaFin = fechaFin;
+    }
+
+    public void setFechaInicio(LocalDate fechaInicio) {
+        this.fechaInicio = fechaInicio;
+    }
 
     /**
      * Cambia el estado de la actividad.
@@ -75,6 +99,14 @@ public class Actividad {
 
     public HashSet<Voluntario> getVoluntariosAsignados() {
         return voluntariosAsignados;
+    }
+
+    public String imprimirNombreVoluntarios(){
+        String voluntarios = "";
+        for (Voluntario v : voluntariosAsignados){
+            voluntarios += v.getNombre() + ", ";
+        }
+        return voluntarios;
     }
 
 
@@ -95,14 +127,9 @@ public class Actividad {
                 "\n - descripcion: " + descripcion +
                 "\n - fechaInicio: " + fechaInicio +
                 "\n - fechaFin: " + fechaFin+
-                "\n - voluntarioEncargado: " + voluntarioEncargado.getNombre()+
+                "\n - voluntario encargado: " + voluntarioEncargado.getNombre()+
+                "\n - voluntarios asignados: " + imprimirNombreVoluntarios() +
                 "\n - estado: " + estado +
                 "\n - comentario: " + comentario;
     }
-
-
-
-
-
-
 }

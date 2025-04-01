@@ -1,9 +1,8 @@
 package Model;
-
-import Utils.Utilidades;
 import org.mindrot.jbcrypt.BCrypt;
-
 import java.util.Objects;
+
+import static View.IniciativaView.*;
 
 public abstract class Usuario {
 
@@ -34,12 +33,6 @@ public abstract class Usuario {
     }
 
     public void setPassword(String passwordPlana) {
-        if (passwordPlana == null || passwordPlana.trim().isEmpty()) {
-            throw new IllegalArgumentException("La contraseña no puede estar vacía");
-        }
-        if (passwordPlana.length() < 8) {
-            throw new IllegalArgumentException("La contraseña debe tener al menos 8 caracteres");
-        }
         this.passwordHash = BCrypt.hashpw(passwordPlana, BCrypt.gensalt());
     }
 
@@ -65,10 +58,10 @@ public abstract class Usuario {
     // toString para poder ver los atributos del usuario
     @Override
     public String toString() {
-        return
-                "\n - Nombre de usuario: " + nombre +
-                "\n - Contraseña: " + passwordHash +
-                "\n - Correo: " + correo;
+        return ANSI_BLUE + "\n=== Información de Usuario ===" + ANSI_RESET +
+                ANSI_CYAN + "\n- Nombre de usuario: " + ANSI_RESET + nombre +
+                ANSI_GREEN + "\n- Correo: " + ANSI_RESET + correo +
+                ANSI_BLUE + "\n==============================" + ANSI_RESET;
     }
 
     // Implementamos Equals y HashCode

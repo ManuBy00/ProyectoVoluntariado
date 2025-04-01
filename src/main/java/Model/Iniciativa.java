@@ -1,13 +1,16 @@
 package Model;
 
 import Utils.Sesion;
+import Utils.Utilidades;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Iniciativa implements CRUD< Actividad, String> {
+public class Iniciativa {
     private String nombre;
     private String descripcion;
-    private Creador creador; // ¡Debe ser un usuario de tipo Creador!
+    private Creador creador;
     private ArrayList<Actividad> actividades;
 
 
@@ -28,13 +31,20 @@ public class Iniciativa implements CRUD< Actividad, String> {
         return creador;
     }
 
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
 
     /**
      *  Metodo que añade una actividad al ArrayList actividades
      * @param actividad : la actividad que queremos añadir
      * @return : Devuelve si se a podido agregar o no
      */
-    @Override
+
     public boolean add(Actividad actividad) {
         boolean agregado = false;
         if (actividades.add(actividad)) {
@@ -43,11 +53,24 @@ public class Iniciativa implements CRUD< Actividad, String> {
         return agregado;
     }
 
-    @Override
-    public boolean update(Actividad actividad) {
-        boolean actualizado = false;
 
-        return actualizado;
+    public boolean update(String nombreActividad, String nuevaDescripcion, LocalDate nuevaFechaInicio, LocalDate nuevaFechaFin, Voluntario nuevoEncargado) {
+        Actividad actividad = encontrarActividad(nombreActividad);
+        boolean updated = true;
+
+        if (actividad != null) {
+            // Actualizamos los atributos de la actividad
+            actividad.setDescripcion(nuevaDescripcion);
+            do {
+                actividad.setFechaInicio(nuevaFechaInicio);
+                actividad.setFechaFin(nuevaFechaFin);
+            }while (!Utilidades.validarFechaInicioFin(nuevaFechaInicio, nuevaFechaFin)); //validamos la fecha de inicio y fin
+
+            actividad.setVoluntarioEncargado(nuevoEncargado);
+        }else {
+            updated = false;
+        }
+        return updated; // Actualización exitosa
     }
 
     /**
@@ -55,7 +78,7 @@ public class Iniciativa implements CRUD< Actividad, String> {
      * @param actividad : la actividad que vamos a eliminar
      * @return : si se a eliminado o no correctamente
      */
-    @Override
+
     public boolean remove(Actividad actividad) {
         boolean eliminado = false;
         if (actividades.remove(actividad)) {
@@ -69,7 +92,7 @@ public class Iniciativa implements CRUD< Actividad, String> {
      * @param actividad : la actividad que queremos ver
      * @return : toString de la actividad que queremos mostrar
      */
-    @Override
+
     public String mostrar(Actividad actividad) { return actividad.toString(); }
 
     /**

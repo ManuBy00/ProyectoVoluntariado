@@ -7,6 +7,16 @@ import Utils.Utilidades;
 import java.util.HashSet;
 
 public class IniciativaView {
+    public static final String ANSI_RESET = "\u001B[0m";   // Resetea el color
+    public static final String ANSI_BLACK = "\u001B[30m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_PURPLE = "\u001B[35m";
+    public static final String ANSI_CYAN = "\u001B[36m";
+    public static final String ANSI_WHITE = "\u001B[37m";
+    public static final String ANSI_MAGENTA = "\u001B[35m";  // Magenta
 
     // Devuelve array de iniciativas
     public static Iniciativa pedirDatosIniciativa() {
@@ -19,25 +29,42 @@ public class IniciativaView {
     public static int MenuIniciativas() {
         int opcion;
 
-        UsuariosView.mostrarMensaje("\n1. Crear iniciativa");
-        UsuariosView.mostrarMensaje("2. Eliminar iniciativa");
-        UsuariosView.mostrarMensaje("3. Modificar iniciativa");
-        UsuariosView.mostrarMensaje("4. Buscar iniciativa");
-        UsuariosView.mostrarMensaje("5. Ver mis iniciativas");
-        UsuariosView.mostrarMensaje("6. Volver");
-        opcion = Utilidades.pideEntero("Elige una opcion: ");
+        // Encabezado con color y estilo
+        UsuariosView.mostrarMensaje(ANSI_BLUE + "\n=========================" + ANSI_RESET);
+        UsuariosView.mostrarMensaje(ANSI_YELLOW + " *** Gestión de Iniciativas ***" + ANSI_RESET);
+        UsuariosView.mostrarMensaje(ANSI_BLUE + "=========================" + ANSI_RESET);
+
+        // Opciones con iconos y colores
+        UsuariosView.mostrarMensaje(ANSI_GREEN + "1. " + "➕ Crear iniciativa" + ANSI_RESET);
+        UsuariosView.mostrarMensaje(ANSI_RED + "2. " + "🗑️ Eliminar iniciativa" + ANSI_RESET);
+        UsuariosView.mostrarMensaje(ANSI_PURPLE + "3. " + "✏️ Modificar iniciativa" + ANSI_RESET);
+        UsuariosView.mostrarMensaje(ANSI_CYAN + "4. " + "🔍 Buscar iniciativa" + ANSI_RESET);
+        UsuariosView.mostrarMensaje(ANSI_BLUE + "5. " + "📋 Ver mis iniciativas" + ANSI_RESET);
+        UsuariosView.mostrarMensaje(ANSI_YELLOW + "6. " + "↩️ Volver" + ANSI_RESET);
+
+        // Solicitar opción
+        opcion = Utilidades.pideEntero(ANSI_BLUE + "Elige una opción: " + ANSI_RESET);
         return opcion;
     }
 
+
     // Menú de gestión de iniciativas
     public static int mostrarMenuActividades() {
-        UsuariosView.mostrarMensaje("\n1. Crear actividad");
-        UsuariosView.mostrarMensaje("2. Eliminar actividad");
-        UsuariosView.mostrarMensaje("3. Modificar actividad");
-        UsuariosView.mostrarMensaje("4. Asignar voluntarios a una actividad");
-        UsuariosView.mostrarMensaje("5. Mostrar iniciativas y actividades");
-        UsuariosView.mostrarMensaje("6. Volver");
-        return Utilidades.pideEntero("Elige una opción:");
+        // Encabezado con color y estilo
+        UsuariosView.mostrarMensaje(ANSI_BLUE + "\n=========================" + ANSI_RESET);
+        UsuariosView.mostrarMensaje(ANSI_YELLOW + " *** Gestión de Actividades ***" + ANSI_RESET);
+        UsuariosView.mostrarMensaje(ANSI_BLUE + "=========================" + ANSI_RESET);
+
+        // Opciones con iconos y colores
+        UsuariosView.mostrarMensaje(ANSI_GREEN + "1. " + "➕ Crear actividad" + ANSI_RESET);
+        UsuariosView.mostrarMensaje(ANSI_RED + "2. " + "🗑️ Eliminar actividad" + ANSI_RESET);
+        UsuariosView.mostrarMensaje(ANSI_PURPLE + "3. " + "✏️ Modificar actividad" + ANSI_RESET);
+        UsuariosView.mostrarMensaje(ANSI_CYAN + "4. " + "👥 Asignar voluntarios" + ANSI_RESET);
+        UsuariosView.mostrarMensaje(ANSI_BLUE + "5. " + "📋 Mostrar iniciativas y actividades" + ANSI_RESET);
+        UsuariosView.mostrarMensaje(ANSI_YELLOW + "6. " + "↩️ Volver" + ANSI_RESET);
+
+        // Solicitar opción
+        return Utilidades.pideEntero(ANSI_BLUE + "Elige una opción: " + ANSI_RESET);
     }
 
     public static void imprimirMisIniciativas(){
