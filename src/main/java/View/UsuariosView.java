@@ -1,71 +1,119 @@
 package View;
 
-import Model.Creador;
-import Model.ListaUsuarios;
-import Model.Usuario;
-import Model.Voluntario;
+import Model.*;
 import Utils.Utilidades;
 
 import java.util.HashSet;
 
+
 public class UsuariosView {
+    // Códigos de colores ANSI
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_BLACK = "\u001B[30m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_PURPLE = "\u001B[35m";
+    public static final String ANSI_CYAN = "\u001B[36m";
+    public static final String ANSI_WHITE = "\u001B[37m";
 
     /**
-     * Muestra un menu inicial al usuario para que eliga una opcion
+     * Muestra un menú inicial al usuario para que elija una opción.
      *
-     * @return devuelve un entero con la opcion seleccionada
+     * @return devuelve un entero con la opción seleccionada.
      */
     public static int mostrarMenuInicial() {
         int opcion;
         do {
-            mostrarMensaje("*** VOLUNTAPP ***");
-            mostrarMensaje("1. Iniciar sesión como creador");
-            mostrarMensaje("2. Iniciar sesión como voluntario");
-            mostrarMensaje("3. Registrar usuario");
-            mostrarMensaje("4. Salir");
+            mostrarMensaje("\n" + ANSI_CYAN + "*************************************************" + ANSI_RESET);
+            mostrarMensaje(ANSI_YELLOW + "                *** VOLUNTAPP ***                " + ANSI_RESET);
+            mostrarMensaje(ANSI_CYAN + "*************************************************" + ANSI_RESET);
+            mostrarMensaje(ANSI_GREEN + "1. \uD83D\uDD11 Iniciar sesión como creador" + ANSI_RESET);
+            mostrarMensaje(ANSI_GREEN + "2. \uD83D\uDD11 Iniciar sesión como voluntario" + ANSI_RESET);
+            mostrarMensaje(ANSI_GREEN + "3. \uD83D\uDCDD Registrar usuario" + ANSI_RESET);
+            mostrarMensaje(ANSI_RED + "4. ❌ Salir" + ANSI_RESET);
+            mostrarMensaje(ANSI_CYAN + "*************************************************" + ANSI_RESET);
 
-            opcion = Utilidades.pideEntero("");
+            opcion = Utilidades.pideEntero("Seleccione una opción: ");
             if (opcion < 1 || opcion > 4) {
-                mostrarMensaje("Opción no válida. Inténtelo de nuevo.");
+                mostrarMensaje(ANSI_RED + "❌ Opción no válida. Inténtelo de nuevo." + ANSI_RESET);
             }
         } while (opcion < 1 || opcion > 4);
         return opcion;
     }
 
-    /**
-     * Muestra un menu al Voluntaario para que eliga una opcion
-     *
-     * @return devuelve un entero con la opcion seleccionada
-     */
-    public static int mostrarMenuVoluntario() {
+    public static int mostrarMenuAjustesUsuario() {
         int opcion;
         do {
-            mostrarMensaje("1. Ver perfil");
-            mostrarMensaje("2. Ver mis actividades");
-            mostrarMensaje("3. Cambiar estado actividad");
-            mostrarMensaje("4. Actualizar POR IMPLEMENTAR");
-            mostrarMensaje("5. Comentar actividad");
-            mostrarMensaje("6. Salir");
-            opcion = Utilidades.pideEntero("Seleccione una de las siguientes opciones");
-        } while (opcion < 1 || opcion > 6);
+            mostrarMensaje("\n" + ANSI_BLUE + "**********************************************" + ANSI_RESET);
+            mostrarMensaje(ANSI_PURPLE + "              *** Ajustes usuario ***        " + ANSI_RESET);
+            mostrarMensaje(ANSI_BLUE + "**********************************************" + ANSI_RESET);
+            mostrarMensaje(ANSI_GREEN + "1. \uD83D\uDD11 Cambiar credenciales" + ANSI_RESET);
+            mostrarMensaje(ANSI_GREEN + "2. ❌ Eliminar usuario" + ANSI_RESET);
+            mostrarMensaje(ANSI_YELLOW + "3. \uD83D\uDD19 Volver al menú principal" + ANSI_RESET);
+            mostrarMensaje(ANSI_BLUE + "**********************************************" + ANSI_RESET);
+
+            opcion = Utilidades.pideEntero("Seleccione una opción: ");
+            if (opcion < 1 || opcion > 3) {
+                mostrarMensaje(ANSI_RED + "❌ Opción no válida. Inténtelo de nuevo." + ANSI_RESET);
+            }
+        } while (opcion < 1 || opcion > 3);
         return opcion;
     }
 
     /**
-     * Muestra un menu al usuario para que eliga una opcion EXCLUSIVO DE CREADOR
+     * Muestra un menú al Voluntario para que elija una opción.
      *
-     * @return devuelve un entero con la opcion seleccionada
+     * @return devuelve un entero con la opción seleccionada.
+     */
+    public static int mostrarMenuVoluntario() {
+        int opcion;
+
+        do {
+            System.out.println(ANSI_BLUE + "\n=================================================" + ANSI_RESET);
+            System.out.println(ANSI_YELLOW + "                 *** MENÚ VOLUNTARIO ***          " + ANSI_RESET);
+            System.out.println(ANSI_BLUE + "=================================================" + ANSI_RESET);
+            System.out.println(ANSI_GREEN + "1. \uD83D\uDC64 Ver mi perfil" + ANSI_RESET);
+            System.out.println(ANSI_GREEN + "2. \uD83D\uDCC5 Ver mis actividades" + ANSI_RESET);
+            System.out.println(ANSI_GREEN + "3. \uD83D\uDD04 Cambiar estado actividad" + ANSI_RESET);
+            System.out.println(ANSI_GREEN + "4. \uD83D\uDCAC Comentar actividad" + ANSI_RESET);
+            System.out.println(ANSI_GREEN + "5. ➕ Unirse a una actividad" + ANSI_RESET);
+            System.out.println(ANSI_YELLOW + "6. \uD83D\uDED2 Tienda de puntos (próximamente)" + ANSI_RESET);
+            System.out.println(ANSI_GREEN + "7. ⚙\uFE0F Ajustes de usuario" + ANSI_RESET);
+            System.out.println(ANSI_RED + "8. \uD83D\uDEAA Cerrar sesión" + ANSI_RESET);
+            System.out.println(ANSI_BLUE + "=================================================" + ANSI_RESET);
+
+            opcion = Utilidades.pideEntero("Seleccione una opción (1-8): ");
+            if (opcion < 1 || opcion > 8) {
+                System.out.println(ANSI_RED + "❌ Error: Ingrese un número entre 1 y 8." + ANSI_RESET);
+            }
+        } while (opcion < 1 || opcion > 8);
+
+        return opcion;
+    }
+
+
+    /**
+     * Muestra un menú exclusivo para el creador.
+     *
+     * @return devuelve un entero con la opción seleccionada.
      */
     public static int mostrarMenuCreador() {
         int opcion;
         do {
-            mostrarMensaje("1. Ver perfil");
-            mostrarMensaje("2. Gestión de iniciativas");
-            mostrarMensaje("3. Gestión de actividades");
-            mostrarMensaje("4. Salir");
+            mostrarMensaje("\n" + ANSI_BLUE + "**********************************************" + ANSI_RESET);
+            mostrarMensaje(ANSI_YELLOW + "                *** MENÚ CREADOR ***           " + ANSI_RESET);
+            mostrarMensaje(ANSI_BLUE + "**********************************************" + ANSI_RESET);
+            mostrarMensaje(ANSI_GREEN + "1. \uD83D\uDC64 Ver perfil" + ANSI_RESET);
+            mostrarMensaje(ANSI_GREEN + "2. \uD83D\uDCCB Gestión de iniciativas" + ANSI_RESET);
+            mostrarMensaje(ANSI_GREEN + "3. \uD83D\uDEE0 Gestión de actividades" + ANSI_RESET);
+            mostrarMensaje(ANSI_GREEN + "4. ⚙\uFE0F Ajustes de usuario" + ANSI_RESET);
+            mostrarMensaje(ANSI_RED + "5. \uD83D\uDEAA Salir" + ANSI_RESET);
+            mostrarMensaje(ANSI_BLUE + "**********************************************" + ANSI_RESET);
 
-            opcion = Utilidades.pideEntero("Seleccione una de las siguientes opciones");
-        } while (opcion < 1 || opcion > 4);
+            opcion = Utilidades.pideEntero("Seleccione una opción: ");
+        } while (opcion < 1 || opcion > 5);
         return opcion;
     }
 
@@ -162,7 +210,10 @@ public class UsuariosView {
         return opcion;
     }
 
-    public static void mostrarVoluntariosDisponibles(){
+    /**
+     * muestra la lista de todos los voluntarios
+     */
+    public static void mostrarTodosLosVoluntarios(){
         HashSet<Voluntario> listaVoluntarios = ListaUsuarios.getInstance().getVoluntarios();
         UsuariosView.mostrarMensaje("Voluntarios disponibles:\n");
         for (Voluntario v : listaVoluntarios){
@@ -171,13 +222,28 @@ public class UsuariosView {
     }
 
     /**
-     * Actualiza un usuario existente.
-     *
-     * @param usuario el usuario a actualizar
+     * Imprime una lista de voluntarios disponibles para añadir a una actividad.
+     * No muestra los que ya están asigandos a esta actividad
+     * @param actividad recibe la actividad en la que se va a añadir un voluntario
      */
-    public static void actualizarUsuario(Usuario usuario) {
-        usuario.setNombre(Utilidades.pideString("Nuevo nombre:"));
-        usuario.setCorreo(Utilidades.pideString("Nuevo correo:"));
-        usuario.setPassword(pidePassword());
+    public static boolean mostrarVoluntariosDisponibles(Actividad actividad) {
+        boolean disponible = true;
+        StringBuilder voluntariosDisponibles = new StringBuilder();
+        // Recorre todos los voluntarios y agrega los que no están asignados a la actividad
+        for (Voluntario v : ListaUsuarios.getInstance().getVoluntarios()) {
+            if (!actividad.getVoluntariosAsignados().contains(v)) {
+                voluntariosDisponibles.append(v.getNombre()).append(", ").append(v.getCorreo()).append(" | ");
+            }
+        }
+
+        // Si hay voluntarios disponibles, muestra la lista
+        if (!voluntariosDisponibles.isEmpty()) {
+            mostrarMensaje(voluntariosDisponibles.toString());
+        } else {
+            // Si no hay voluntarios disponibles, imprime "false"
+            disponible = false;
+            mostrarMensaje("No hay voluntarios disponibles.");
+        }
+        return disponible;
     }
 }

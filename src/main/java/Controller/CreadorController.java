@@ -11,6 +11,7 @@ import View.IniciativaView;
 import View.UsuariosView;
 import View.ViewActividades;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 
 /**
@@ -37,124 +38,68 @@ public class CreadorController {
             switch (opcion) {
                 case 1:
                     // Ver perfil del creador
-                    System.out.print("*** MI PERFIL ***");
-                    UsuariosView.mostrarMensaje(creador.toString());
+                    verPerfil();
                     break;
 
-                    case 2:
-                        int opcionIniciativa;
-                        do {
-                            opcionIniciativa = IniciativaView.MenuIniciativas();
-                            System.out.println("Opción seleccionada: " + opcionIniciativa);
-                            switch (opcionIniciativa) {
-                                case 1:
-                                    //crear y añadir iniciativa
-                                    try {
-                                        addIniciativa();
-                                    } catch (IniciativaYaExiste e) {
-                                        UsuariosView.mostrarMensaje(e.getMessage());
-                                    }
-                                    break;
-                                case 2:
-                                    //Eliminar iniciativa
-                                    try {
-                                        removeIniciativa();
-                                    } catch (IniciativaNoExiste e) {
-                                        View.UsuariosView.mostrarMensaje(e.getMessage());
-                                    }
-                                    break;
+                case 2:
+                    gestionarIniciativas();
+                    break;
 
-                                case 3:
-                                    //Modificar por implementar
-                                    break;
-
-                                case 4:
-                                    //Ver detalles de una iniciativa buscada por nombre
-                                    try {
-                                        mostrarIniciativa();
-                                    } catch (IniciativaNoExiste e) {
-                                        UsuariosView.mostrarMensaje(e.getMessage());
-                                    }
-                                    break;
-                                case 5:
-                                    //Ver todas las iniciativas del usuario con detalle.
-                                    mostrarIniciativasPropias();
-                                    break;
-                                case 6:
-                                    UsuariosView.mostrarMensaje("Volver al menú principal");
-                                    break;
-                            }
-                        }while (opcionIniciativa != 6);
-                        break;
                 case 3:
-                    int opcionActividad;
-                    do {
-                        opcionActividad = IniciativaView.mostrarMenuActividades();
-                        System.out.println("Opción seleccionada: " + opcionActividad);
-                        switch (opcionActividad) {
-                            case 1:
-                                // Añadir actividades a una iniciativa
-                                try {
-                                    addActividad();
-                                } catch (IniciativaNoExiste e) {
-                                    UsuariosView.mostrarMensaje(e.getMessage());
-                                }
-                                break;
-                            case 2:
-                                //eliminar una actividad
-                                try {
-                                    removeActividad();
-                                } catch (IniciativaNoExiste | ActividadNoExiste e) {
-                                    UsuariosView.mostrarMensaje(e.getMessage());
-                                }
-                                break;
-
-                            case 3:
-                                //Modificar por implementar
-                                break;
-
-                            case 4:
-                                //Asignar voluntarios a una actividad
-                                try {
-                                    asignarVoluntario();
-                                } catch (IniciativaNoExiste | UsuarioNoExiste | ActividadNoExiste e) {
-                                    UsuariosView.mostrarMensaje(e.getMessage());
-                                }
-                                break;
-                            case 5:
-                                //Ver todas las iniciativas del usuario con detalle.
-                                mostrarIniciativasPropias();
-                                break;
-                            case 6:
-                                UsuariosView.mostrarMensaje("Volver al menú principal");
-                                break;
-                        }
-                    }while (opcionActividad != 6);
+                    gestionarActividades();
                     break;
+
                 case 4:
+                    ajustesUsuario();
+                    break;
+
+                case 5:
                     // Cerrar sesión
                     System.out.println("Cerrando sesión...");
                     Sesion.getInstancia().logOut();
                     break;
+
                 default:
                     // Opción no válida
                     System.out.println("Opción no válida. Intente de nuevo.");
                     break;
             }
-        } while (opcion != 4);
+        } while (opcion != 5);
+    }
+
+    public void verPerfil(){
+        System.out.print("*** MI PERFIL ***");
+        ListaUsuarios.getInstance().mostrar(creador);
     }
 
     /**
      * Crea una iniciativa y la añade a la lista
-     * @throws IniciativaYaExiste si existe en la lista una iniciativa con el mismo nombre
      */
     public void addIniciativa() throws IniciativaYaExiste {
         ListaIniciativas lista = ListaIniciativas.getInstance();
         Iniciativa nuevaIniciativa = IniciativaView.pedirDatosIniciativa();
-        if (lista.addIniciativa(nuevaIniciativa)){
+        try {
+            lista.add(nuevaIniciativa);
             UsuariosView.mostrarMensaje("La iniciativa se ha creado correctamente");
-        }else{
-            throw new IniciativaYaExiste("El nombre introducido ya existe.");
+        }catch (IniciativaYaExiste e){
+            UsuariosView.mostrarMensaje(e.getMessage());
+        }
+    }
+
+    /**
+     * Pide los datos para actualizar y llama al metodo update de ListaIniciativas.
+     */
+    public void updateIniciativa() {
+            // Pedir datos al usuario
+            String nombreIniciativa = Utilidades.pideString("Introduce el nombre de la iniciativa:");
+            Iniciativa iniciativa= ListaIniciativas.getInstance().encontrarIniciativa(nombreIniciativa);
+
+            //Actualizamos los datos llamando al metodo updateIniciativa de la clase ListaIniciativas.
+        try {
+            ListaIniciativas.getInstance().update(iniciativa);
+            UsuariosView.mostrarMensaje("La iniciativa ha sido actualizada correctamente.");
+        } catch (IniciativaNoExiste e) {
+            UsuariosView.mostrarMensaje(e.getMessage());
         }
     }
 
@@ -166,11 +111,12 @@ public class CreadorController {
         ListaIniciativas lista = ListaIniciativas.getInstance();
         String nombreIniciativa = Utilidades.pideString("Introduce el nombre de la iniciativa que quieres eliminar");
         Iniciativa iniciativaBorrar = lista.encontrarIniciativa(nombreIniciativa);
-        if (lista.removeIniciativa(iniciativaBorrar)){
-            UsuariosView.mostrarMensaje("Iniciativa eliminada.");
-        }else {
-            throw new IniciativaNoExiste("La iniciativa introducida no existe");
+        try{
+            lista.remove(iniciativaBorrar);
+        }catch (IniciativaNoExiste e){
+            UsuariosView.mostrarMensaje(e.getMessage());
         }
+
     }
 
     public void mostrarIniciativasPropias(){
@@ -178,7 +124,7 @@ public class CreadorController {
         HashSet<Iniciativa> misIniciativas = lista.obtenerIniciativasPorCreador(Sesion.getInstancia().getUsuarioIniciado().getCorreo());
         UsuariosView.mostrarMensaje("*** INICIATIVAS DE " + creador.getNombre().toUpperCase() + " ***");
         for (Iniciativa i : misIniciativas){
-            UsuariosView.mostrarMensaje(i.toString());
+            ListaIniciativas.getInstance().mostrar(i);
             UsuariosView.mostrarMensaje("-------------------------------");
         }
     }
@@ -190,7 +136,7 @@ public class CreadorController {
     public void addActividad() throws IniciativaNoExiste {
         IniciativaView.imprimirMisIniciativas();
         String nombreIniciativa = Utilidades.pideString("Introduce el nombre de la iniciativa a la que quieres añadir una actividad");
-        Iniciativa iniciativa = creador.encontrarIniciativaPropia(nombreIniciativa); //el metodo encontrarIniciativaPropia busca una iniciativa por nombre en la lista de iniciativas del creador
+        Iniciativa iniciativa = creador.encontrarIniciativaPropia(nombreIniciativa);
         if (iniciativa == null){
             throw new IniciativaNoExiste("La iniciativa introducida no existe \n");
         }
@@ -203,11 +149,37 @@ public class CreadorController {
         }
     }
 
+    public void updateActividad() throws UsuarioNoExiste, ActividadNoExiste, IniciativaNoExiste{
+        // Mostramos las iniciativas del creador
+        IniciativaView.imprimirMisIniciativas();
+
+        String nombreIniciativa = Utilidades.pideString("Introduce el nombre de la iniciativa:");
+        String nombreActividad = Utilidades.pideString("Introduce el nombre de la actividad que quieres actualizar:");
+
+        // Pedimos los nuevos datos
+        String nuevaDescripcion = Utilidades.pideString("Introduce la nueva descripción:");
+        LocalDate nuevaFechaInicio = Utilidades.pideFecha("Introduce la nueva fecha de inicio (yyyy-MM-dd):");
+        LocalDate nuevaFechaFin = Utilidades.pideFecha("Introduce la nueva fecha de fin (yyyy-MM-dd):");
+        String correoEncargado = Utilidades.pideString("Introduce el correo del nuevo voluntario encargado:");
+
+        Voluntario nuevoEncargado = ListaUsuarios.getInstance().encontrarVoluntario(correoEncargado);
+        if (nuevoEncargado == null) {
+           throw new UsuarioNoExiste("El encargado introducido no existe");
+        }
+
+        // Llamamos al metodo de ListaIniciativas
+        ListaIniciativas.getInstance().updateActividad(nombreIniciativa, nombreActividad, nuevaDescripcion, nuevaFechaInicio, nuevaFechaFin, nuevoEncargado);
+        UsuariosView.mostrarMensaje("✅ Actividad actualizada correctamente.");
+
+    }
+
+
 
     /**
      * Pide una iniciativa, muestra sus actividades y borra la actividad introducida por el usuario
      * @throws IniciativaNoExiste si no se encuentra una iniciativa con el nombre introducido
-     * @throws ActividadNoExiste si no se encuntra una actividad con el nombre introducido
+     * @throws ActividadNoExiste si no se encuentra una actividad con el nombre introducido
+     * @throws IniciativaNoExiste si no se encuentra una iniciativa con el nombre introducido
      */
     public void removeActividad() throws IniciativaNoExiste, ActividadNoExiste{
         IniciativaView.imprimirMisIniciativas();
@@ -268,18 +240,134 @@ public class CreadorController {
         }
 
         //enseñamos los voluntarios disponibles
-        UsuariosView.mostrarVoluntariosDisponibles();
-        //pedimos qué usuario quiere asignar
-        String correo = Utilidades.pideString("Introduce el correo del voluntario que quieres asignar.");
-        Voluntario voluntarioAsignar = ListaUsuarios.getInstance().encontrarVoluntario(correo);
-
-        if (voluntarioAsignar == null){
-            throw new UsuarioNoExiste("El voluntario introducido no existe");
+        if (UsuariosView.mostrarVoluntariosDisponibles(actividad)){
+            //pedimos qué usuario quiere asignar
+            String correo = Utilidades.pideString("Introduce el correo del voluntario que quieres asignar.");
+            Voluntario voluntarioAsignar = ListaUsuarios.getInstance().encontrarVoluntario(correo);
+            if (voluntarioAsignar == null){
+                throw new UsuarioNoExiste("El voluntario introducido no existe");
+            }else{
+                UsuariosView.mostrarMensaje("El voluntario " + voluntarioAsignar.getNombre() + " ha sido asignado a " + iniciativa.getNombre());
+                actividad.getVoluntariosAsignados().add(voluntarioAsignar); //Añadimos actividad a la lista de actividades de voluntarios
+                voluntarioAsignar.getActividadesAsignadas().add(actividad); //Asignamos voluntario a la lista de voluntarios de actividades
+            }
+        }else {
+            UsuariosView.mostrarMensaje("Voliendo al menú...");
         }
+    }
 
-        actividad.getVoluntariosAsignados().add(voluntarioAsignar); //Añadimos actividad a la lista de actividades de voluntarios
+    /**
+     * Menú y opciones relacionados con las iniciativas
+     */
+    public void gestionarIniciativas(){
+        int opcionIniciativa;
+        do {
+            opcionIniciativa = IniciativaView.MenuIniciativas();
+            System.out.println("Opción seleccionada: " + opcionIniciativa);
+            switch (opcionIniciativa) {
+                case 1:
+                    //crear y añadir iniciativa
+                    try {
+                        addIniciativa();
+                    } catch (IniciativaYaExiste e) {
+                        UsuariosView.mostrarMensaje(e.getMessage());
+                    }
+                    break;
+                case 2:
+                    //Eliminar iniciativa
+                    removeIniciativa();
+                    break;
 
-        voluntarioAsignar.getActividadesAsignadas().add(actividad); //Asignamos voluntario a la lista de voluntarios de actividades
+                case 3:
+                    //Modificar por implementar
+                    updateIniciativa();
+                    break;
 
+                case 4:
+                    //Ver detalles de una iniciativa buscada por nombre
+                    try {
+                        mostrarIniciativa();
+                    } catch (IniciativaNoExiste e) {
+                        UsuariosView.mostrarMensaje(e.getMessage());
+                    }
+                    break;
+                case 5:
+                    //Ver todas las iniciativas del usuario con detalle.
+                    mostrarIniciativasPropias();
+                    break;
+                case 6:
+                    UsuariosView.mostrarMensaje("Volver al menú principal");
+                    break;
+            }
+        }while (opcionIniciativa != 6);
+    }
+
+    /**
+     * Menú y switch de las opciones relacionadas con actividades.
+     */
+    public void gestionarActividades(){
+        int opcionActividad;
+        do {
+            opcionActividad = IniciativaView.mostrarMenuActividades();
+            System.out.println("Opción seleccionada: " + opcionActividad);
+            switch (opcionActividad) {
+                case 1:
+                    // Añadir actividades a una iniciativa
+                    try {
+                        addActividad();
+                    }catch (IniciativaNoExiste e){
+                        UsuariosView.mostrarMensaje(e.getMessage());
+                    }
+
+                    break;
+                case 2:
+                    //eliminar una actividad
+                    try {
+                        removeActividad();
+                    } catch (IniciativaNoExiste | ActividadNoExiste e) {
+                        UsuariosView.mostrarMensaje(e.getMessage());
+                    }
+                    break;
+
+                case 3:
+                    //Modificar por implementar
+                    updateActividad();
+                    break;
+
+                case 4:
+                    //Asignar voluntarios a una actividad
+                    try {
+                        asignarVoluntario();
+                    } catch (IniciativaNoExiste | UsuarioNoExiste | ActividadNoExiste e) {
+                        UsuariosView.mostrarMensaje(e.getMessage());
+                    }
+                    break;
+                case 5:
+                    //Ver todas las iniciativas del usuario con detalle.
+                    mostrarIniciativasPropias();
+                    break;
+                case 6:
+                    UsuariosView.mostrarMensaje("Volver al menú principal");
+                    break;
+            }
+        }while (opcionActividad != 6);
+    }
+
+    public void ajustesUsuario(){
+        int opcion;
+        do {
+            opcion=UsuariosView.mostrarMenuAjustesUsuario();
+            switch (opcion){
+                case 1:
+                    ListaUsuarios.getInstance().update(creador);
+                    break;
+                case 2:
+                    ListaUsuarios.getInstance().remove(creador);
+                    UsuariosView.mostrarMensaje("Usuario eliminado. Saliendo de la aplicación...");
+                    break;
+                case 3:
+                    break;
+            }
+        }while (opcion !=3);
     }
 }

@@ -2,6 +2,10 @@ package Model;
 
 import Exceptions.UsuarioNoExiste;
 import Exceptions.UsuarioYaExiste;
+import Utils.Sesion;
+import Utils.Utilidades;
+import View.UsuariosView;
+import View.ViewActividades;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -45,7 +49,7 @@ public class ListaUsuarios implements CRUD<Usuario, String>{
      * @throws UsuarioYaExiste Si el correo ya está registrado.
      */
     @Override
-    public boolean add(Usuario nuevoUsuario) throws UsuarioYaExiste {
+    public void add(Usuario nuevoUsuario) throws UsuarioYaExiste {
         if (nuevoUsuario instanceof Creador) {
             if (!creadores.add((Creador) nuevoUsuario)) {
                 throw new UsuarioYaExiste("El correo introducido ya está registrado como creador.");
@@ -55,39 +59,29 @@ public class ListaUsuarios implements CRUD<Usuario, String>{
                 throw new UsuarioYaExiste("El correo introducido ya está registrado como voluntario.");
             }
         }
-
-        return true;
     }
 
-    /** *PENDIENTE*
-     * Actualiza un usuario existente (PENDIENTE DE IMPLEMENTAR).
-     * @param usuarioModificado Usuario con datos actualizados.
-     * @return true siempre (debería validar cambios).
-     */
-    @Override
-    public boolean update(Usuario usuarioModificado) {
-    return true;
-    }
 
     /**
      * Elimina un usuario de la lista de usuarios
      * @param usuario
-     * @return
+
      * @throws UsuarioNoExiste
      */
     @Override
-    public boolean remove(Usuario usuario) throws UsuarioNoExiste {
+    public void remove(Usuario usuario) throws UsuarioNoExiste {
         if (usuario instanceof Creador) {
-            if (!creadores.remove((Creador) usuario)) {
-                throw new UsuarioNoExiste("Error, el usuario introducido no existe como creador.");
-            }
+            creadores.remove((Creador) usuario);
         } else {
-            if (!voluntarios.remove((Voluntario) usuario)) {
-                throw new UsuarioNoExiste("Error, el usuario introducido no existe como voluntario.");
-            }
+            voluntarios.remove((Voluntario) usuario);
         }
+    }
 
-        return true;
+    public void update(Usuario usuario){
+        String nuevoNombre = Utilidades.pideString("Introduce el nuevo nombre");
+        usuario.setNombre(nuevoNombre); // Actualizamos el nombre
+        String nuevaContrasena = UsuariosView.pidePassword();
+        usuario.setPassword(nuevaContrasena); // Actualizamos la contraseña
     }
 
     /**
@@ -96,31 +90,9 @@ public class ListaUsuarios implements CRUD<Usuario, String>{
      * @return string detalles del usuario.
      */
     @Override
-    public String mostrar(Usuario usuario) {
-        return usuario.toString();
-    }
+    public void mostrar(Usuario usuario) {
+        UsuariosView.mostrarMensaje(usuario.toString());
 
-    /**
-     * Devuelve una string de la lista completa de voluntarios.
-     */
-
-    public String mostrarVoluntarios() {
-        String result = "";
-        for (Voluntario v : voluntarios) {
-            result += v.toString();
-        }
-        return result;
-    }
-
-    /**
-     * Devuelve una string de la lista completa de creadores.
-     */
-    public String mostrarCreadores() {
-        String result = "";
-        for (Creador c : creadores) {
-            result += c.toString();
-        }
-        return result;
     }
 
 

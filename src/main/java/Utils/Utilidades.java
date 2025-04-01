@@ -1,5 +1,8 @@
 package Utils;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 public class Utilidades {
@@ -50,15 +53,30 @@ public class Utilidades {
         return num;
     }
 
-    public static boolean validarPassword(String password) {
-        return password.length() >= 8 && password.matches(".*[A-Z].*");
-    }
 
     public static boolean validarCorreo(String correo){
         String regex = "[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}";
         return correo.matches(regex);
     }
 
+    public static LocalDate pideFecha(String mensaje) {
+        while (true) {
+            String fecha = Utilidades.pideString(mensaje);
+            DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            try {
+                return LocalDate.parse(fecha, formatoFecha);
+            } catch (DateTimeParseException e) {
+                System.out.println("Formato incorrecto. Usa el formato dd/MM/yyyy.");
+            }
+        }
+    }
 
+    public static boolean validarFechaInicioFin(LocalDate fechaInicio, LocalDate fechaFin) {
+        boolean esValido = true;
+        if (fechaInicio.isAfter(fechaFin)) {
+            esValido = false;
+        }
+        return esValido;
+    }
 }
 

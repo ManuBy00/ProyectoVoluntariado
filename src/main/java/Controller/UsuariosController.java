@@ -46,24 +46,10 @@ public class UsuariosController {
         }
     }
 
-    /**
-     * Método para actualizar un usuario existente.
+    public void updatePassword(){
 
-    public void updateUsuario() {
-        UsuariosView.mostrarMensaje("*** ACTUALIZAR USUARIO ***");
-        String correo = Utilidades.pideString("Correo:");
-        String password = Utilidades.pideString("Contraseña:");
-
-        Usuario usuarioLogeado = misUsuarios.validarLogin(correo, password);
-
-        if (usuarioLogeado == null) {
-            System.out.println("No existe ningún usuario con estas credenciales.");
-        } else {
-            UsuariosView.actualizarUsuario(usuarioLogeado);
-            UsuariosView.mostrarMensaje("Usuario actualizado.");
-        }
     }
-     */
+
 
     /**
      * Método para eliminar un usuario existente.

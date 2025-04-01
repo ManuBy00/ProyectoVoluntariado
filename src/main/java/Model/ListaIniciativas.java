@@ -1,9 +1,14 @@
 package Model;
-import View.IniciativaView;
-import java.util.HashSet;
-import static View.IniciativaView.mostrarMenuActividades;
+import Exceptions.IniciativaNoExiste;
+import Exceptions.IniciativaYaExiste;
+import Utils.Utilidades;
+import View.UsuariosView;
 
-public class ListaIniciativas {
+import java.time.LocalDate;
+import java.util.HashSet;
+
+
+public class ListaIniciativas implements CRUD<Iniciativa, String>{
     private HashSet<Iniciativa> iniciativasList; // Lista que almacena todas las iniciativas existentes.
     private static ListaIniciativas instance;
 
@@ -26,87 +31,62 @@ public class ListaIniciativas {
     /**
      * Metodo para añadir una iniciativa a la lista.
      */
-    public boolean addIniciativa(Iniciativa iniciativa) {
-        return iniciativasList.add(iniciativa);
-    }
-
-    /**
-     * Método para eliminar una iniciativa de la lista.
-     */
-    public boolean removeIniciativa(Iniciativa iniciativa) {
-        return iniciativasList.remove(iniciativa);
-    }
-
-    /**
-     * Metodo para actualizar una actividad dentro de una iniciativa existente.
-     */
-    public void actualizarActividad() {
-        Iniciativa iniciativa = IniciativaView.pedirDatosIniciativa();
-
-        int opcion = mostrarMenuActividades();
-
-        switch (opcion) {
-            case 1:
-                actualizarActividad(iniciativa, "Actividad 1", "Descripción actualizada de la actividad 1");
-                break;
-            default:
-                System.out.println("Opción inválida.");
+    @Override
+    public void add(Iniciativa iniciativa) {
+        if (!iniciativasList.add(iniciativa)){
+            throw new IniciativaYaExiste("Ya existe una iniciativa con el nombre introducido");
         }
     }
 
-
-    /**
-     * Metodo privado para actualizar una actividad en una iniciativa dada.
-     * @param iniciativa La iniciativa que contiene la actividad.
-     * @param nombre Nombre de la actividad a actualizar.
-     * @param descripcion Nueva descripción de la actividad.
-     */
-    private void actualizarActividad(Iniciativa iniciativa, String nombre, String descripcion) {
-        Actividad actividad = iniciativa.encontrarActividad(nombre);
-        if (actividad != null) {
-            actividad.setDescripcion(descripcion);
-            if (iniciativa.update(actividad)) {
-                System.out.println("Actividad actualizada exitosamente.");
-            } else {
-                System.out.println("No se pudo actualizar la actividad.");
-            }
-        } else {
-            System.out.println("No se encontró la actividad.");
+    @Override
+    public void update(Iniciativa iniciativa) throws IniciativaNoExiste{
+        if (iniciativa == null){
+            throw new IniciativaNoExiste("La iniciativa introducida no existe.");
         }
-    }
+        String nuevoNombre = Utilidades.pideString("Introduce el nuevo nombre de la iniciativa:");
+        String nuevaDescripcion = Utilidades.pideString("Introduce la nueva descripción:");
 
 
-
-    /**
-     * Metodo privado para eliminar una actividad específica de una iniciativa.
-     * @param iniciativa La iniciativa que contiene la actividad.
-     * @param nombre Nombre de la actividad a eliminar.
-     */
-    private void eliminarActividad(Iniciativa iniciativa, String nombre) {
-        Actividad actividad = iniciativa.encontrarActividad(nombre);
-        if (actividad != null) {
-            if (iniciativa.remove(actividad)) {
-                System.out.println("Actividad eliminada exitosamente.");
-            } else {
-                System.out.println("No se pudo eliminar la actividad.");
-            }
-        } else {
-            System.out.println("No se encontró la actividad.");
-        }
+        iniciativa.setNombre(nuevoNombre);
+        iniciativa.setDescripcion(nuevaDescripcion);
     }
 
     /**
-     * Metodo para mostrar la información de una iniciativa específica.
+     * Metodo para eliminar una iniciativa de la lista.
      */
-    public void mostrarIniciativa() {
-        Iniciativa iniciativa = IniciativaView.pedirDatosIniciativa();
+    @Override
+    public void remove(Iniciativa iniciativa) {
+        if (!iniciativasList.remove(iniciativa)){
+            throw new IniciativaNoExiste("La iniciativa introducida no existe");
+        }
+
+    }
+
+    @Override
+    public void mostrar(Iniciativa iniciativa){
+        UsuariosView.mostrarMensaje(iniciativa.toString());
+    }
+
+
+    /**
+     * Pide seleccionar la iniciativa de la actividad que se quiere actualizar
+     * @param nombreIniciativa
+     * @param nombreActividad
+     * @param nuevaDescripcion
+     * @param nuevaFechaInicio
+     * @param nuevaFechaFin
+     * @param nuevoEncargado
+     * @return el resultado de iniciativa.update
+     * @throws IniciativaNoExiste si no se encuentra una inciativa con el nombre introducido
+     */
+    public void updateActividad(String nombreIniciativa, String nombreActividad, String nuevaDescripcion, LocalDate nuevaFechaInicio, LocalDate nuevaFechaFin, Voluntario nuevoEncargado) throws IniciativaNoExiste{
+        Iniciativa iniciativa = encontrarIniciativa(nombreIniciativa);
 
         if (iniciativa == null) {
-            System.out.println("No se encontró la iniciativa. Intente de nuevo.");
-            return;
+            throw new IniciativaNoExiste("La iniciativa introducida no existe");
         }
 
-        System.out.println(iniciativa);
+        iniciativa.update(nombreActividad, nuevaDescripcion, nuevaFechaInicio, nuevaFechaFin, nuevoEncargado);
     }
 
     /**
@@ -124,20 +104,6 @@ public class ListaIniciativas {
         return iniciativaEncontrada;
     }
 
-
-    public String mostrarIniciativas() {
-        String result = "";
-        // Si la lista de iniciativas no está vacía, la recorremos
-        if (iniciativasList != null) {
-            for (Iniciativa i : iniciativasList) {
-                result += i.toString() + "\n----------------------";
-            }
-        } else {
-            result = "No hay iniciativas disponibles.";
-        }
-
-        return result;
-    }
 
     public HashSet<Iniciativa> obtenerIniciativasPorCreador(String correoCreador) {
         HashSet<Iniciativa> iniciativasDelCreador = new HashSet<>();

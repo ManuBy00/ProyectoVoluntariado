@@ -1,8 +1,6 @@
 import Controller.UsuariosController;
 import Exceptions.UsuarioNoExiste;
-import Model.Creador;
-import Model.ListaUsuarios;
-import Model.Voluntario;
+import Model.*;
 import View.UsuariosView;
 
 public class Test {
@@ -20,6 +18,8 @@ public class Test {
         l.add(pepe);
         l.add(jose);
         l.add(juan);
+
+
 
         do{
             opcion = UsuariosView.mostrarMenuInicial();
@@ -44,6 +44,7 @@ public class Test {
                 case 3:
                     lController.registrarUsuario();
                     break;
+
                 case 4:
                     UsuariosView.mostrarMensaje("Saliendo...");
                     break;

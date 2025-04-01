@@ -2,6 +2,8 @@ package Model;
 
 import java.util.HashSet;
 
+import static View.IniciativaView.*;
+
 public class Creador extends Usuario{
 
     private String ong;
@@ -36,7 +38,11 @@ public class Creador extends Usuario{
         return result;
     }
 
-
+    /**
+     * Devuelve una iniciativa a través de su nombre
+     * @param nombre criterio de búsqueda
+     * @return la iniciativa que coincida con el nombre introducido
+     */
     public Iniciativa encontrarIniciativaPropia(String nombre) {
         Iniciativa iniciativaEncontrada = null;
         for (Iniciativa i : getMisIniciativas()){
@@ -52,9 +58,9 @@ public class Creador extends Usuario{
     @Override
     public String toString() {
         return super.toString() +
-                "\n - ONG: " + ong +
-                "\n - Iniciativas: " + mostrarMisIniciativas() + "\n";
+                ANSI_RED + "\n=== Información de Creador ===" + ANSI_RESET +
+                ANSI_CYAN + "\n- ONG: " + ANSI_RESET + ong +  // Suponiendo que 'ong' es el nombre de la ONG del creador
+                ANSI_YELLOW + "\n- Iniciativas Creadas: " + ANSI_RESET + mostrarMisIniciativas() + "\n" +
+                ANSI_RED + "===============================" + ANSI_RESET;
     }
-
-
 }
