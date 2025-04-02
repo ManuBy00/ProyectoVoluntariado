@@ -77,4 +77,5 @@ public abstract class Usuario {
     public int hashCode() {
         return Objects.hashCode(correo);
     }
+
 }

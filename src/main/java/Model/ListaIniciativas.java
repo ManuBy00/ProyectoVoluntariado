@@ -5,6 +5,7 @@ import Utils.Utilidades;
 import View.UsuariosView;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 
@@ -116,6 +117,21 @@ public class ListaIniciativas implements CRUD<Iniciativa, String>{
         return iniciativasDelCreador;
     }
 
+    /**
+     * crea una lista y añade en ella las actividades que no están canceladas ni terminadas.
+     * @return arrayList de actividades sin termianr
+     */
+    public ArrayList<Actividad> getActividadesSinTerminar() {
+        ArrayList<Actividad> actividadesDisponibles = new ArrayList<>();
+        for (Iniciativa iniciativa : iniciativasList) {
+            for (Actividad actividad : iniciativa.getActividades()) {
+                if (!actividad.isFinalizada() && !actividad.isCancelada()) {
+                    actividadesDisponibles.add(actividad);
+                }
+            }
+        }
+        return actividadesDisponibles;
+    }
 
 
 }

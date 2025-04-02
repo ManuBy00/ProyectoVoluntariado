@@ -246,4 +246,23 @@ public class UsuariosView {
         }
         return disponible;
     }
+
+    public static int mostrarMenuTiendaPuntos() {
+        int opcion;
+        do {
+            mostrarMensaje("\n" + ANSI_BLUE + "**********************************************" + ANSI_RESET); // RESETEA EL COLOR
+            mostrarMensaje(ANSI_YELLOW + "              *** TIENDA DE PUNTOS ***       " + ANSI_RESET);
+            mostrarMensaje(ANSI_BLUE + "**********************************************" + ANSI_RESET);
+            mostrarMensaje(ANSI_GREEN + "1. \uD83D\uDCB0 Comprar puntos" + ANSI_RESET);
+            mostrarMensaje(ANSI_GREEN + "2. \uD83D\uDCB8 Canjear puntos" + ANSI_RESET);
+            mostrarMensaje(ANSI_RED + "3. ❌ Volver al menú principal" + ANSI_RESET);
+            mostrarMensaje(ANSI_BLUE + "**********************************************" + ANSI_RESET);
+
+            opcion = Utilidades.pideEntero("Seleccione una opción: ");
+        } while (opcion < 1 || opcion > 3);
+        return opcion;
+
+
+
+    }
 }

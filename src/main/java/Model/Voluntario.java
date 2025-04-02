@@ -27,6 +27,8 @@ public class Voluntario extends Usuario{
         this.puntos += puntos;
     }
 
+    public void restarPuntos(int puntos) { this.puntos -= puntos; }
+
     public ArrayList<Actividad> getActividadesAsignadas() {
         return actividadesAsignadas;
     }
@@ -38,7 +40,6 @@ public class Voluntario extends Usuario{
             index++;
         }
     }
-
 
     @Override
     public String toString() {

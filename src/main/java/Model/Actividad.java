@@ -132,4 +132,12 @@ public class Actividad {
                 "\n - estado: " + estado +
                 "\n - comentario: " + comentario;
     }
+
+    public boolean isCancelada() {
+        return estado == EstadoActividad.CANCELADA;
+    }
+
+    public boolean isFinalizada() {
+        return estado == EstadoActividad.FINALIZADA;
+    }
 }

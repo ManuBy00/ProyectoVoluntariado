@@ -50,25 +50,6 @@ public class UsuariosController {
 
     }
 
-
-    /**
-     * Método para eliminar un usuario existente.
-     *
-    public void eliminarUsuario() {
-        UsuariosView.mostrarMensaje("*** ELIMINAR USUARIO ***");
-        String correo = Utilidades.pideString("Correo:");
-        String password = Utilidades.pideString("Contraseña:");
-
-        Usuario usuarioLogeado = misUsuarios.validarLogin(correo, password);
-
-        if (usuarioLogeado == null) {
-            System.out.println("No existe ningún usuario con estas credenciales.");
-        } else {
-            misUsuarios.remove(usuarioLogeado);
-            UsuariosView.mostrarMensaje("Usuario eliminado.");
-        }
-    }
-        */
     /**
      * Método para iniciar sesión de un usuario.
      * @throws UsuarioNoExiste si no existe un usuario con las credenciales proporcionadas.
