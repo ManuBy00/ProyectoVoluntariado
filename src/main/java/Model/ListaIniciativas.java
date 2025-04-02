@@ -132,6 +132,4 @@ public class ListaIniciativas implements CRUD<Iniciativa, String>{
         }
         return actividadesDisponibles;
     }
-
-
 }

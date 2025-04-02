@@ -1,8 +1,11 @@
-/*
+
 package DataAccess;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+import java.io.File;
 
 public class XML {
     public static <T> boolean writeXML(T objeto, String fileName) {
@@ -43,4 +46,4 @@ public class XML {
         return result;
     }
 }
-*/
+
