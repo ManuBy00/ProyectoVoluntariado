@@ -1,12 +1,13 @@
 package Controller;
-import Model.Actividad;
-import Model.EstadoActividad;
-import Model.ListaUsuarios;
-import Model.Voluntario;
+import Exceptions.ActividadNoExiste;
+import Model.*;
 import Utils.Sesion;
 import Utils.Utilidades;
 import View.UsuariosView;
 import View.ViewActividades;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class VoluntarioController {
@@ -31,13 +32,114 @@ public class VoluntarioController {
                 case 2: verMisActividades(); break;
                 case 3: cambiarEstadoActividad(); break;
                 case 4: comentarActividad(); break;
-                case 5: //Unirse actividad
-                case 6: //Tienda de puntos
-                case 7: ajustesUsuario();
+
+                case 5:
+                    try {
+                        unirseActividad();
+                    }catch (ActividadNoExiste e) {
+                        UsuariosView.mostrarMensaje(e.getMessage());
+                    }
+                break;
+                case 6: tiendaPuntos(); break;
+                case 7: ajustesUsuario(); break;
                 case 8: System.out.println("Cerrando sesión..."); break;
                 default: System.out.println("Opción no válida.");
             }
         } while (opcion != 8);
+    }
+
+    /**
+     * Permite al voluntario unirse a una actividad.
+     * Este metodo muestra las actividades disponibles y permite al voluntario elegir una para unirse.
+     */
+
+    private void unirseActividad() {
+        //obtenemos la lista de actividades disponibles para el usuario
+        ArrayList<Actividad> actividadesDisponibles = getActividadesDisponibles();
+
+        //si no hay, se lanza excepción
+        if (actividadesDisponibles.isEmpty()) {
+            throw new ActividadNoExiste("No hay actividades disponibles");
+        }
+        int actividadElegida;
+        boolean opcionValida = true;
+        //mostramos lista en pantalla y le pedimos opción al usuario
+        do {
+            ViewActividades.mostrarActividadesDisponibles(actividadesDisponibles);
+            actividadElegida = Utilidades.pideEntero("Elige el número de la actividad para unirte:");
+            if (actividadElegida < 1 || actividadElegida > actividadesDisponibles.size()) {
+                UsuariosView.mostrarMensaje("Opción inválida.");
+                opcionValida = false;
+            }
+        }while (!opcionValida);
+
+
+        Actividad actividad = actividadesDisponibles.get(actividadElegida - 1);
+        voluntario.getActividadesAsignadas().add(actividad);
+        actividad.getVoluntariosAsignados().add(voluntario);
+        UsuariosView.mostrarMensaje("Te has unido a la actividad: " + actividad.getNombre());
+
+    }
+
+    /**
+     * Permite al voluntario acceder a la tienda de puntos.
+     * Este metodo muestra las opciones disponibles en la tienda de puntos.
+     */
+
+    private void tiendaPuntos() {
+        int opcion;
+        do {
+            opcion = UsuariosView.mostrarMenuTiendaPuntos();
+            switch (opcion) {
+                case 1: comprarProducto(); break;
+                case 2: verProductosDisponibles(); break;
+                case 3: System.out.println("Saliendo de la tienda..."); break;
+                default: System.out.println("Opción no válida.");
+            }
+        } while (opcion != 3);
+    }
+
+    private void comprarProducto() {
+        List<Producto> productos = ListaUsuarios.getInstance().getProductosDisponibles();
+
+        if (productos.isEmpty()) {
+            UsuariosView.mostrarMensaje("No hay productos disponibles en la tienda.");
+            return;
+        }
+
+        System.out.println("\n--- Productos Disponibles ---");
+        for (int i = 0; i < productos.size(); i++) {
+            System.out.println((i + 1) + ". " + productos.get(i) + " - " + productos.get(i).getPrecio() + " puntos");
+        }
+
+        int productoElegido = Utilidades.pideEntero("Elige el número del producto que deseas comprar:");
+
+        if (productoElegido < 1 || productoElegido > productos.size()) {
+            UsuariosView.mostrarMensaje("Opción inválida.");
+            return;
+        }
+
+        Producto producto = productos.get(productoElegido - 1);
+        if (voluntario.getPuntos() >= producto.getPrecio()) {
+            voluntario.restarPuntos((int) producto.getPrecio());
+            UsuariosView.mostrarMensaje("Has comprado: " + producto.getNombre());
+        } else {
+            UsuariosView.mostrarMensaje("No tienes suficientes puntos.");
+        }
+    }
+
+    private void verProductosDisponibles() {
+        List<Producto> productos = ListaUsuarios.getInstance().getProductosDisponibles();
+
+        if (productos.isEmpty()) {
+            UsuariosView.mostrarMensaje("No hay productos disponibles en la tienda.");
+            return;//lanzar excepción en vez de return
+        }
+
+        System.out.println("\n--- Productos Disponibles ---");
+        for (Producto producto : productos) {
+            System.out.println(producto.getNombre() + " - " + producto.getPrecio() + " puntos");
+        }
     }
 
 
@@ -54,8 +156,8 @@ public class VoluntarioController {
      */
     private void verMisActividades() {
         System.out.println("\n--- Mis Actividades ---");
+        int i = 1;
         for (Actividad actividad : voluntario.getActividadesAsignadas()) {
-            int i = 1;
             System.out.println(i + "." + actividad.toString());
             i++; // Aumenta el índice para la próxima actividad
         }
@@ -179,5 +281,21 @@ public class VoluntarioController {
                     break;
             }
         }while (opcion !=3);
+    }
+
+    /**
+     * Llama a la lista de actividades sin terminar y añade un nuevo filtro para no mostrar actividades
+     * en las que el usuario ya paticipa.
+     * @return lista de actividades disponibles para un usuario en concreto
+     */
+    public ArrayList<Actividad> getActividadesDisponibles() {
+        ArrayList<Actividad> actividadesDisponibles = ListaIniciativas.getInstance().getActividadesSinTerminar();
+        ArrayList<Actividad> actividadesDispUsuario = new ArrayList<>();
+        for (Actividad actividad : actividadesDisponibles) {
+            if (!actividad.getVoluntariosAsignados().contains((Voluntario) Sesion.getInstancia().getUsuarioIniciado())){
+                actividadesDispUsuario.add(actividad);
+            }
+        }
+        return actividadesDispUsuario;
     }
 }

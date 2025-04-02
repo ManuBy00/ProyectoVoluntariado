@@ -2,9 +2,11 @@ package View;
 
 import Exceptions.UsuarioNoExiste;
 import Model.*;
+import Utils.Sesion;
 import Utils.Utilidades;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 
 public class ViewActividades {
@@ -80,5 +82,13 @@ public class ViewActividades {
 
     // Separador visual con color
         UsuariosView.mostrarMensaje(ANSI_BLUE + "===========================" + ANSI_RESET);
+    }
+
+    public static void mostrarActividadesDisponibles(ArrayList<Actividad> actividadesDisponibles) {
+        System.out.println("\n--- Actividades Disponibles ---");
+        for (int i = 0; i < actividadesDisponibles.size(); i++) {
+            System.out.println((i + 1) + ". " + actividadesDisponibles.get(i));
+        }
+    }
 }
-}
+

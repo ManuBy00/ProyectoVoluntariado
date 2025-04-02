@@ -9,11 +9,14 @@ import View.ViewActividades;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 public class ListaUsuarios implements CRUD<Usuario, String>{
     private HashSet<Creador> creadores;
     private HashSet<Voluntario> voluntarios;
     private static ListaUsuarios instance;
+    private List<Actividad> actividadesDisponibles;
+    private List<Producto> productosDisponibles;
 
     /**
      * Constructor que inicializa la lista vacía.
@@ -152,6 +155,20 @@ public class ListaUsuarios implements CRUD<Usuario, String>{
             return usuarioValidado; // Solo devuelve el usuario si la contraseña y el correo coinciden
         }
         return null; // devuelve null si la contraseña es incorrecta
+    }
+
+
+
+    public void setActividadesDisponibles(List<Actividad> actividadesDisponibles) {
+        this.actividadesDisponibles = actividadesDisponibles;
+    }
+
+    public List<Producto> getProductosDisponibles() {
+        return productosDisponibles;
+    }
+
+    public void setProductosDisponibles(List<Producto> productosDisponibles) {
+        this.productosDisponibles = productosDisponibles;
     }
 }
 
