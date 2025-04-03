@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Usuarios>
+    <creadores>
+        <creador>
+            <nombre>Pepe</nombre>
+            <passwordHash>$2a$10$Te42.ffajNPFIVmnXsnp/eCnmxWh2N2Pukt8jAVXGyo7DZD3iQmiO</passwordHash>
+            <correo>pepe@gmail.com</correo>
+            <ong>ong</ong>
+        </creador>
+        <creador>
+            <nombre>Carlos</nombre>
+            <passwordHash>$2a$10$gWVrHGyA4JtPYhRD/491mOdmBw9l8ToG9Bk3z.LDpPP3AUlIPX0gq</passwordHash>
+            <correo>carlos@gmail.com</correo>
+            <ong>ong</ong>
+        </creador>
+    </creadores>
+    <voluntarios>
+        <voluntario>
+            <nombre>Juan</nombre>
+            <passwordHash>$2a$10$uCvjQWi0p5TBpxeJMzhysOmaJO4eK/CTSCgqwgvXKTYSJx2AWi1EG</passwordHash>
+            <correo>juan@gmail.com</correo>
+            <puntos>100</puntos>
+            <actividadesAsignadas>
+                <nombre>Limpiar</nombre>
+                <descripcion>asñdkfj</descripcion>
+                <fechaInicio>2020-09-12</fechaInicio>
+                <fechaFin>2025-09-12</fechaFin>
+                <voluntarioEncargado>Juan</voluntarioEncargado>
+                <estado>FINALIZADA</estado>
+                <comentario>kjh</comentario>
+                <voluntariosAsignados>Juan juan@gmail.com | </voluntariosAsignados>
+                <voluntariosAsignados>Jose | jose@gmail.com</voluntariosAsignados>
+            </actividadesAsignadas>
+        </voluntario>
+        <voluntario>
+            <nombre>Jose</nombre>
+            <passwordHash>$2a$10$h/EX4C.mDEnsff7bsCSdleVxGnaIBhNJXisdt.xE6./.6RHrnf.XK</passwordHash>
+            <correo>jose@gmail.com</correo>
+            <puntos>0</puntos>
+            <actividadesAsignadas>
+                <nombre>Limpiar</nombre>
+                <descripcion>asñdkfj</descripcion>
+                <fechaInicio>2020-09-12</fechaInicio>
+                <fechaFin>2025-09-12</fechaFin>
+                <voluntarioEncargado>Juan</voluntarioEncargado>
+                <estado>FINALIZADA</estado>
+                <comentario>kjh</comentario>
+                <voluntariosAsignados>Juan juan@gmail.com | </voluntariosAsignados>
+                <voluntariosAsignados>Jose | jose@gmail.com</voluntariosAsignados>
+            </actividadesAsignadas>
+        </voluntario>
+    </voluntarios>
+</Usuarios>

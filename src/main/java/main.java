@@ -71,6 +71,8 @@ public class main {
                     break;
 
                 case 4:  // Salir del programa
+                    XML.writeXML(ListaUsuarios.getInstance(), "usuarios.xml");
+                    XML.writeXML(ListaIniciativas.getInstance(), "Iniciativas.xml");
                     UsuariosView.mostrarMensaje("Saliendo...");
                     break;
 
