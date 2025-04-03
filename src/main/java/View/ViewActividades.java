@@ -41,9 +41,9 @@ public class ViewActividades {
         Voluntario encargado;
         encargado = asignarEncargado();
         String comentario = Utilidades.pideString("Introduce un comentario");
-        Actividad actividad = new Actividad(nombre, descripcion, fechaInicio, fechaFin, encargado, comentario);
+        Actividad actividad = new Actividad(nombre, descripcion, fechaInicio, fechaFin, encargado.getNombre(), comentario);
         encargado.getActividadesAsignadas().add(actividad); //le asignamos esta tarea al encargado.
-        actividad.getVoluntariosAsignados().add(encargado); //Asignamos al encargado como voluntario en la actividad.
+        actividad.getVoluntariosAsignados().add(encargado.getNombre() + " " + encargado.getCorreo() + " | "); //Asignamos al encargado como voluntario en la actividad.
         return actividad;
     }
 

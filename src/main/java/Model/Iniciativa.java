@@ -77,7 +77,7 @@ public class Iniciativa {
                 actividad.setFechaFin(nuevaFechaFin);
             }while (!Utilidades.validarFechaInicioFin(nuevaFechaInicio, nuevaFechaFin)); //validamos la fecha de inicio y fin
 
-            actividad.setVoluntarioEncargado(nuevoEncargado);
+            actividad.setVoluntarioEncargado(nuevoEncargado.getNombre());
         }else {
             updated = false;
         }
@@ -104,7 +104,6 @@ public class Iniciativa {
      * @return : toString de la actividad que queremos mostrar
      */
 
-    public String mostrar(Actividad actividad) { return actividad.toString(); }
 
     /**
      * Metodo que muestra el nombre de todas las actividades que hay en el ArrayList actividades

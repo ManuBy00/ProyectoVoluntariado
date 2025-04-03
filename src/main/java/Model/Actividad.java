@@ -22,15 +22,15 @@ public class Actividad {
     @XmlJavaTypeAdapter(LocalDateAdapter.class)
     private LocalDate fechaFin;
     @XmlElement
-    private Voluntario voluntarioEncargado;
+    private String voluntarioEncargado;
     @XmlElement
     private EstadoActividad estado;
     @XmlElement
     private String comentario;
     @XmlElement
-    private HashSet<Voluntario> voluntariosAsignados;
+    private HashSet<String> voluntariosAsignados;
 
-    public Actividad(String nombre, String descripcion, LocalDate fechaInicio, LocalDate fechaFin, Voluntario voluntarioEncargado, String comentario) {
+    public Actividad(String nombre, String descripcion, LocalDate fechaInicio, LocalDate fechaFin, String voluntarioEncargado, String comentario) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.fechaInicio = fechaInicio;
@@ -61,7 +61,7 @@ public class Actividad {
         return fechaFin;
     }
 
-    public Voluntario getVoluntarioEncargado() {
+    public String getVoluntarioEncargado() {
         return voluntarioEncargado;
     }
 
@@ -81,7 +81,7 @@ public class Actividad {
         this.nombre = nombre;
     }
 
-    public void setVoluntariosAsignados(HashSet<Voluntario> voluntariosAsignados) {
+    public void setVoluntariosAsignados(HashSet<String> voluntariosAsignados) {
         this.voluntariosAsignados = voluntariosAsignados;
     }
 
@@ -89,7 +89,7 @@ public class Actividad {
         this.comentario = comentario;
     }
 
-    public void setVoluntarioEncargado(Voluntario voluntarioEncargado) {
+    public void setVoluntarioEncargado(String voluntarioEncargado) {
         this.voluntarioEncargado = voluntarioEncargado;
     }
 
@@ -110,16 +110,15 @@ public class Actividad {
         this.estado = nuevoEstado;
     }
 
-    public HashSet<Voluntario> getVoluntariosAsignados() {
+    public HashSet<String> getVoluntariosAsignados() {
         return voluntariosAsignados;
     }
 
-    public String imprimirNombreVoluntarios(){
-        String voluntarios = "";
-        for (Voluntario v : voluntariosAsignados){
-            voluntarios += v.getNombre() + ", ";
+    public String imprimirNombreVoluntarios() {
+        if (voluntariosAsignados.isEmpty()) {
+            return "No hay voluntarios asignados.";
         }
-        return voluntarios;
+        return String.join(", ", voluntariosAsignados);
     }
 
 
@@ -140,7 +139,7 @@ public class Actividad {
                 "\n - descripcion: " + descripcion +
                 "\n - fechaInicio: " + fechaInicio +
                 "\n - fechaFin: " + fechaFin+
-                "\n - voluntario encargado: " + voluntarioEncargado.getNombre()+
+                "\n - voluntario encargado: " + voluntarioEncargado +
                 "\n - voluntarios asignados: " + imprimirNombreVoluntarios() +
                 "\n - estado: " + estado +
                 "\n - comentario: " + comentario;

@@ -24,8 +24,10 @@ public class main {
         } else {
             // El archivo ya existe, lo puedes cargar
             ListaUsuarios listaUsuarios = ListaUsuarios.getInstance();
-            listaUsuarios = readXML(ListaUsuarios.class, "usuarios.xml");
+            listaUsuarios.cargarUsuariosDesdeXML("usuarios.xml");
         }
+
+
 
         //CARGAR XML INICIATIVAS
         File fileIniciativas = new File("iniciativas.xml");
@@ -37,7 +39,7 @@ public class main {
         } else {
             // El archivo ya existe, lo puedes cargar
             ListaIniciativas listaIniciativas = ListaIniciativas.getInstance();
-            listaIniciativas = readXML(ListaIniciativas.class, "iniciativas.xml");
+            listaIniciativas.cargarIniciativasDesdeXML("iniciativas.xml");
         }
 
 

@@ -1,6 +1,5 @@
 package Controller;
 
-import DataAccess.XML;
 import Exceptions.ActividadNoExiste;
 import Exceptions.IniciativaNoExiste;
 import Exceptions.IniciativaYaExiste;
@@ -251,7 +250,7 @@ public class CreadorController {
                 throw new UsuarioNoExiste("El voluntario introducido no existe");
             }else{
                 UsuariosView.mostrarMensaje("El voluntario " + voluntarioAsignar.getNombre() + " ha sido asignado a " + iniciativa.getNombre());
-                actividad.getVoluntariosAsignados().add(voluntarioAsignar); //Añadimos actividad a la lista de actividades de voluntarios
+                actividad.getVoluntariosAsignados().add(voluntarioAsignar.getNombre() + " | " + voluntarioAsignar.getCorreo()); //Añadimos actividad a la lista de actividades de voluntarios
                 voluntarioAsignar.getActividadesAsignadas().add(actividad); //Asignamos voluntario a la lista de voluntarios de actividades
             }
         }else {
