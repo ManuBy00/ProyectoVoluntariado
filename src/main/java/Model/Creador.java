@@ -15,20 +15,14 @@ public class Creador extends Usuario{
     private String ong;
 
 
-    /**
-     * Constructor de creador
-     * @param nombre
-     * @param contraseña
-     * @param correo
-     * @param ong
-     */
-    public Creador(String nombre, String contraseña, String correo, String ong) {
-        super(nombre, contraseña, correo);
+
+    public Creador(String nombre, String password, String correo, String ong) {
+        super(nombre, password, correo);
         this.ong = ong;
     }
 
-    public Creador() {
-        super(); // Llamada al constructor de la clase padre Usuario (si tiene uno)
+    public Creador() { //para deserializar
+        super();
     }
 
     /**
@@ -41,16 +35,16 @@ public class Creador extends Usuario{
     }
 
     public String mostrarMisIniciativas(){
-        String result = "";
+        StringBuilder result = new StringBuilder();
         for (Iniciativa i : getMisIniciativas()){
-            result += i.getNombre() + " | ";
+            result.append(i.getNombre()).append(" | ");
         }
-        return result;
+        return result.toString();
     }
 
     /**
-     * Devuelve una iniciativa a través de su nombre
-     * @param nombre criterio de búsqueda
+     * Busca una iniciativa creada por el usuario a través del  nombre y la devuelve.
+     * @param nombre nombre de la iniciativa que se busca
      * @return la iniciativa que coincida con el nombre introducido
      */
     public Iniciativa encontrarIniciativaPropia(String nombre) {

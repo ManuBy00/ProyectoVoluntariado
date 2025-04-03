@@ -7,7 +7,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import static View.IniciativaView.ANSI_YELLOW;
@@ -24,8 +23,8 @@ public class Voluntario extends Usuario{
     @XmlElement
     private List<Recompensa> recompensasDisponibles;
 
-    public Voluntario(String nombre, String contraseña, String correo) {
-        super(nombre, contraseña, correo);
+    public Voluntario(String nombre, String password, String correo) {
+        super(nombre, password, correo);
         puntos = 0;
         actividadesAsignadas = new ArrayList<>();
         this.recompensasDisponibles = new ArrayList<>();
@@ -46,7 +45,7 @@ public class Voluntario extends Usuario{
         return recompensasDisponibles;
     }
 
-    public void añadirPuntos(int puntos) {
+    public void addPuntos(int puntos) {
         this.puntos += puntos;
     }
 

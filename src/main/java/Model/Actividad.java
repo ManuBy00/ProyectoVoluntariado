@@ -36,7 +36,7 @@ public class Actividad {
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.voluntarioEncargado = voluntarioEncargado;
-        this.estado = estado.PENDIENTE;
+        this.estado = EstadoActividad.PENDIENTE;
         this.comentario = comentario;
         this.voluntariosAsignados = new HashSet<>();
     }
@@ -49,29 +49,11 @@ public class Actividad {
         return nombre;
     }
 
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public LocalDate getFechaInicio() {
-        return fechaInicio;
-    }
-
-    public LocalDate getFechaFin() {
-        return fechaFin;
-    }
-
-    public String getVoluntarioEncargado() {
-        return voluntarioEncargado;
-    }
 
     public EstadoActividad getEstado() {
         return estado;
     }
 
-    public String getComentario() {
-        return comentario;
-    }
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
@@ -81,13 +63,6 @@ public class Actividad {
         this.nombre = nombre;
     }
 
-    public void setVoluntariosAsignados(HashSet<String> voluntariosAsignados) {
-        this.voluntariosAsignados = voluntariosAsignados;
-    }
-
-    public void setComentario(String comentario) {
-        this.comentario = comentario;
-    }
 
     public void setVoluntarioEncargado(String voluntarioEncargado) {
         this.voluntarioEncargado = voluntarioEncargado;
@@ -141,14 +116,22 @@ public class Actividad {
                 "\n - fechaFin: " + fechaFin+
                 "\n - voluntario encargado: " + voluntarioEncargado +
                 "\n - voluntarios asignados: " + imprimirNombreVoluntarios() +
-                "\n - estado: " + estado +
+                "\n - estado: " + estado.getEstado() +
                 "\n - comentario: " + comentario;
     }
 
+    /**
+     * devuelve si la actividad está cancelada
+     * @return true si está cancealda
+     */
     public boolean isCancelada() {
         return estado == EstadoActividad.CANCELADA;
     }
 
+    /**
+     * devuelve si la actividad está finalizada
+     * @return true si está finalizada
+     */
     public boolean isFinalizada() {
         return estado == EstadoActividad.FINALIZADA;
     }
