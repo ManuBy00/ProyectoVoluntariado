@@ -22,7 +22,7 @@ public class Actividad {
     @XmlJavaTypeAdapter(LocalDateAdapter.class)
     private LocalDate fechaFin;
     @XmlElement
-    private Voluntario voluntarioEncargado;
+    private String voluntarioEncargado;
     @XmlElement
     private EstadoActividad estado;
     @XmlElement
@@ -30,7 +30,7 @@ public class Actividad {
     @XmlElement
     private HashSet<Voluntario> voluntariosAsignados;
 
-    public Actividad(String nombre, String descripcion, LocalDate fechaInicio, LocalDate fechaFin, Voluntario voluntarioEncargado, String comentario) {
+    public Actividad(String nombre, String descripcion, LocalDate fechaInicio, LocalDate fechaFin, String voluntarioEncargado, String comentario) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.fechaInicio = fechaInicio;
@@ -61,7 +61,7 @@ public class Actividad {
         return fechaFin;
     }
 
-    public Voluntario getVoluntarioEncargado() {
+    public String getVoluntarioEncargado() {
         return voluntarioEncargado;
     }
 
@@ -89,7 +89,7 @@ public class Actividad {
         this.comentario = comentario;
     }
 
-    public void setVoluntarioEncargado(Voluntario voluntarioEncargado) {
+    public void setVoluntarioEncargado(String voluntarioEncargado) {
         this.voluntarioEncargado = voluntarioEncargado;
     }
 
@@ -140,7 +140,7 @@ public class Actividad {
                 "\n - descripcion: " + descripcion +
                 "\n - fechaInicio: " + fechaInicio +
                 "\n - fechaFin: " + fechaFin+
-                "\n - voluntario encargado: " + voluntarioEncargado.getNombre()+
+                "\n - voluntario encargado: " + voluntarioEncargado +
                 "\n - voluntarios asignados: " + imprimirNombreVoluntarios() +
                 "\n - estado: " + estado +
                 "\n - comentario: " + comentario;

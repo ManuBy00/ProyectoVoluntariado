@@ -1,6 +1,5 @@
 package Controller;
 
-import DataAccess.XML;
 import Exceptions.ActividadNoExiste;
 import Exceptions.IniciativaNoExiste;
 import Exceptions.IniciativaYaExiste;

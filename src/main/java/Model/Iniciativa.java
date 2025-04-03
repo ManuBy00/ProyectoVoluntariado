@@ -77,7 +77,7 @@ public class Iniciativa {
                 actividad.setFechaFin(nuevaFechaFin);
             }while (!Utilidades.validarFechaInicioFin(nuevaFechaInicio, nuevaFechaFin)); //validamos la fecha de inicio y fin
 
-            actividad.setVoluntarioEncargado(nuevoEncargado);
+            actividad.setVoluntarioEncargado(nuevoEncargado.getNombre());
         }else {
             updated = false;
         }
