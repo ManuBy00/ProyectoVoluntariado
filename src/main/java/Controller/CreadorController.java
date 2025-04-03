@@ -1,5 +1,6 @@
 package Controller;
 
+import DataAccess.XML;
 import Exceptions.ActividadNoExiste;
 import Exceptions.IniciativaNoExiste;
 import Exceptions.IniciativaYaExiste;
@@ -56,6 +57,7 @@ public class CreadorController {
                 case 5:
                     // Cerrar sesión
                     System.out.println("Cerrando sesión...");
+
                     Sesion.getInstancia().logOut();
                     break;
 
@@ -84,6 +86,7 @@ public class CreadorController {
         }catch (IniciativaYaExiste e){
             UsuariosView.mostrarMensaje(e.getMessage());
         }
+
     }
 
     /**

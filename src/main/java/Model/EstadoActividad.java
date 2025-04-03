@@ -17,7 +17,4 @@ public enum EstadoActividad {
     public String getEstado() {
         return estado;
     }
-
-
-
 }

@@ -3,20 +3,27 @@ package Model;
 import Utils.Sesion;
 import Utils.Utilidades;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
 
-
+@XmlRootElement(name = "iniciativa") // Define la raíz XML
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Iniciativa {
+    @XmlElement
     private String nombre;
+    @XmlElement
     private String descripcion;
+    @XmlElement
     private Creador creador;
+    @XmlElementWrapper(name = "actividades")
+    @XmlElement(name = "actividad")
     private ArrayList<Actividad> actividades;
 
+    public Iniciativa(){
+
+    }
 
     // Constructor full equip
     public Iniciativa(String nombre, String descripcion) {

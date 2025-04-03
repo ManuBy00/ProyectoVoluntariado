@@ -1,19 +1,33 @@
 package Model;
 
 
+import DataAccess.LocalDateAdapter;
+
+import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Objects;
-
+@XmlRootElement(name = "actividad")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Actividad {
-
+    @XmlElement
     private String nombre;
+    @XmlElement
     private String descripcion;
+    @XmlElement
+    @XmlJavaTypeAdapter(LocalDateAdapter.class)
     private LocalDate fechaInicio;
+    @XmlElement
+    @XmlJavaTypeAdapter(LocalDateAdapter.class)
     private LocalDate fechaFin;
+    @XmlElement
     private Voluntario voluntarioEncargado;
+    @XmlElement
     private EstadoActividad estado;
+    @XmlElement
     private String comentario;
+    @XmlElement
     private HashSet<Voluntario> voluntariosAsignados;
 
     public Actividad(String nombre, String descripcion, LocalDate fechaInicio, LocalDate fechaFin, Voluntario voluntarioEncargado, String comentario) {
@@ -27,10 +41,9 @@ public class Actividad {
         this.voluntariosAsignados = new HashSet<>();
     }
 
-    public Actividad(String nombreActividad, String descripcion) {
-        this.nombre = nombreActividad;
-        this.descripcion = descripcion;
-    }
+   public Actividad(){
+
+   }
 
     public String getNombre() {
         return nombre;

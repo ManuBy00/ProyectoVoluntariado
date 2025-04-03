@@ -1,5 +1,6 @@
 package Controller;
 
+import DataAccess.XML;
 import Exceptions.UsuarioNoExiste;
 import Exceptions.UsuarioYaExiste;
 import Model.Creador;
@@ -35,23 +36,18 @@ public class UsuariosController {
 
 
         try {
-            if (nuevo instanceof Creador) {
-                misUsuarios.add(nuevo);
-            }else{
-                misUsuarios.add(nuevo);
-            }
+            misUsuarios.add(nuevo);
             UsuariosView.mostrarMensaje("Usuario registrado.");
         } catch (UsuarioYaExiste e) {
             System.out.println(e.getMessage());
         }
+
+        //XML.writeXML(ListaUsuarios.getInstance(), "usuarios.xml");
     }
 
-    public void updatePassword(){
-
-    }
 
     /**
-     * Método para iniciar sesión de un usuario.
+     * Metodo para iniciar sesión de un usuario.
      * @throws UsuarioNoExiste si no existe un usuario con las credenciales proporcionadas.
      */
     public void iniciarSesionCreador() throws UsuarioNoExiste {

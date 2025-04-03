@@ -1,11 +1,17 @@
 package Model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.HashSet;
-
 import static View.IniciativaView.*;
 
-public class Creador extends Usuario{
 
+@XmlRootElement(name = "creador")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class Creador extends Usuario{
+    @XmlElement
     private String ong;
 
 
@@ -19,6 +25,10 @@ public class Creador extends Usuario{
     public Creador(String nombre, String contraseña, String correo, String ong) {
         super(nombre, contraseña, correo);
         this.ong = ong;
+    }
+
+    public Creador() {
+        super(); // Llamada al constructor de la clase padre Usuario (si tiene uno)
     }
 
     /**

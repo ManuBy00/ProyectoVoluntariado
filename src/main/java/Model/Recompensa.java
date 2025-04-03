@@ -1,12 +1,25 @@
 package Model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "recompensa")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Recompensa {
+    @XmlElement
     private String nombre;
+    @XmlElement
     private int costo;
 
     public Recompensa(String nombre, int costo) {
         this.nombre = nombre;
         this.costo = costo;
+    }
+
+    public Recompensa(){
+
     }
 
     public String getNombre() {
@@ -21,9 +34,6 @@ public class Recompensa {
         return costo;
     }
 
-    public void setCosto(int costo) {
-        this.costo = costo;
-    }
 
     @Override
     public String toString() {

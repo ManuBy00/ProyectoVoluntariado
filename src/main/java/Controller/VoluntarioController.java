@@ -282,9 +282,8 @@ public class VoluntarioController {
         Recompensa seleccionada = recompensas.get(eleccion-1);
         if (voluntario.getPuntos() >= seleccionada.getCosto()) {
             voluntario.restarPuntos(seleccionada.getCosto());
-            UsuariosView.mostrarMensaje(UsuariosView.ANSI_GREEN + "🎉 ¡Has canjeado: '" +
-                    seleccionada.getNombre() +
-                    "'!" + UsuariosView.ANSI_RESET);
+            voluntario.getRecompensasDisponibles().add(seleccionada);
+            UsuariosView.mostrarMensaje(UsuariosView.ANSI_GREEN + "🎉 ¡Has canjeado: '" + seleccionada.getNombre() + "'!" + UsuariosView.ANSI_RESET);
         } else {
             UsuariosView.mostrarMensaje("❌ No tienes suficientes puntos. Sigue participando en actividades!");
         }

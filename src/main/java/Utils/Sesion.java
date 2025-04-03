@@ -1,5 +1,8 @@
 package Utils;
 
+import DataAccess.XML;
+import Model.ListaIniciativas;
+import Model.ListaUsuarios;
 import Model.Usuario;
 
 public class Sesion {
@@ -34,6 +37,8 @@ public class Sesion {
 
     // Metodo para cerrar sesión
     public void logOut() {
+        XML.writeXML(ListaUsuarios.getInstance(), "usuarios.xml");
+        XML.writeXML(ListaIniciativas.getInstance(), "Iniciativas.xml");
         this.userLoged = null;
     }
 }
