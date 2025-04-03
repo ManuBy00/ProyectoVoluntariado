@@ -41,6 +41,11 @@ public class VoluntarioController {
     }
 
 
+    private void unirseActividad(){
+        
+    }
+
+
     /**
      * Muestra la información del voluntario.
      */
