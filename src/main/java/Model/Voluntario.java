@@ -31,8 +31,11 @@ public class Voluntario extends Usuario{
         this.recompensasDisponibles = new ArrayList<>();
     }
 
-    public Voluntario() {
+    public Voluntario() { //constructor vacío para deserializar
         super();
+        actividadesAsignadas = new ArrayList<>();
+        this.recompensasDisponibles = new ArrayList<>();
+
     }
 
     public int getPuntos() {

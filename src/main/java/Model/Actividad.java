@@ -42,7 +42,7 @@ public class Actividad {
     }
 
    public Actividad(){
-
+       this.voluntariosAsignados = new HashSet<>();
    }
 
     public String getNombre() {
