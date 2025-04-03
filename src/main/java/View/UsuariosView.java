@@ -9,14 +9,12 @@ import java.util.HashSet;
 public class UsuariosView {
     // Códigos de colores ANSI
     public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_BLACK = "\u001B[30m";
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_YELLOW = "\u001B[33m";
     public static final String ANSI_BLUE = "\u001B[34m";
     public static final String ANSI_PURPLE = "\u001B[35m";
     public static final String ANSI_CYAN = "\u001B[36m";
-    public static final String ANSI_WHITE = "\u001B[37m";
 
     /**
      * Muestra un menú inicial al usuario para que elija una opción.
@@ -80,7 +78,7 @@ public class UsuariosView {
             System.out.println(ANSI_GREEN + "4. \uD83D\uDCAC Comentar actividad" + ANSI_RESET);
             System.out.println(ANSI_GREEN + "5. ➕ Unirse a una actividad" + ANSI_RESET);
             System.out.println(ANSI_YELLOW + "6. \uD83D\uDED2 Tienda de puntos (próximamente)" + ANSI_RESET);
-            System.out.println(ANSI_GREEN + "7. ⚙\uFE0F Ajustes de usuario" + ANSI_RESET);
+            System.out.println(ANSI_GREEN + "7. ⚙️ Ajustes de usuario" + ANSI_RESET);
             System.out.println(ANSI_RED + "8. \uD83D\uDEAA Cerrar sesión" + ANSI_RESET);
             System.out.println(ANSI_BLUE + "=================================================" + ANSI_RESET);
 
@@ -108,7 +106,7 @@ public class UsuariosView {
             mostrarMensaje(ANSI_GREEN + "1. \uD83D\uDC64 Ver perfil" + ANSI_RESET);
             mostrarMensaje(ANSI_GREEN + "2. \uD83D\uDCCB Gestión de iniciativas" + ANSI_RESET);
             mostrarMensaje(ANSI_GREEN + "3. \uD83D\uDEE0 Gestión de actividades" + ANSI_RESET);
-            mostrarMensaje(ANSI_GREEN + "4. ⚙\uFE0F Ajustes de usuario" + ANSI_RESET);
+            mostrarMensaje(ANSI_GREEN + "4. ⚙️ Ajustes de usuario" + ANSI_RESET);
             mostrarMensaje(ANSI_RED + "5. \uD83D\uDEAA Salir" + ANSI_RESET);
             mostrarMensaje(ANSI_BLUE + "**********************************************" + ANSI_RESET);
 
@@ -222,17 +220,17 @@ public class UsuariosView {
     }
 
     /**
-     * Imprime una lista de voluntarios disponibles para añadir a una actividad.
-     * No muestra los que ya están asigandos a esta actividad
+     * Imprime una lista de voluntarios para añadir a una actividad. No tiene encuenta aquellos que ya están en esta actividad.
      * @param actividad recibe la actividad en la que se va a añadir un voluntario
+     * @return true si hay voluntarios disponibles y false si no hay voluntarios disponibles.
      */
     public static boolean mostrarVoluntariosDisponibles(Actividad actividad) {
         boolean disponible = true;
         StringBuilder voluntariosDisponibles = new StringBuilder();
         // Recorre todos los voluntarios y agrega los que no están asignados a la actividad
         for (Voluntario v : ListaUsuarios.getInstance().getVoluntarios()) {
-            if (!actividad.getVoluntariosAsignados().contains(v)) {
-                voluntariosDisponibles.append(v.getNombre()).append(", ").append(v.getCorreo()).append(" | ");
+            if (!actividad.getVoluntariosAsignados().contains(v.getNombre() + " (" + v.getCorreo() + ")")) {
+                voluntariosDisponibles.append(v.getNombre()).append(" (").append(v.getCorreo()).append(")").append(" | ");
             }
         }
 
@@ -248,7 +246,7 @@ public class UsuariosView {
     }
 
     /**
-     * Muestra el menú actualizado de la tienda de puntos
+     * Muestra el menú de la tienda de puntos
      */
     public static int mostrarMenuTiendaPuntos() {
         int opcion;

@@ -9,11 +9,12 @@ public enum EstadoActividad {
     FINALIZADA("Finalizada"),
     CANCELADA("Cancelada");
 
-    private String estado;
+    private final String estado;
 
     EstadoActividad(String estado) {
         this.estado = estado;
     }
+
     public String getEstado() {
         return estado;
     }

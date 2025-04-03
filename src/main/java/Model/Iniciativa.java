@@ -53,10 +53,9 @@ public class Iniciativa {
     /**
      *  Metodo que añade una actividad al ArrayList actividades
      * @param actividad : la actividad que queremos añadir
-     * @return : Devuelve si se a podido agregar o no
+     * @return : devuelve true si se añade, false si no.
      */
-
-    public boolean add(Actividad actividad) {
+    public boolean addActividad(Actividad actividad) {
         boolean agregado = false;
         if (actividades.add(actividad)) {
             agregado = true;
@@ -64,10 +63,16 @@ public class Iniciativa {
         return agregado;
     }
 
-
-    public boolean update(String nombreActividad, String nuevaDescripcion, LocalDate nuevaFechaInicio, LocalDate nuevaFechaFin, Voluntario nuevoEncargado) {
+    /**
+     * Busca la actividad requerida y actualiza sus datos
+     * @param nombreActividad .
+     * @param nuevaDescripcion .
+     * @param nuevaFechaInicio .
+     * @param nuevaFechaFin .
+     * @param nuevoEncargado .
+     */
+    public void updateActividad(String nombreActividad, String nuevaDescripcion, LocalDate nuevaFechaInicio, LocalDate nuevaFechaFin, Voluntario nuevoEncargado) {
         Actividad actividad = encontrarActividad(nombreActividad);
-        boolean updated = true;
 
         if (actividad != null) {
             // Actualizamos los atributos de la actividad
@@ -75,53 +80,38 @@ public class Iniciativa {
             do {
                 actividad.setFechaInicio(nuevaFechaInicio);
                 actividad.setFechaFin(nuevaFechaFin);
-            }while (!Utilidades.validarFechaInicioFin(nuevaFechaInicio, nuevaFechaFin)); //validamos la fecha de inicio y fin
-
+            } while (!Utilidades.validarFechaInicioFin(nuevaFechaInicio, nuevaFechaFin)); //validamos la fecha de inicio y fin
             actividad.setVoluntarioEncargado(nuevoEncargado.getNombre());
-        }else {
-            updated = false;
         }
-        return updated; // Actualización exitosa
     }
 
     /**
      * Metodo que elimina una actividad del arrayList actividades
      * @param actividad : la actividad que vamos a eliminar
-     * @return : si se a eliminado o no correctamente
+     * @return : Devuelve true si la actividad fue eliminada (estaba en la lista y se eliminó), false si no estaba
      */
 
-    public boolean remove(Actividad actividad) {
-        boolean eliminado = false;
-        if (actividades.remove(actividad)) {
-            eliminado = true;
-        }
-        return eliminado;
+    public boolean removeActividad(Actividad actividad) {
+        return actividades.remove(actividad);
     }
-
-    /**
-     * Metodo que muestra todos los atributos de una activdad
-     * @param actividad : la actividad que queremos ver
-     * @return : toString de la actividad que queremos mostrar
-     */
 
 
     /**
      * Metodo que muestra el nombre de todas las actividades que hay en el ArrayList actividades
      */
     public String mostrarActividades() {
-        String result = "";
+        StringBuilder result = new StringBuilder();
         for (Actividad actividad : actividades) {
-            result += actividad.getNombre() + " | ";
+            result.append(actividad.getNombre()).append(" | ");
         }
-        return result;
+        return result.toString();
     }
 
     /**
-     * Metodo que encuentra una actividad en el ArrayList actividades
+     * Metodo que busca una actividad en el ArrayList actividades
      * @param nombre : nombre de la actividad que queremos encontrar
      * @return : Devuelve la actividad si la a encontrado o null si no la a encontrado
      */
-
     public Actividad encontrarActividad(String nombre) {
             Actividad acitividadEncontrado = null;
             for (Actividad a : actividades){
@@ -132,11 +122,6 @@ public class Iniciativa {
             return acitividadEncontrado;
     }
 
-
-    // Metodo para eliminar una actividad de la iniciativa
-    public void eliminarActividad(Actividad actividad) {
-        actividades.remove(actividad);
-    }
 
     @Override
     public String toString() {

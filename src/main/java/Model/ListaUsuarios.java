@@ -11,7 +11,7 @@ import java.util.HashSet;
 
 @XmlRootElement(name = "Usuarios")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ListaUsuarios implements CRUD<Usuario, String> {
+public class ListaUsuarios implements CRUD<Usuario> {
     @XmlElementWrapper(name = "creadores")
     @XmlElement(name = "creador")
     private HashSet<Creador> creadores;

@@ -68,6 +68,9 @@ public class CreadorController {
         } while (opcion != 5);
     }
 
+    /**
+     * Muestra los datos del usuario
+     */
     public void verPerfil(){
         System.out.print("*** MI PERFIL ***");
         ListaUsuarios.getInstance().mostrar(creador);
@@ -75,6 +78,7 @@ public class CreadorController {
 
     /**
      * Crea una iniciativa y la añade a la lista
+     * @throws IniciativaYaExiste si en la lista ya hay una iniciativa con el mismo nombre
      */
     public void addIniciativa() throws IniciativaYaExiste {
         ListaIniciativas lista = ListaIniciativas.getInstance();
@@ -93,6 +97,7 @@ public class CreadorController {
      */
     public void updateIniciativa() {
             // Pedir datos al usuario
+            creador.mostrarMisIniciativas();
             String nombreIniciativa = Utilidades.pideString("Introduce el nombre de la iniciativa:");
             Iniciativa iniciativa= ListaIniciativas.getInstance().encontrarIniciativa(nombreIniciativa);
 
@@ -121,6 +126,9 @@ public class CreadorController {
 
     }
 
+    /**
+     * Muestra las iniciativas creadas por el usuario que ha iniciado sesión
+     */
     public void mostrarIniciativasPropias(){
         ListaIniciativas lista = ListaIniciativas.getInstance();
         HashSet<Iniciativa> misIniciativas = lista.obtenerIniciativasPorCreador(Sesion.getInstancia().getUsuarioIniciado().getCorreo());
@@ -132,7 +140,7 @@ public class CreadorController {
     }
 
     /**
-     * Busca una iniciativa por su nombre y la añade a la lista
+     * Busca una iniciativa por su nombre y le añade una actividad.
      * @throws IniciativaNoExiste si no encuentra una iniciativa con el nombre introducido
      */
     public void addActividad() throws IniciativaNoExiste {
@@ -140,17 +148,23 @@ public class CreadorController {
         String nombreIniciativa = Utilidades.pideString("Introduce el nombre de la iniciativa a la que quieres añadir una actividad");
         Iniciativa iniciativa = creador.encontrarIniciativaPropia(nombreIniciativa);
         if (iniciativa == null){
-            throw new IniciativaNoExiste("La iniciativa introducida no existe \n");
+            throw new IniciativaNoExiste("La iniciativa introducida no existe.\n");
         }
 
         Actividad nuevaActividad = ViewActividades.pedirDatosActividad();
-        if (iniciativa.add(nuevaActividad)){
+        if (iniciativa.addActividad(nuevaActividad)){
             UsuariosView.mostrarMensaje("La actividad se ha añadido correctamente.");
         }else{
             UsuariosView.mostrarMensaje("Hubo un error al añadir la actividad.");
         }
     }
 
+    /**
+     * pide los datos necesarios para actualizar una actividad
+     * @throws UsuarioNoExiste si el encargado introducido no existe
+     * @throws ActividadNoExiste si la actividad que se quiere cambiar no existe
+     * @throws IniciativaNoExiste si la iniciativa introducida no existe
+     */
     public void updateActividad() throws UsuarioNoExiste, ActividadNoExiste, IniciativaNoExiste{
         // Mostramos las iniciativas del creador
         IniciativaView.imprimirMisIniciativas();
@@ -172,9 +186,7 @@ public class CreadorController {
         // Llamamos al metodo de ListaIniciativas
         ListaIniciativas.getInstance().updateActividad(nombreIniciativa, nombreActividad, nuevaDescripcion, nuevaFechaInicio, nuevaFechaFin, nuevoEncargado);
         UsuariosView.mostrarMensaje("✅ Actividad actualizada correctamente.");
-
     }
-
 
 
     /**
@@ -198,14 +210,13 @@ public class CreadorController {
         Actividad actividadAEliminar = iniciativa.encontrarActividad(nombreActividad);
 
         if (actividadAEliminar == null) {
-            UsuariosView.mostrarMensaje("No se encontró la actividad especificada.");
-            return;
+            throw new ActividadNoExiste("La actividad introducida no existe.");
         }
 
-        if (iniciativa.remove(actividadAEliminar)) {
+        if (iniciativa.removeActividad(actividadAEliminar)) {
             UsuariosView.mostrarMensaje("La actividad se ha eliminado correctamente.");
         } else {
-            throw new ActividadNoExiste("La actividad introducida no existe.");
+            UsuariosView.mostrarMensaje("No se ha encontado la activdad.");
         }
     }
 
@@ -224,16 +235,22 @@ public class CreadorController {
         UsuariosView.mostrarMensaje(iniciativa.toString());
     }
 
+    /**
+     * Asigna un voluntario a una actividad
+     * @throws IniciativaNoExiste si la iniciavita introducida no existe
+     * @throws UsuarioNoExiste si el voluntario introducido no existe
+     * @throws ActividadNoExiste si la actividad introducida no existe
+     */
     public void asignarVoluntario()throws IniciativaNoExiste, UsuarioNoExiste, ActividadNoExiste {
-        //Pido la iniciativa a la que pertenece la actividad
+        //Pedimos la iniciativa a la que pertenece la actividad
         IniciativaView.imprimirMisIniciativas();
-        String nombreIniciativa = Utilidades.pideString("Introduce el nombre de una iniciativa.");
+        String nombreIniciativa = Utilidades.pideString("¿A qué iniciativa pertenece la actividad que quieres asignar?.");
         Iniciativa iniciativa = creador.encontrarIniciativaPropia(nombreIniciativa);
         if (iniciativa==null){
             throw new IniciativaNoExiste("La iniciativa introducida no existe");
         }
 
-        //pedimos qué actividad quiere asignar
+        //mostramos las actividades de la iniciativa elegida y pedimos elija una
         UsuariosView.mostrarMensaje("Actividades disponibles: " + iniciativa.mostrarActividades());
         String nombreActividad = Utilidades.pideString("Introduce el nombre de la actividad que quieres asignar");
         Actividad actividad = iniciativa.encontrarActividad(nombreActividad);
@@ -248,9 +265,10 @@ public class CreadorController {
             Voluntario voluntarioAsignar = ListaUsuarios.getInstance().encontrarVoluntario(correo);
             if (voluntarioAsignar == null){
                 throw new UsuarioNoExiste("El voluntario introducido no existe");
-            }else{
+            }else{ //asignamos
                 UsuariosView.mostrarMensaje("El voluntario " + voluntarioAsignar.getNombre() + " ha sido asignado a " + iniciativa.getNombre());
-                actividad.getVoluntariosAsignados().add(voluntarioAsignar.getNombre() + " | " + voluntarioAsignar.getCorreo()); //Añadimos actividad a la lista de actividades de voluntarios
+                //Añadimos actividad a la lista de actividades de voluntarios con el formatio "nombreUsuario (correo)"
+                actividad.getVoluntariosAsignados().add(voluntarioAsignar.getNombre() + " (" + voluntarioAsignar.getCorreo() + ")");
                 voluntarioAsignar.getActividadesAsignadas().add(actividad); //Asignamos voluntario a la lista de voluntarios de actividades
             }
         }else {
@@ -332,7 +350,7 @@ public class CreadorController {
                     break;
 
                 case 3:
-                    //Modificar por implementar
+                    //Modificar una actividad
                     updateActividad();
                     break;
 
@@ -364,8 +382,9 @@ public class CreadorController {
                     ListaUsuarios.getInstance().update(creador);
                     break;
                 case 2:
-                    ListaUsuarios.getInstance().remove(creador);
                     UsuariosView.mostrarMensaje("Usuario eliminado. Saliendo de la aplicación...");
+                    ListaUsuarios.getInstance().remove(creador);
+                    Sesion.getInstancia().logOut();
                     break;
                 case 3:
                     break;

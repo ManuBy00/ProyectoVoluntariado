@@ -12,7 +12,7 @@ import java.util.HashSet;
 
 @XmlRootElement(name = "Iniciativas") // Define el elemento raíz del XML
 @XmlAccessorType(XmlAccessType.FIELD) // Acceso a los campos directamente
-public class ListaIniciativas implements CRUD<Iniciativa, String>{
+public class ListaIniciativas implements CRUD<Iniciativa>{
     @XmlElementWrapper(name = "listaIniciativas") // Agrupa los elementos en un solo nodo
     @XmlElement(name = "iniciativa") // Define cada elemento dentro del wrapper
     private HashSet<Iniciativa> iniciativasList; // Lista que almacena todas las iniciativas existentes.
@@ -28,10 +28,6 @@ public class ListaIniciativas implements CRUD<Iniciativa, String>{
             instance = new ListaIniciativas();
         }
         return instance;
-    }
-
-    public HashSet<Iniciativa> getIniciativasList() {
-        return iniciativasList;
     }
 
     /**
@@ -65,7 +61,6 @@ public class ListaIniciativas implements CRUD<Iniciativa, String>{
         if (!iniciativasList.remove(iniciativa)){
             throw new IniciativaNoExiste("La iniciativa introducida no existe");
         }
-
     }
 
     @Override
@@ -75,13 +70,13 @@ public class ListaIniciativas implements CRUD<Iniciativa, String>{
 
 
     /**
-     * Pide seleccionar la iniciativa de la actividad que se quiere actualizar
-     * @param nombreIniciativa q
-     * @param nombreActividad q
-     * @param nuevaDescripcion q
-     * @param nuevaFechaInicio q
-     * @param nuevaFechaFin q
-     * @param nuevoEncargado q
+     * Pide seleccionar la iniciativa de la actividad que se quiere actualizar y la  actualiza con los datos recibidos
+     * @param nombreIniciativa dato
+     * @param nombreActividad dato
+     * @param nuevaDescripcion dato
+     * @param nuevaFechaInicio dato
+     * @param nuevaFechaFin dato
+     * @param nuevoEncargado dato
      * @throws IniciativaNoExiste si no se encuentra una inciativa con el nombre introducido
      */
     public void updateActividad(String nombreIniciativa, String nombreActividad, String nuevaDescripcion, LocalDate nuevaFechaInicio, LocalDate nuevaFechaFin, Voluntario nuevoEncargado) throws IniciativaNoExiste{
@@ -91,7 +86,7 @@ public class ListaIniciativas implements CRUD<Iniciativa, String>{
             throw new IniciativaNoExiste("La iniciativa introducida no existe");
         }
 
-        iniciativa.update(nombreActividad, nuevaDescripcion, nuevaFechaInicio, nuevaFechaFin, nuevoEncargado);
+        iniciativa.updateActividad(nombreActividad, nuevaDescripcion, nuevaFechaInicio, nuevaFechaFin, nuevoEncargado);
     }
 
     /**
@@ -126,15 +121,15 @@ public class ListaIniciativas implements CRUD<Iniciativa, String>{
      * @return arrayList de actividades sin termianr
      */
     public ArrayList<Actividad> getActividadesSinTerminar() {
-        ArrayList<Actividad> actividadesDisponibles = new ArrayList<>();
+        ArrayList<Actividad> actividadesSinTerminar = new ArrayList<>();
         for (Iniciativa iniciativa : iniciativasList) {
             for (Actividad actividad : iniciativa.getActividades()) {
                 if (!actividad.isFinalizada() && !actividad.isCancelada()) {
-                    actividadesDisponibles.add(actividad);
+                    actividadesSinTerminar.add(actividad);
                 }
             }
         }
-        return actividadesDisponibles;
+        return actividadesSinTerminar;
     }
 
     public void cargarIniciativasDesdeXML(String filename) {

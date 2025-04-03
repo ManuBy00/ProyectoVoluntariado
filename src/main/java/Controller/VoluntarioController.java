@@ -73,7 +73,6 @@ public class VoluntarioController {
             }
         }while (!opcionValida);
 
-
         Actividad actividad = actividadesDisponibles.get(actividadElegida - 1);
         voluntario.getActividadesAsignadas().add(actividad);
         actividad.getVoluntariosAsignados().add(voluntario.getNombre());
@@ -147,7 +146,7 @@ public class VoluntarioController {
 
         // Cambiar estado y sumar puntos si se completa
         if (cambiarEstado(actividad, numEstado) && actividad.getEstado() == EstadoActividad.FINALIZADA) {
-            añadirPuntosVoluntario(actividad); // Añadir puntos si la actividad se ha completado
+            addPuntosVoluntario(actividad); // Añadir puntos si la actividad se ha completado
         }
     }
 
@@ -244,12 +243,13 @@ public class VoluntarioController {
         ArrayList<Actividad> actividadesDisponibles = ListaIniciativas.getInstance().getActividadesSinTerminar();
         ArrayList<Actividad> actividadesDispUsuario = new ArrayList<>();
         for (Actividad actividad : actividadesDisponibles) {
-            if (!actividad.getVoluntariosAsignados().contains((Voluntario) Sesion.getInstancia().getUsuarioIniciado())){
+            if (!actividad.getVoluntariosAsignados().contains(Sesion.getInstancia().getUsuarioIniciado().getNombre() + " | " + Sesion.getInstancia().getUsuarioIniciado().getCorreo())){
                 actividadesDispUsuario.add(actividad);
             }
         }
         return actividadesDispUsuario;
     }
+
 
 
     private void canjearPuntos() {
@@ -294,8 +294,8 @@ public class VoluntarioController {
      * Añade 100 puntos al completar una actividad.
      * @param actividad Actividad completada
      */
-    private void añadirPuntosVoluntario(Actividad actividad) {
-        voluntario.añadirPuntos(100);
+    private void addPuntosVoluntario(Actividad actividad) {
+        voluntario.addPuntos(100);
         UsuariosView.mostrarMensaje(UsuariosView.ANSI_GREEN + "✅ ¡+" + 100 +
                 " puntos por completar '" + actividad.getNombre() +
                 "'!" + UsuariosView.ANSI_RESET);

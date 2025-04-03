@@ -1,16 +1,15 @@
 import Controller.UsuariosController;
 import DataAccess.XML;
 import Exceptions.UsuarioNoExiste;
-import Model.Creador;
 import Model.ListaIniciativas;
 import Model.ListaUsuarios;
 import View.UsuariosView;
 
 import java.io.File;
 
-import static DataAccess.XML.readXML;
 
-public class main {
+
+public class Main {
     public static void main(String[] args) {
 
 

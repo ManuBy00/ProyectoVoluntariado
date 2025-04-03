@@ -30,10 +30,6 @@ public class Sesion {
         return userLoged;
     }
 
-    // Metodo para actualizar el usuario logueado
-    public void setUsuarioIniciado(Usuario usuarioIniciado) {
-        this.userLoged = usuarioIniciado;
-    }
 
     // Metodo para cerrar sesión
     public void logOut() {
