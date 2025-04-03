@@ -2,25 +2,45 @@ package Model;
 
 import View.UsuariosView;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 import static View.IniciativaView.ANSI_YELLOW;
 import static View.UsuariosView.ANSI_PURPLE;
 import static View.UsuariosView.ANSI_RESET;
 
+@XmlRootElement(name = "voluntario")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Voluntario extends Usuario{
+    @XmlElement
     private int puntos;
+    @XmlElement
     private ArrayList<Actividad> actividadesAsignadas;
+    @XmlElement
+    private List<Recompensa> recompensasDisponibles;
 
     public Voluntario(String nombre, String contraseña, String correo) {
         super(nombre, contraseña, correo);
         puntos = 0;
         actividadesAsignadas = new ArrayList<>();
+        this.recompensasDisponibles = new ArrayList<>();
+    }
+
+    public Voluntario() {
+        super();
     }
 
     public int getPuntos() {
         return puntos;
+    }
+
+    public List<Recompensa> getRecompensasDisponibles() {
+        return recompensasDisponibles;
     }
 
     public void añadirPuntos(int puntos) {
@@ -41,11 +61,13 @@ public class Voluntario extends Usuario{
         }
     }
 
+
     @Override
     public String toString() {
         return super.toString() +  // Llamada al toString de la clase padre
                 ANSI_YELLOW + "\n=== Información de Voluntario ===" + ANSI_RESET +
                 ANSI_PURPLE + "\n- Actividades Asignadas: " + ANSI_RESET + actividadesAsignadas.size() +
+                ANSI_PURPLE + "\n- Recompensas canjeadas: " + ANSI_RESET + recompensasDisponibles +
                 ANSI_YELLOW + "\n===============================" + ANSI_RESET;
     }
 }

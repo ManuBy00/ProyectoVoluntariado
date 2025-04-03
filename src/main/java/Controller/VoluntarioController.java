@@ -91,56 +91,17 @@ public class VoluntarioController {
         do {
             opcion = UsuariosView.mostrarMenuTiendaPuntos();
             switch (opcion) {
-                case 1: comprarProducto(); break;
-                case 2: verProductosDisponibles(); break;
+                case 1: canjearPuntos(); break;
+                case 2: UsuariosView.mostrarMensaje("💰 Tu saldo actual es: " +
+                        UsuariosView.ANSI_YELLOW + voluntario.getPuntos() +
+                        " puntos" + UsuariosView.ANSI_RESET);
+                    break;
                 case 3: System.out.println("Saliendo de la tienda..."); break;
                 default: System.out.println("Opción no válida.");
             }
         } while (opcion != 3);
     }
 
-    private void comprarProducto() {
-        List<Producto> productos = ListaUsuarios.getInstance().getProductosDisponibles();
-
-        if (productos.isEmpty()) {
-            UsuariosView.mostrarMensaje("No hay productos disponibles en la tienda.");
-            return;
-        }
-
-        System.out.println("\n--- Productos Disponibles ---");
-        for (int i = 0; i < productos.size(); i++) {
-            System.out.println((i + 1) + ". " + productos.get(i) + " - " + productos.get(i).getPrecio() + " puntos");
-        }
-
-        int productoElegido = Utilidades.pideEntero("Elige el número del producto que deseas comprar:");
-
-        if (productoElegido < 1 || productoElegido > productos.size()) {
-            UsuariosView.mostrarMensaje("Opción inválida.");
-            return;
-        }
-
-        Producto producto = productos.get(productoElegido - 1);
-        if (voluntario.getPuntos() >= producto.getPrecio()) {
-            voluntario.restarPuntos((int) producto.getPrecio());
-            UsuariosView.mostrarMensaje("Has comprado: " + producto.getNombre());
-        } else {
-            UsuariosView.mostrarMensaje("No tienes suficientes puntos.");
-        }
-    }
-
-    private void verProductosDisponibles() {
-        List<Producto> productos = ListaUsuarios.getInstance().getProductosDisponibles();
-
-        if (productos.isEmpty()) {
-            UsuariosView.mostrarMensaje("No hay productos disponibles en la tienda.");
-            return;//lanzar excepción en vez de return
-        }
-
-        System.out.println("\n--- Productos Disponibles ---");
-        for (Producto producto : productos) {
-            System.out.println(producto.getNombre() + " - " + producto.getPrecio() + " puntos");
-        }
-    }
 
 
     /**
@@ -220,15 +181,6 @@ public class VoluntarioController {
               el estado de la actividad basada en la opción elegida por el voluntario. */
 
 
-    private void añadirPuntosVoluntario(Actividad actividad) {
-        // Sumar puntos a todos los voluntarios asignados a la actividad
-        for (Voluntario v : actividad.getVoluntariosAsignados()) {
-            v.añadirPuntos(100);  // Añadir 100 puntos a cada voluntario
-        }
-        UsuariosView.mostrarMensaje("✅ ¡+" + 100 + " puntos a todos los voluntarios asignados a la actividad '" + actividad.getNombre() + "'!");
-    }
-
-
     // Pedir al usuario que elija una actividad
     private int eligeActividad(){
         int actividadElegida = Utilidades.pideEntero("Elige el número de la actividad para cambiar el estado:");
@@ -297,5 +249,55 @@ public class VoluntarioController {
             }
         }
         return actividadesDispUsuario;
+    }
+
+
+    private void canjearPuntos() {
+        // Lista de recompensas premium
+        List<Recompensa> recompensas = List.of(
+                new Recompensa("Certificado de Reconocimiento Voluntario", 200),
+                new Recompensa("Kit de Merchandising Exclusivo (Camiseta + Taza)", 500),
+                new Recompensa("Curso Online de Liderazgo Social", 800),
+                new Recompensa("Experiencia VIP en Evento Benéfico", 1500),
+                new Recompensa("Financiación para Tu Propio Proyecto Solidario", 3000)
+        );
+
+        // Mostrar recompensas
+        UsuariosView.mostrarMensaje("\n" + UsuariosView.ANSI_CYAN + "🌟 TIENDA DE RECOMPENSAS 🌟" + UsuariosView.ANSI_RESET);
+        for (int i = 0; i < recompensas.size(); i++) {
+            Recompensa r = recompensas.get(i);
+            UsuariosView.mostrarMensaje(UsuariosView.ANSI_GREEN + (i+1) + ". " + r.getNombre() +
+                    UsuariosView.ANSI_YELLOW + " - " + r.getCosto() +
+                    " puntos" + UsuariosView.ANSI_RESET);
+        }
+
+        int eleccion = Utilidades.pideEntero("\nElige una recompensa (0 para cancelar):");
+        if (eleccion == 0) return;
+
+        if (eleccion < 1 || eleccion > recompensas.size()) {
+            UsuariosView.mostrarMensaje("❌ Opción inválida");
+            return;
+        }
+
+        Recompensa seleccionada = recompensas.get(eleccion-1);
+        if (voluntario.getPuntos() >= seleccionada.getCosto()) {
+            voluntario.restarPuntos(seleccionada.getCosto());
+            voluntario.getRecompensasDisponibles().add(seleccionada);
+            UsuariosView.mostrarMensaje(UsuariosView.ANSI_GREEN + "🎉 ¡Has canjeado: '" + seleccionada.getNombre() + "'!" + UsuariosView.ANSI_RESET);
+        } else {
+            UsuariosView.mostrarMensaje("❌ No tienes suficientes puntos. Sigue participando en actividades!");
+        }
+    }
+
+
+    /**
+     * Añade 100 puntos al completar una actividad.
+     * @param actividad Actividad completada
+     */
+    private void añadirPuntosVoluntario(Actividad actividad) {
+        voluntario.añadirPuntos(100);
+        UsuariosView.mostrarMensaje(UsuariosView.ANSI_GREEN + "✅ ¡+" + 100 +
+                " puntos por completar '" + actividad.getNombre() +
+                "'!" + UsuariosView.ANSI_RESET);
     }
 }

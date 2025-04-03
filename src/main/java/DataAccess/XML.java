@@ -1,8 +1,11 @@
-/*
+
 package DataAccess;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+import java.io.File;
 
 public class XML {
     public static <T> boolean writeXML(T objeto, String fileName) {
@@ -25,22 +28,22 @@ public class XML {
         return result;
     }
 
-    public static <T> T readXML(T objeto, String fileName) {
-        T result = null;
+    public static <T> T readXML(Class<T> clazz, String fileName) {
+        T objeto = null;
         try {
-            //Paso 1: Crear el contexto de JaxB para la clase que queremos serializar
-            JAXBContext context = JAXBContext.newInstance(objeto.getClass());
+            // Creamos un contexto JAXB para la clase que queremos deserializar
+            JAXBContext context = JAXBContext.newInstance(clazz);
 
-            //Paso 2: Unmarshaling: leer XML y convertirlo a un objeto
+            // Creamos un Unmarshaller
             Unmarshaller unmarshaller = context.createUnmarshaller();
-            result = (T) unmarshaller.unmarshal(new File(fileName));
 
+            // Deserializamos el XML en el objeto
+            objeto = (T) unmarshaller.unmarshal(new File(fileName));
 
         } catch (JAXBException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
-
-        return result;
+        return objeto;
     }
 }
-*/
+

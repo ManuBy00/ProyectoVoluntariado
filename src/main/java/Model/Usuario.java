@@ -1,14 +1,21 @@
 package Model;
 import org.mindrot.jbcrypt.BCrypt;
-import java.util.Objects;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlSeeAlso;
+import java.util.Objects;
 import static View.IniciativaView.*;
 
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlSeeAlso({Creador.class, Voluntario.class})  // Le decimos a JAXB que considere estas clases también
 public abstract class Usuario {
-
-    //Declaramos los atributos de usuario
+    @XmlElement
     private String nombre;
+    @XmlElement
     private String passwordHash;
+    @XmlElement
     private String correo;
 
     // Controller full equip
@@ -16,6 +23,9 @@ public abstract class Usuario {
         this.nombre = nombre;
         this.passwordHash = Seguridad.hashPassword(password);
         this.correo = correo;
+    }
+
+    public Usuario() {
     }
 
     // Creamos getters y setters de los atributos

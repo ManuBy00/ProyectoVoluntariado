@@ -4,12 +4,16 @@ import Exceptions.IniciativaYaExiste;
 import Utils.Utilidades;
 import View.UsuariosView;
 
+import javax.xml.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-
+@XmlRootElement(name = "Iniciativas") // Define el elemento raíz del XML
+@XmlAccessorType(XmlAccessType.FIELD) // Acceso a los campos directamente
 public class ListaIniciativas implements CRUD<Iniciativa, String>{
+    @XmlElementWrapper(name = "listaIniciativas") // Agrupa los elementos en un solo nodo
+    @XmlElement(name = "iniciativa") // Define cada elemento dentro del wrapper
     private HashSet<Iniciativa> iniciativasList; // Lista que almacena todas las iniciativas existentes.
     private static ListaIniciativas instance;
 
@@ -17,7 +21,7 @@ public class ListaIniciativas implements CRUD<Iniciativa, String>{
         this.iniciativasList = new HashSet<>();
     }
 
-    // Metodo estático para obtener la única instancia de la clase
+
     public static ListaIniciativas getInstance() {
         if (instance == null) {
             instance = new ListaIniciativas();
@@ -132,6 +136,4 @@ public class ListaIniciativas implements CRUD<Iniciativa, String>{
         }
         return actividadesDisponibles;
     }
-
-
 }
