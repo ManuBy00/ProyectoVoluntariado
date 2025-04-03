@@ -28,7 +28,7 @@ public class Actividad {
     @XmlElement
     private String comentario;
     @XmlElement
-    private HashSet<Voluntario> voluntariosAsignados;
+    private HashSet<String> voluntariosAsignados;
 
     public Actividad(String nombre, String descripcion, LocalDate fechaInicio, LocalDate fechaFin, String voluntarioEncargado, String comentario) {
         this.nombre = nombre;
@@ -81,7 +81,7 @@ public class Actividad {
         this.nombre = nombre;
     }
 
-    public void setVoluntariosAsignados(HashSet<Voluntario> voluntariosAsignados) {
+    public void setVoluntariosAsignados(HashSet<String> voluntariosAsignados) {
         this.voluntariosAsignados = voluntariosAsignados;
     }
 
@@ -110,16 +110,15 @@ public class Actividad {
         this.estado = nuevoEstado;
     }
 
-    public HashSet<Voluntario> getVoluntariosAsignados() {
+    public HashSet<String> getVoluntariosAsignados() {
         return voluntariosAsignados;
     }
 
-    public String imprimirNombreVoluntarios(){
-        String voluntarios = "";
-        for (Voluntario v : voluntariosAsignados){
-            voluntarios += v.getNombre() + ", ";
+    public String imprimirNombreVoluntarios() {
+        if (voluntariosAsignados.isEmpty()) {
+            return "No hay voluntarios asignados.";
         }
-        return voluntarios;
+        return String.join(", ", voluntariosAsignados);
     }
 
 

@@ -104,7 +104,6 @@ public class Iniciativa {
      * @return : toString de la actividad que queremos mostrar
      */
 
-    public String mostrar(Actividad actividad) { return actividad.toString(); }
 
     /**
      * Metodo que muestra el nombre de todas las actividades que hay en el ArrayList actividades

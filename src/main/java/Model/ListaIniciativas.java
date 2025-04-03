@@ -1,4 +1,5 @@
 package Model;
+import DataAccess.XML;
 import Exceptions.IniciativaNoExiste;
 import Exceptions.IniciativaYaExiste;
 import Utils.Utilidades;
@@ -75,13 +76,12 @@ public class ListaIniciativas implements CRUD<Iniciativa, String>{
 
     /**
      * Pide seleccionar la iniciativa de la actividad que se quiere actualizar
-     * @param nombreIniciativa
-     * @param nombreActividad
-     * @param nuevaDescripcion
-     * @param nuevaFechaInicio
-     * @param nuevaFechaFin
-     * @param nuevoEncargado
-     * @return el resultado de iniciativa.update
+     * @param nombreIniciativa q
+     * @param nombreActividad q
+     * @param nuevaDescripcion q
+     * @param nuevaFechaInicio q
+     * @param nuevaFechaFin q
+     * @param nuevoEncargado q
      * @throws IniciativaNoExiste si no se encuentra una inciativa con el nombre introducido
      */
     public void updateActividad(String nombreIniciativa, String nombreActividad, String nuevaDescripcion, LocalDate nuevaFechaInicio, LocalDate nuevaFechaFin, Voluntario nuevoEncargado) throws IniciativaNoExiste{
@@ -135,5 +135,12 @@ public class ListaIniciativas implements CRUD<Iniciativa, String>{
             }
         }
         return actividadesDisponibles;
+    }
+
+    public void cargarIniciativasDesdeXML(String filename) {
+        ListaIniciativas listaIniciativas = XML.readXML(ListaIniciativas.class, filename);
+        if (listaIniciativas != null && listaIniciativas.iniciativasList != null) {
+            this.iniciativasList = listaIniciativas.iniciativasList;
+        }
     }
 }

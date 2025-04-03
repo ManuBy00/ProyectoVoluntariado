@@ -76,7 +76,7 @@ public class VoluntarioController {
 
         Actividad actividad = actividadesDisponibles.get(actividadElegida - 1);
         voluntario.getActividadesAsignadas().add(actividad);
-        actividad.getVoluntariosAsignados().add(voluntario);
+        actividad.getVoluntariosAsignados().add(voluntario.getNombre());
         UsuariosView.mostrarMensaje("Te has unido a la actividad: " + actividad.getNombre());
 
     }
