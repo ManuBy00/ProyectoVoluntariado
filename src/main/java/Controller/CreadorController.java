@@ -97,9 +97,9 @@ public class CreadorController {
      */
     public void updateIniciativa() {
             // Pedir datos al usuario
-            creador.mostrarMisIniciativas();
-            String nombreIniciativa = Utilidades.pideString("Introduce el nombre de la iniciativa:");
-            Iniciativa iniciativa= ListaIniciativas.getInstance().encontrarIniciativa(nombreIniciativa);
+        mostrarIniciativasPropias();
+        String nombreIniciativa = Utilidades.pideString("Introduce el nombre de la iniciativa:");
+        Iniciativa iniciativa= ListaIniciativas.getInstance().encontrarIniciativa(nombreIniciativa);
 
             //Actualizamos los datos llamando al metodo updateIniciativa de la clase ListaIniciativas.
         try {
@@ -116,6 +116,7 @@ public class CreadorController {
      */
     public void removeIniciativa() throws IniciativaNoExiste {
         ListaIniciativas lista = ListaIniciativas.getInstance();
+        mostrarIniciativasPropias();
         String nombreIniciativa = Utilidades.pideString("Introduce el nombre de la iniciativa que quieres eliminar");
         Iniciativa iniciativaBorrar = lista.encontrarIniciativa(nombreIniciativa);
         try{
@@ -123,7 +124,6 @@ public class CreadorController {
         }catch (IniciativaNoExiste e){
             UsuariosView.mostrarMensaje(e.getMessage());
         }
-
     }
 
     /**
@@ -143,12 +143,12 @@ public class CreadorController {
      * Busca una iniciativa por su nombre y le añade una actividad.
      * @throws IniciativaNoExiste si no encuentra una iniciativa con el nombre introducido
      */
-    public void addActividad() throws IniciativaNoExiste {
+    public void addActividad() throws IniciativaNoExiste, ActividadNoExiste {
         IniciativaView.imprimirMisIniciativas();
         String nombreIniciativa = Utilidades.pideString("Introduce el nombre de la iniciativa a la que quieres añadir una actividad");
         Iniciativa iniciativa = creador.encontrarIniciativaPropia(nombreIniciativa);
         if (iniciativa == null){
-            throw new IniciativaNoExiste("La iniciativa introducida no existe.\n");
+            throw new IniciativaNoExiste("La iniciativa introducida no existe.");
         }
 
         Actividad nuevaActividad = ViewActividades.pedirDatosActividad();
@@ -170,7 +170,15 @@ public class CreadorController {
         IniciativaView.imprimirMisIniciativas();
 
         String nombreIniciativa = Utilidades.pideString("Introduce el nombre de la iniciativa:");
+        Iniciativa iniciativa = ListaIniciativas.getInstance().encontrarIniciativa(nombreIniciativa);
+        if (nombreIniciativa == null){
+            throw new IniciativaNoExiste("La iniciativa no existe.");
+        }
         String nombreActividad = Utilidades.pideString("Introduce el nombre de la actividad que quieres actualizar:");
+        Actividad actividad = iniciativa.encontrarActividad(nombreActividad);
+        if (actividad == null){
+            throw new ActividadNoExiste("La actividad no existe.");
+        }
 
         // Pedimos los nuevos datos
         String nuevaDescripcion = Utilidades.pideString("Introduce la nueva descripción:");
@@ -183,11 +191,9 @@ public class CreadorController {
            throw new UsuarioNoExiste("El encargado introducido no existe");
         }
 
-        // Llamamos al metodo de ListaIniciativas
-        ListaIniciativas.getInstance().updateActividad(nombreIniciativa, nombreActividad, nuevaDescripcion, nuevaFechaInicio, nuevaFechaFin, nuevoEncargado);
+        iniciativa.updateActividad(actividad, nuevaDescripcion, nuevaFechaInicio, nuevaFechaFin, nuevoEncargado);
         UsuariosView.mostrarMensaje("✅ Actividad actualizada correctamente.");
     }
-
 
     /**
      * Pide una iniciativa, muestra sus actividades y borra la actividad introducida por el usuario
@@ -351,7 +357,12 @@ public class CreadorController {
 
                 case 3:
                     //Modificar una actividad
-                    updateActividad();
+                    try {
+                        updateActividad();
+                    }catch (IniciativaNoExiste | ActividadNoExiste | UsuarioNoExiste e) {
+                        UsuariosView.mostrarMensaje(e.getMessage());
+                    }
+
                     break;
 
                 case 4:

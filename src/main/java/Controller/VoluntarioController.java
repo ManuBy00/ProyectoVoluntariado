@@ -5,6 +5,7 @@ import Utils.Sesion;
 import Utils.Utilidades;
 import View.UsuariosView;
 import View.ViewActividades;
+import jdk.jshell.execution.Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -182,7 +183,7 @@ public class VoluntarioController {
 
     // Pedir al usuario que elija una actividad
     private int eligeActividad(){
-        int actividadElegida = Utilidades.pideEntero("Elige el número de la actividad para cambiar el estado:");
+        int actividadElegida = Utilidades.pideEntero("Elige el número de la actividad:");
 
         // Verificar si la elección es válida
         if (actividadElegida < 1 || actividadElegida > voluntario.getActividadesAsignadas().size()) {
@@ -206,14 +207,11 @@ public class VoluntarioController {
         System.out.println("\n--- Actividades Asignadas ---");
 
         // Inicializar el contador de índice para enumerar las actividades
-        int index = 1;
-
-        // Recorrer todas las actividades asignadas al voluntario
-        for (Actividad actividad : voluntario.getActividadesAsignadas()) {
-            // Mostrar la actividad con su índice y estado actual
-            System.out.println(index + ". " + actividad); // La clase Actividad debe tener un metodo toString() adecuado
-            index++; // Incrementar el índice para la siguiente actividad
-        }
+        mostrarActvidadesVoluntario();
+        int actividadElegida = eligeActividad();
+        Actividad actividad = voluntario.getActividadesAsignadas().get(actividadElegida - 1);
+        String comentario = Utilidades.pideString("Introduce el nuevo comentario");
+        actividad.setComentario(comentario);
     }
 
     public void ajustesUsuario(){
@@ -226,6 +224,7 @@ public class VoluntarioController {
                     break;
                 case 2:
                     ListaUsuarios.getInstance().remove(voluntario);
+                    Sesion.getInstancia().logOut();
                     UsuariosView.mostrarMensaje("Usuario eliminado. Saliendo de la aplicación...");
                     break;
                 case 3:
@@ -249,7 +248,6 @@ public class VoluntarioController {
         }
         return actividadesDispUsuario;
     }
-
 
 
     private void canjearPuntos() {

@@ -65,24 +65,20 @@ public class Iniciativa {
 
     /**
      * Busca la actividad requerida y actualiza sus datos
-     * @param nombreActividad .
+     * @param actividad .
      * @param nuevaDescripcion .
      * @param nuevaFechaInicio .
      * @param nuevaFechaFin .
      * @param nuevoEncargado .
      */
-    public void updateActividad(String nombreActividad, String nuevaDescripcion, LocalDate nuevaFechaInicio, LocalDate nuevaFechaFin, Voluntario nuevoEncargado) {
-        Actividad actividad = encontrarActividad(nombreActividad);
-
-        if (actividad != null) {
-            // Actualizamos los atributos de la actividad
-            actividad.setDescripcion(nuevaDescripcion);
-            do {
-                actividad.setFechaInicio(nuevaFechaInicio);
-                actividad.setFechaFin(nuevaFechaFin);
-            } while (!Utilidades.validarFechaInicioFin(nuevaFechaInicio, nuevaFechaFin)); //validamos la fecha de inicio y fin
-            actividad.setVoluntarioEncargado(nuevoEncargado.getNombre());
-        }
+    public void updateActividad(Actividad actividad, String nuevaDescripcion, LocalDate nuevaFechaInicio, LocalDate nuevaFechaFin, Voluntario nuevoEncargado) {
+        // Actualizamos los atributos de la actividad
+        actividad.setDescripcion(nuevaDescripcion);
+        do {
+            actividad.setFechaInicio(nuevaFechaInicio);
+            actividad.setFechaFin(nuevaFechaFin);
+        } while (!Utilidades.validarFechaInicioFin(nuevaFechaInicio, nuevaFechaFin)); //validamos la fecha de inicio y fin
+        actividad.setVoluntarioEncargado(nuevoEncargado.getNombre());
     }
 
     /**
@@ -125,10 +121,12 @@ public class Iniciativa {
 
     @Override
     public String toString() {
-        return nombre +
-                "\n - descripcion: " + descripcion +
-                "\n - creador: " + creador.getNombre() +
-                "\n - actividades: " + mostrarActividades();
+        return "\n🌟 Iniciativa: " + nombre +
+                "\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" +
+                "\n📝 Descripción: " + descripcion +
+                "\n👤 Creador: " + creador.getNombre() +
+                "\n📋 Actividades:\n" + mostrarActividades() +
+                "\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n";
     }
 
     @Override

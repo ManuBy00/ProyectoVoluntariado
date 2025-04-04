@@ -1,4 +1,5 @@
 package Model;
+import Utils.Seguridad;
 import org.mindrot.jbcrypt.BCrypt;
 
 import javax.xml.bind.annotation.XmlAccessType;
