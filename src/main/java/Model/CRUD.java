@@ -2,12 +2,12 @@ package Model;
 
 public interface CRUD <T> {
 
-        void add(T elemento); //metodo para añadir un elemento a la lista (por ejemplo añadir activdades a iniciativa)
+        void add(T elemento);
 
          void update(T elemento);
 
-         void remove(T elemento); //borrar actividad
+         void remove(T elemento);
 
-         void mostrar(T elemento); //devuelve la cadena con los datos de una actividad. Puede simplemente devolver el toString
+         void mostrar(T elemento);
 }
 

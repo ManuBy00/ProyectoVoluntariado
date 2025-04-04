@@ -31,6 +31,7 @@ public class Iniciativa {
         this.descripcion = descripcion;
         this.creador = (Creador) Sesion.getInstancia().getUsuarioIniciado();
         this.actividades = new ArrayList<>();
+        //usamos arraylist porque consideramos que puede haber a actividades con el mismo nombre
     }
 
 
@@ -74,10 +75,8 @@ public class Iniciativa {
     public void updateActividad(Actividad actividad, String nuevaDescripcion, LocalDate nuevaFechaInicio, LocalDate nuevaFechaFin, Voluntario nuevoEncargado) {
         // Actualizamos los atributos de la actividad
         actividad.setDescripcion(nuevaDescripcion);
-        do {
-            actividad.setFechaInicio(nuevaFechaInicio);
-            actividad.setFechaFin(nuevaFechaFin);
-        } while (!Utilidades.validarFechaInicioFin(nuevaFechaInicio, nuevaFechaFin)); //validamos la fecha de inicio y fin
+        actividad.setFechaInicio(nuevaFechaInicio);
+        actividad.setFechaFin(nuevaFechaFin);
         actividad.setVoluntarioEncargado(nuevoEncargado.getNombre());
     }
 

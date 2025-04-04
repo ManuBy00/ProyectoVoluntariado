@@ -32,7 +32,7 @@ public class Sesion {
 
 
     // Metodo para cerrar sesión
-    public void logOut() {
+    public void logOut() { //cuando se cierra sesión, se escriben los datos en el xml.
         XML.writeXML(ListaUsuarios.getInstance(), "usuarios.xml");
         XML.writeXML(ListaIniciativas.getInstance(), "Iniciativas.xml");
         this.userLoged = null;

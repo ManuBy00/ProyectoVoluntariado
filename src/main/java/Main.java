@@ -43,7 +43,7 @@ public class Main {
 
 
 
-        UsuariosController lController = new UsuariosController(ListaUsuarios.getInstance());
+        UsuariosController UsuariosController = new UsuariosController(ListaUsuarios.getInstance());
         int opcion;
         do {
             // Mostrar el menú y pedir una opción
@@ -51,7 +51,7 @@ public class Main {
             switch (opcion) {
                 case 1:  // Iniciar sesión como creador
                     try {
-                        lController.iniciarSesionCreador();
+                        UsuariosController.iniciarSesionCreador();
                     } catch (UsuarioNoExiste e) {
                         UsuariosView.mostrarMensaje(e.getMessage());
                     }
@@ -59,14 +59,14 @@ public class Main {
 
                 case 2:  // Iniciar sesión como voluntario
                     try {
-                        lController.iniciarSesionVoluntario();
+                        UsuariosController.iniciarSesionVoluntario();
                     } catch (UsuarioNoExiste e) {
                         UsuariosView.mostrarMensaje(e.getMessage());
                     }
                     break;
 
                 case 3:  // Registrar un nuevo usuario
-                    lController.registrarUsuario();
+                    UsuariosController.registrarUsuario();
                     break;
 
                 case 4:  // Salir del programa
