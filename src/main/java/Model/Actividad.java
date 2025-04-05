@@ -85,11 +85,16 @@ public class Actividad {
         this.estado = nuevoEstado;
     }
 
+    public void setComentario(String comentario) {
+        this.comentario = comentario;
+    }
+
     public HashSet<String> getVoluntariosAsignados() {
         return voluntariosAsignados;
     }
 
-    public String imprimirNombreVoluntarios() {
+
+    public String mostrarNombreVoluntarios() {
         if (voluntariosAsignados.isEmpty()) {
             return "No hay voluntarios asignados.";
         }
@@ -110,14 +115,16 @@ public class Actividad {
 
     @Override
     public String toString() {
-        return   nombre +
-                "\n - descripcion: " + descripcion +
-                "\n - fechaInicio: " + fechaInicio +
-                "\n - fechaFin: " + fechaFin+
-                "\n - voluntario encargado: " + voluntarioEncargado +
-                "\n - voluntarios asignados: " + imprimirNombreVoluntarios() +
-                "\n - estado: " + estado.getEstado() +
-                "\n - comentario: " + comentario;
+        return "\n📌 Actividad: " + nombre +
+                "\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" +
+                "\n📝 Descripción: " + descripcion +
+                "\n📅 Inicio: " + fechaInicio +
+                "\n📅 Fin: " + fechaFin +
+                "\n👤 Encargado: " + voluntarioEncargado +
+                "\n🤝 Voluntarios asignados: " + mostrarNombreVoluntarios() +
+                "\n📊 Estado: " + estado.getEstado() +
+                "\n💬 Comentario: " + comentario +
+                "\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n";
     }
 
     /**

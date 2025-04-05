@@ -30,7 +30,7 @@ public class CreadorController {
     /**
      * Metodo para ejecutar la sesión del creador.
      */
-    public void ejecutarSesion() {
+    protected void ejecutarSesion() {
         int opcion;
         do {
             // Muestra el menú del creador y obtiene la opción seleccionada
@@ -71,7 +71,7 @@ public class CreadorController {
     /**
      * Muestra los datos del usuario
      */
-    public void verPerfil(){
+    private void verPerfil(){
         System.out.print("*** MI PERFIL ***");
         ListaUsuarios.getInstance().mostrar(creador);
     }
@@ -80,7 +80,7 @@ public class CreadorController {
      * Crea una iniciativa y la añade a la lista
      * @throws IniciativaYaExiste si en la lista ya hay una iniciativa con el mismo nombre
      */
-    public void addIniciativa() throws IniciativaYaExiste {
+    private void addIniciativa() throws IniciativaYaExiste {
         ListaIniciativas lista = ListaIniciativas.getInstance();
         Iniciativa nuevaIniciativa = IniciativaView.pedirDatosIniciativa();
         try {
@@ -89,17 +89,16 @@ public class CreadorController {
         }catch (IniciativaYaExiste e){
             UsuariosView.mostrarMensaje(e.getMessage());
         }
-
     }
 
     /**
      * Pide los datos para actualizar y llama al metodo update de ListaIniciativas.
      */
-    public void updateIniciativa() {
+    private void updateIniciativa() {
             // Pedir datos al usuario
-            creador.mostrarMisIniciativas();
-            String nombreIniciativa = Utilidades.pideString("Introduce el nombre de la iniciativa:");
-            Iniciativa iniciativa= ListaIniciativas.getInstance().encontrarIniciativa(nombreIniciativa);
+        mostrarIniciativasPropias();
+        String nombreIniciativa = Utilidades.pideString("Introduce el nombre de la iniciativa:");
+        Iniciativa iniciativa= ListaIniciativas.getInstance().encontrarIniciativa(nombreIniciativa);
 
             //Actualizamos los datos llamando al metodo updateIniciativa de la clase ListaIniciativas.
         try {
@@ -114,8 +113,9 @@ public class CreadorController {
      * Pide el nombre de una iniciativa y la borra.
      * @throws IniciativaNoExiste si no encuentra una iniciativa con el nombre introducido.
      */
-    public void removeIniciativa() throws IniciativaNoExiste {
+    private void removeIniciativa() throws IniciativaNoExiste {
         ListaIniciativas lista = ListaIniciativas.getInstance();
+        mostrarIniciativasPropias();
         String nombreIniciativa = Utilidades.pideString("Introduce el nombre de la iniciativa que quieres eliminar");
         Iniciativa iniciativaBorrar = lista.encontrarIniciativa(nombreIniciativa);
         try{
@@ -123,13 +123,12 @@ public class CreadorController {
         }catch (IniciativaNoExiste e){
             UsuariosView.mostrarMensaje(e.getMessage());
         }
-
     }
 
     /**
      * Muestra las iniciativas creadas por el usuario que ha iniciado sesión
      */
-    public void mostrarIniciativasPropias(){
+    private void mostrarIniciativasPropias(){
         ListaIniciativas lista = ListaIniciativas.getInstance();
         HashSet<Iniciativa> misIniciativas = lista.obtenerIniciativasPorCreador(Sesion.getInstancia().getUsuarioIniciado().getCorreo());
         UsuariosView.mostrarMensaje("*** INICIATIVAS DE " + creador.getNombre().toUpperCase() + " ***");
@@ -143,12 +142,12 @@ public class CreadorController {
      * Busca una iniciativa por su nombre y le añade una actividad.
      * @throws IniciativaNoExiste si no encuentra una iniciativa con el nombre introducido
      */
-    public void addActividad() throws IniciativaNoExiste {
+    private void addActividad() throws IniciativaNoExiste, ActividadNoExiste {
         IniciativaView.imprimirMisIniciativas();
         String nombreIniciativa = Utilidades.pideString("Introduce el nombre de la iniciativa a la que quieres añadir una actividad");
         Iniciativa iniciativa = creador.encontrarIniciativaPropia(nombreIniciativa);
         if (iniciativa == null){
-            throw new IniciativaNoExiste("La iniciativa introducida no existe.\n");
+            throw new IniciativaNoExiste("La iniciativa introducida no existe.");
         }
 
         Actividad nuevaActividad = ViewActividades.pedirDatosActividad();
@@ -165,17 +164,29 @@ public class CreadorController {
      * @throws ActividadNoExiste si la actividad que se quiere cambiar no existe
      * @throws IniciativaNoExiste si la iniciativa introducida no existe
      */
-    public void updateActividad() throws UsuarioNoExiste, ActividadNoExiste, IniciativaNoExiste{
+    private void updateActividad() throws UsuarioNoExiste, ActividadNoExiste, IniciativaNoExiste{
         // Mostramos las iniciativas del creador
         IniciativaView.imprimirMisIniciativas();
 
         String nombreIniciativa = Utilidades.pideString("Introduce el nombre de la iniciativa:");
+        Iniciativa iniciativa = ListaIniciativas.getInstance().encontrarIniciativa(nombreIniciativa);
+        if (nombreIniciativa == null){
+            throw new IniciativaNoExiste("La iniciativa no existe.");
+        }
         String nombreActividad = Utilidades.pideString("Introduce el nombre de la actividad que quieres actualizar:");
+        Actividad actividad = iniciativa.encontrarActividad(nombreActividad);
+        if (actividad == null){
+            throw new ActividadNoExiste("La actividad no existe.");
+        }
 
         // Pedimos los nuevos datos
         String nuevaDescripcion = Utilidades.pideString("Introduce la nueva descripción:");
-        LocalDate nuevaFechaInicio = Utilidades.pideFecha("Introduce la nueva fecha de inicio (yyyy-MM-dd):");
-        LocalDate nuevaFechaFin = Utilidades.pideFecha("Introduce la nueva fecha de fin (yyyy-MM-dd):");
+        LocalDate nuevaFechaFin;
+        LocalDate nuevaFechaInicio;
+        do {
+             nuevaFechaInicio = Utilidades.pideFecha("Introduce la nueva fecha de inicio (yyyy-MM-dd):");
+             nuevaFechaFin = Utilidades.pideFecha("Introduce la nueva fecha de fin (yyyy-MM-dd):");
+        }while(!Utilidades.validarFechaInicioFin(nuevaFechaInicio, nuevaFechaFin));
         String correoEncargado = Utilidades.pideString("Introduce el correo del nuevo voluntario encargado:");
 
         Voluntario nuevoEncargado = ListaUsuarios.getInstance().encontrarVoluntario(correoEncargado);
@@ -183,11 +194,9 @@ public class CreadorController {
            throw new UsuarioNoExiste("El encargado introducido no existe");
         }
 
-        // Llamamos al metodo de ListaIniciativas
-        ListaIniciativas.getInstance().updateActividad(nombreIniciativa, nombreActividad, nuevaDescripcion, nuevaFechaInicio, nuevaFechaFin, nuevoEncargado);
+        iniciativa.updateActividad(actividad, nuevaDescripcion, nuevaFechaInicio, nuevaFechaFin, nuevoEncargado);
         UsuariosView.mostrarMensaje("✅ Actividad actualizada correctamente.");
     }
-
 
     /**
      * Pide una iniciativa, muestra sus actividades y borra la actividad introducida por el usuario
@@ -195,7 +204,7 @@ public class CreadorController {
      * @throws ActividadNoExiste si no se encuentra una actividad con el nombre introducido
      * @throws IniciativaNoExiste si no se encuentra una iniciativa con el nombre introducido
      */
-    public void removeActividad() throws IniciativaNoExiste, ActividadNoExiste{
+    private void removeActividad() throws IniciativaNoExiste, ActividadNoExiste{
         IniciativaView.imprimirMisIniciativas();
         String nombreIniciativa = Utilidades.pideString("Introduce el nombre de la iniciativa de la que quieres eliminar una actividad");
         Iniciativa iniciativa = creador.encontrarIniciativaPropia(nombreIniciativa);
@@ -223,7 +232,7 @@ public class CreadorController {
     /**
      * Pide el nombre de una iniciativa y la muestra.
      */
-    public void mostrarIniciativa()throws IniciativaNoExiste {
+    private void mostrarIniciativa()throws IniciativaNoExiste {
         String nombreIniciativa = Utilidades.pideString("Introduce el nombre de la iniciativa que quieres ver");
 
         Iniciativa iniciativa = creador.encontrarIniciativaPropia(nombreIniciativa);
@@ -241,7 +250,7 @@ public class CreadorController {
      * @throws UsuarioNoExiste si el voluntario introducido no existe
      * @throws ActividadNoExiste si la actividad introducida no existe
      */
-    public void asignarVoluntario()throws IniciativaNoExiste, UsuarioNoExiste, ActividadNoExiste {
+    private void asignarVoluntario()throws IniciativaNoExiste, UsuarioNoExiste, ActividadNoExiste {
         //Pedimos la iniciativa a la que pertenece la actividad
         IniciativaView.imprimirMisIniciativas();
         String nombreIniciativa = Utilidades.pideString("¿A qué iniciativa pertenece la actividad que quieres asignar?.");
@@ -279,7 +288,7 @@ public class CreadorController {
     /**
      * Menú y opciones relacionados con las iniciativas
      */
-    public void gestionarIniciativas(){
+    private void gestionarIniciativas(){
         int opcionIniciativa;
         do {
             opcionIniciativa = IniciativaView.MenuIniciativas();
@@ -325,7 +334,7 @@ public class CreadorController {
     /**
      * Menú y switch de las opciones relacionadas con actividades.
      */
-    public void gestionarActividades(){
+    private void gestionarActividades(){
         int opcionActividad;
         do {
             opcionActividad = IniciativaView.mostrarMenuActividades();
@@ -351,7 +360,12 @@ public class CreadorController {
 
                 case 3:
                     //Modificar una actividad
-                    updateActividad();
+                    try {
+                        updateActividad();
+                    }catch (IniciativaNoExiste | ActividadNoExiste | UsuarioNoExiste e) {
+                        UsuariosView.mostrarMensaje(e.getMessage());
+                    }
+
                     break;
 
                 case 4:
@@ -373,18 +387,22 @@ public class CreadorController {
         }while (opcionActividad != 6);
     }
 
-    public void ajustesUsuario(){
+    /**
+     * Switch para ejecutar las opciones de borrar usaurio y cambiar datos de usuario
+     */
+    private void ajustesUsuario(){
+        UsuariosController u = new UsuariosController(ListaUsuarios.getInstance());
         int opcion;
         do {
             opcion=UsuariosView.mostrarMenuAjustesUsuario();
             switch (opcion){
                 case 1:
-                    ListaUsuarios.getInstance().update(creador);
+                    u.updateUsuario(creador);
                     break;
                 case 2:
-                    UsuariosView.mostrarMensaje("Usuario eliminado. Saliendo de la aplicación...");
-                    ListaUsuarios.getInstance().remove(creador);
+                    u.removeUsuario(creador);
                     Sesion.getInstancia().logOut();
+                    UsuariosView.mostrarMensaje("Usuario eliminado. Cierra sesión para terminar.");
                     break;
                 case 3:
                     break;

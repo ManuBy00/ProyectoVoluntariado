@@ -5,6 +5,7 @@ import Utils.Sesion;
 import Utils.Utilidades;
 import View.UsuariosView;
 import View.ViewActividades;
+import jdk.jshell.execution.Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 
 public class VoluntarioController {
     private Voluntario voluntario;
+
 
     /**
      * Constructor: recibe un voluntario y lo guarda.
@@ -23,7 +25,7 @@ public class VoluntarioController {
     /**
      * Muestra el menú y ejecuta la opción elegida por el voluntario.
      */
-    public void ejecutarSesion() {
+    protected void ejecutarSesion() {
         int opcion;
         do {
             opcion = UsuariosView.mostrarMenuVoluntario(); // Muestra el menú y obtiene la opción
@@ -128,7 +130,7 @@ public class VoluntarioController {
      * Este metodo muestra las actividades del voluntario, permite seleccionar una
      * actividad y cambiar su estado a pendiente, en progreso o finalizada.
      */
-    public void cambiarEstadoActividad() {
+    private void cambiarEstadoActividad() {
         // Mostrar actividades del voluntario
         mostrarActvidadesVoluntario();
 
@@ -180,9 +182,12 @@ public class VoluntarioController {
               el estado de la actividad basada en la opción elegida por el voluntario. */
 
 
-    // Pedir al usuario que elija una actividad
+    /**
+     * pide al usuario que elija una actividad (numerada)
+     * @return numero elegido
+     */
     private int eligeActividad(){
-        int actividadElegida = Utilidades.pideEntero("Elige el número de la actividad para cambiar el estado:");
+        int actividadElegida = Utilidades.pideEntero("Elige el número de la actividad:");
 
         // Verificar si la elección es válida
         if (actividadElegida < 1 || actividadElegida > voluntario.getActividadesAsignadas().size()) {
@@ -206,40 +211,20 @@ public class VoluntarioController {
         System.out.println("\n--- Actividades Asignadas ---");
 
         // Inicializar el contador de índice para enumerar las actividades
-        int index = 1;
-
-        // Recorrer todas las actividades asignadas al voluntario
-        for (Actividad actividad : voluntario.getActividadesAsignadas()) {
-            // Mostrar la actividad con su índice y estado actual
-            System.out.println(index + ". " + actividad); // La clase Actividad debe tener un metodo toString() adecuado
-            index++; // Incrementar el índice para la siguiente actividad
-        }
+        mostrarActvidadesVoluntario();
+        int actividadElegida = eligeActividad();
+        Actividad actividad = voluntario.getActividadesAsignadas().get(actividadElegida - 1);
+        String comentario = Utilidades.pideString("Introduce el nuevo comentario");
+        actividad.setComentario(comentario);
     }
 
-    public void ajustesUsuario(){
-        int opcion;
-        do {
-            opcion=UsuariosView.mostrarMenuAjustesUsuario();
-            switch (opcion){
-                case 1:
-                    ListaUsuarios.getInstance().update(voluntario);
-                    break;
-                case 2:
-                    ListaUsuarios.getInstance().remove(voluntario);
-                    UsuariosView.mostrarMensaje("Usuario eliminado. Saliendo de la aplicación...");
-                    break;
-                case 3:
-                    break;
-            }
-        }while (opcion !=3);
-    }
 
     /**
      * Llama a la lista de actividades sin terminar y añade un nuevo filtro para no mostrar actividades
      * en las que el usuario ya paticipa.
      * @return lista de actividades disponibles para un usuario en concreto
      */
-    public ArrayList<Actividad> getActividadesDisponibles() {
+    private ArrayList<Actividad> getActividadesDisponibles() {
         ArrayList<Actividad> actividadesDisponibles = ListaIniciativas.getInstance().getActividadesSinTerminar();
         ArrayList<Actividad> actividadesDispUsuario = new ArrayList<>();
         for (Actividad actividad : actividadesDisponibles) {
@@ -249,7 +234,6 @@ public class VoluntarioController {
         }
         return actividadesDispUsuario;
     }
-
 
 
     private void canjearPuntos() {
@@ -299,5 +283,27 @@ public class VoluntarioController {
         UsuariosView.mostrarMensaje(UsuariosView.ANSI_GREEN + "✅ ¡+" + 100 +
                 " puntos por completar '" + actividad.getNombre() +
                 "'!" + UsuariosView.ANSI_RESET);
+    }
+    /**
+     * Switch para ejecutar las opciones de borrar usaurio y cambiar datos de usuario
+     */
+    private void ajustesUsuario(){
+        UsuariosController u = new UsuariosController(ListaUsuarios.getInstance());
+        int opcion;
+        do {
+            opcion=UsuariosView.mostrarMenuAjustesUsuario();
+            switch (opcion){
+                case 1:
+                    u.updateUsuario(voluntario);
+                    break;
+                case 2:
+                    u.removeUsuario(voluntario);
+                    Sesion.getInstancia().logOut();
+                    UsuariosView.mostrarMensaje("Usuario eliminado. Saliendo de la aplicación...");
+                    break;
+                case 3:
+                    break;
+            }
+        }while (opcion !=3);
     }
 }

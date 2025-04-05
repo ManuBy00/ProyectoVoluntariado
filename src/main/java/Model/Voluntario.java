@@ -37,6 +37,7 @@ public class Voluntario extends Usuario{
 
     }
 
+
     public int getPuntos() {
         return puntos;
     }

@@ -45,6 +45,14 @@ public class UsuariosController {
         //XML.writeXML(ListaUsuarios.getInstance(), "usuarios.xml");
     }
 
+    protected void removeUsuario(Usuario usuario){
+        misUsuarios.remove(usuario);
+    }
+
+    protected void updateUsuario(Usuario usuario){
+        misUsuarios.update(usuario);
+    }
+
 
     /**
      * Metodo para iniciar sesión de un usuario.

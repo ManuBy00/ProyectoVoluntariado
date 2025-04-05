@@ -69,25 +69,6 @@ public class ListaIniciativas implements CRUD<Iniciativa>{
     }
 
 
-    /**
-     * Pide seleccionar la iniciativa de la actividad que se quiere actualizar y la  actualiza con los datos recibidos
-     * @param nombreIniciativa dato
-     * @param nombreActividad dato
-     * @param nuevaDescripcion dato
-     * @param nuevaFechaInicio dato
-     * @param nuevaFechaFin dato
-     * @param nuevoEncargado dato
-     * @throws IniciativaNoExiste si no se encuentra una inciativa con el nombre introducido
-     */
-    public void updateActividad(String nombreIniciativa, String nombreActividad, String nuevaDescripcion, LocalDate nuevaFechaInicio, LocalDate nuevaFechaFin, Voluntario nuevoEncargado) throws IniciativaNoExiste{
-        Iniciativa iniciativa = encontrarIniciativa(nombreIniciativa);
-
-        if (iniciativa == null) {
-            throw new IniciativaNoExiste("La iniciativa introducida no existe");
-        }
-
-        iniciativa.updateActividad(nombreActividad, nuevaDescripcion, nuevaFechaInicio, nuevaFechaFin, nuevoEncargado);
-    }
 
     /**
      * Busca una iniciativa por nombre.
