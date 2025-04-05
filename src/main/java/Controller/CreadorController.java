@@ -120,6 +120,7 @@ public class CreadorController {
         Iniciativa iniciativaBorrar = lista.encontrarIniciativa(nombreIniciativa);
         try{
             lista.remove(iniciativaBorrar);
+            UsuariosView.mostrarMensaje("Iniciativa eliminada correctamente");
         }catch (IniciativaNoExiste e){
             UsuariosView.mostrarMensaje(e.getMessage());
         }
@@ -170,7 +171,7 @@ public class CreadorController {
 
         String nombreIniciativa = Utilidades.pideString("Introduce el nombre de la iniciativa:");
         Iniciativa iniciativa = ListaIniciativas.getInstance().encontrarIniciativa(nombreIniciativa);
-        if (nombreIniciativa == null){
+        if (iniciativa == null){
             throw new IniciativaNoExiste("La iniciativa no existe.");
         }
         String nombreActividad = Utilidades.pideString("Introduce el nombre de la actividad que quieres actualizar:");
@@ -276,7 +277,7 @@ public class CreadorController {
                 throw new UsuarioNoExiste("El voluntario introducido no existe");
             }else{ //asignamos
                 UsuariosView.mostrarMensaje("El voluntario " + voluntarioAsignar.getNombre() + " ha sido asignado a " + iniciativa.getNombre());
-                //Añadimos actividad a la lista de actividades de voluntarios con el formatio "nombreUsuario (correo)"
+                //Añadimos actividad a la lista de actividades de voluntarios con el formato "nombreUsuario (correo)"
                 actividad.getVoluntariosAsignados().add(voluntarioAsignar.getNombre() + " (" + voluntarioAsignar.getCorreo() + ")");
                 voluntarioAsignar.getActividadesAsignadas().add(actividad); //Asignamos voluntario a la lista de voluntarios de actividades
             }

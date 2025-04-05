@@ -5,7 +5,7 @@ import Utils.Sesion;
 import Utils.Utilidades;
 import View.UsuariosView;
 import View.ViewActividades;
-import jdk.jshell.execution.Util;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,7 +77,7 @@ public class VoluntarioController {
 
         Actividad actividad = actividadesDisponibles.get(actividadElegida - 1);
         voluntario.getActividadesAsignadas().add(actividad);
-        actividad.getVoluntariosAsignados().add(voluntario.getNombre());
+        actividad.getVoluntariosAsignados().add(voluntario.getNombre() + " (" + voluntario.getCorreo() + ")" );
         UsuariosView.mostrarMensaje("Te has unido a la actividad: " + actividad.getNombre());
 
     }
@@ -227,8 +227,9 @@ public class VoluntarioController {
     private ArrayList<Actividad> getActividadesDisponibles() {
         ArrayList<Actividad> actividadesDisponibles = ListaIniciativas.getInstance().getActividadesSinTerminar();
         ArrayList<Actividad> actividadesDispUsuario = new ArrayList<>();
+        Usuario usuario = Sesion.getInstancia().getUsuarioIniciado();
         for (Actividad actividad : actividadesDisponibles) {
-            if (!actividad.getVoluntariosAsignados().contains(Sesion.getInstancia().getUsuarioIniciado().getNombre() + " | " + Sesion.getInstancia().getUsuarioIniciado().getCorreo())){
+            if (!actividad.getVoluntariosAsignados().contains(usuario.getNombre() + " (" + usuario.getCorreo() + ")")){
                 actividadesDispUsuario.add(actividad);
             }
         }
