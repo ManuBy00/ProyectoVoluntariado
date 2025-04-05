@@ -48,7 +48,7 @@ public class ViewActividades {
     }
 
     /**
-     * Muestra la lista de voluntarios para seleccionar un encargado.
+     * Muestra la lista de voluntarios y pide seleccionar un encargado
      * @return
      * @throws UsuarioNoExiste
      */
