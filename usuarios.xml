@@ -4,13 +4,13 @@
     <voluntarios>
         <voluntario>
             <nombre>Juan</nombre>
-            <passwordHash>$2a$10$oGpLKrU7bTZ8NRnqFlEQKeZFzOmZBmqSgh687WzNRM3JTqQC1f1v2</passwordHash>
+            <passwordHash>$2a$10$jGrTrP4h/nQ4tpLI7POePe0r9XQsOUFOuaq9.3XYlg7oiaqaR5FYe</passwordHash>
             <correo>juan@gmail.com</correo>
             <puntos>0</puntos>
         </voluntario>
         <voluntario>
             <nombre>Ana</nombre>
-            <passwordHash>$2a$10$sdPIcFFt2dr0WQOWB2PZY.4nMdpkoU68OP6Gw1CdpijvpLy3U881u</passwordHash>
+            <passwordHash>$2a$10$NXBqvGJEyxAu647nM63FiOeWzzh.sPHgYg.yM9oybAYhLx1WW1L.G</passwordHash>
             <correo>ana@gmail.com</correo>
             <puntos>0</puntos>
         </voluntario>

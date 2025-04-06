@@ -144,19 +144,25 @@ public class CreadorController {
      * @throws IniciativaNoExiste si no encuentra una iniciativa con el nombre introducido
      */
     private void addActividad() throws IniciativaNoExiste, ActividadNoExiste {
-        IniciativaView.imprimirMisIniciativas();
-        String nombreIniciativa = Utilidades.pideString("Introduce el nombre de la iniciativa a la que quieres añadir una actividad");
-        Iniciativa iniciativa = creador.encontrarIniciativaPropia(nombreIniciativa);
-        if (iniciativa == null){
-            throw new IniciativaNoExiste("La iniciativa introducida no existe.");
+        if (ListaUsuarios.getInstance().getVoluntarios().isEmpty()){
+            UsuariosView.mostrarMensaje("No hay ningún voluntario al que encargar la acticidad. Inténtalo de nuevo cuando haya voluntarios.");
+
+        }else{
+            IniciativaView.imprimirMisIniciativas();
+            String nombreIniciativa = Utilidades.pideString("Introduce el nombre de la iniciativa a la que quieres añadir una actividad");
+            Iniciativa iniciativa = creador.encontrarIniciativaPropia(nombreIniciativa);
+            if (iniciativa == null){
+                throw new IniciativaNoExiste("La iniciativa introducida no existe.");
+            }
+
+            Actividad nuevaActividad = ViewActividades.pedirDatosActividad();
+            if (iniciativa.addActividad(nuevaActividad)){
+                UsuariosView.mostrarMensaje("La actividad se ha añadido correctamente.");
+            }else{
+                UsuariosView.mostrarMensaje("Hubo un error al añadir la actividad.");
+            }
         }
 
-        Actividad nuevaActividad = ViewActividades.pedirDatosActividad();
-        if (iniciativa.addActividad(nuevaActividad)){
-            UsuariosView.mostrarMensaje("La actividad se ha añadido correctamente.");
-        }else{
-            UsuariosView.mostrarMensaje("Hubo un error al añadir la actividad.");
-        }
     }
 
     /**
