@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Usuarios>
-    <creadores>
-        <creador>
-            <nombre>pepe@gmail.com</nombre>
-            <passwordHash>$2a$10$VZ2/gbRXPjhIBXFQa7x6XeVHgpuOFp92VIYOSlGIeT22PVAnZBaoG</passwordHash>
-            <correo>pepe@gmail.com</correo>
-            <ong>ong</ong>
-        </creador>
-    </creadores>
-    <voluntarios/>
+    <creadores/>
+    <voluntarios>
+        <voluntario>
+            <nombre>Juan</nombre>
+            <passwordHash>$2a$10$jGrTrP4h/nQ4tpLI7POePe0r9XQsOUFOuaq9.3XYlg7oiaqaR5FYe</passwordHash>
+            <correo>juan@gmail.com</correo>
+            <puntos>0</puntos>
+        </voluntario>
+        <voluntario>
+            <nombre>Ana</nombre>
+            <passwordHash>$2a$10$NXBqvGJEyxAu647nM63FiOeWzzh.sPHgYg.yM9oybAYhLx1WW1L.G</passwordHash>
+            <correo>ana@gmail.com</correo>
+            <puntos>0</puntos>
+        </voluntario>
+    </voluntarios>
 </Usuarios>
