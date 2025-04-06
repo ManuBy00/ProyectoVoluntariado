@@ -165,20 +165,27 @@ public class CreadorController {
      * @throws ActividadNoExiste si la actividad que se quiere cambiar no existe
      * @throws IniciativaNoExiste si la iniciativa introducida no existe
      */
-    private void updateActividad() throws UsuarioNoExiste, ActividadNoExiste, IniciativaNoExiste{
-        // Mostramos las iniciativas del creador
-        IniciativaView.imprimirMisIniciativas();
+     private void addActividad() throws IniciativaNoExiste, ActividadNoExiste {
+        if (ListaUsuarios.getInstance().getVoluntarios().isEmpty()){
+            UsuariosView.mostrarMensaje("No hay ningún voluntario al que encargar la acticidad. Inténtalo de nuevo cuando haya voluntarios.");
 
-        String nombreIniciativa = Utilidades.pideString("Introduce el nombre de la iniciativa:");
-        Iniciativa iniciativa = ListaIniciativas.getInstance().encontrarIniciativa(nombreIniciativa);
-        if (iniciativa == null){
-            throw new IniciativaNoExiste("La iniciativa no existe.");
+        }else{
+            IniciativaView.imprimirMisIniciativas();
+            String nombreIniciativa = Utilidades.pideString("Introduce el nombre de la iniciativa a la que quieres añadir una actividad");
+            Iniciativa iniciativa = creador.encontrarIniciativaPropia(nombreIniciativa);
+            if (iniciativa == null){
+                throw new IniciativaNoExiste("La iniciativa introducida no existe.");
+            }
+
+            Actividad nuevaActividad = ViewActividades.pedirDatosActividad();
+            if (iniciativa.addActividad(nuevaActividad)){
+                UsuariosView.mostrarMensaje("La actividad se ha añadido correctamente.");
+            }else{
+                UsuariosView.mostrarMensaje("Hubo un error al añadir la actividad.");
+            }
         }
-        String nombreActividad = Utilidades.pideString("Introduce el nombre de la actividad que quieres actualizar:");
-        Actividad actividad = iniciativa.encontrarActividad(nombreActividad);
-        if (actividad == null){
-            throw new ActividadNoExiste("La actividad no existe.");
-        }
+
+    }
 
         // Pedimos los nuevos datos
         String nuevaDescripcion = Utilidades.pideString("Introduce la nueva descripción:");
