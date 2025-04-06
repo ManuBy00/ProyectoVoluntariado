@@ -1,4 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Iniciativas>
-    <listaIniciativas/>
+    <listaIniciativas>
+        <iniciativa>
+            <nombre>dd</nombre>
+            <descripcion>cc</descripcion>
+            <creador>
+                <nombre>pepe</nombre>
+                <passwordHash>$2a$10$IM4WqVE/BFAJTOs6G54m.O.zVF6CVtisZQCzg7xNVPemSkHxIaDv.</passwordHash>
+                <correo>pepe@gmail.com</correo>
+                <ong>ong</ong>
+            </creador>
+            <actividades>
+                <actividad>
+                    <nombre>ffda</nombre>
+                    <descripcion>asdf</descripcion>
+                    <fechaInicio>2025-09-12</fechaInicio>
+                    <fechaFin>2025-09-13</fechaFin>
+                    <voluntarioEncargado>Juan</voluntarioEncargado>
+                    <estado>PENDIENTE</estado>
+                    <comentario>fg</comentario>
+                    <voluntariosAsignados>Juan (juan@gmail.com)</voluntariosAsignados>
+                </actividad>
+            </actividades>
+        </iniciativa>
+    </listaIniciativas>
 </Iniciativas>
